@@ -1,0 +1,50 @@
+"use client";
+
+import { useT } from "@/i18n/context";
+import { Link } from "@/components/ui/link";
+import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
+import { getService, type Service } from "@/data/services";
+import { SectionHeading } from "./section-heading";
+
+/** Links on to other services at the end of a page. */
+export function NextSteps({
+  title,
+  slugs,
+}: {
+  title: string;
+  slugs: Service["slug"][];
+}) {
+  const t = useT();
+  return (
+    <section className="py-16 md:py-24">
+      <Container>
+        <SectionHeading title={t(title)} />
+        <ul className={`mt-8 grid gap-5 ${slugs.length > 2 ? "lg:grid-cols-3" : "md:grid-cols-2"}`}>
+          {slugs.map(getService).map((service, index) => (
+            <Reveal as="li" key={service.slug} index={index} className="reveal-up">
+              <Link
+                href={`/${service.slug}`}
+                className="group flex h-full items-start justify-between gap-5 rounded-lg border border-line bg-white p-6 transition-colors hover:border-leaf sm:p-7"
+              >
+                <span>
+                  <span className="block font-display text-xl font-semibold group-hover:text-leaf">
+                    {t(service.title)}
+                  </span>
+                  <span className="mt-1 block text-muted">{t(service.summary)}</span>
+                </span>
+                <svg
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                  className="mt-0.5 size-6 shrink-0 fill-none stroke-leaf stroke-2 transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
+                >
+                  <path d="M3 10h13m-5-5 5 5-5 5" />
+                </svg>
+              </Link>
+            </Reveal>
+          ))}
+        </ul>
+      </Container>
+    </section>
+  );
+}

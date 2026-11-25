@@ -1,21 +1,34 @@
+"use client";
+
+import { useT } from "@/i18n/context";
+import type { Vars } from "@/i18n/translate";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 
-export function ContactCta() {
+/** topic is added to the WhatsApp message, e.g. "greenhouse construction". */
+export function ContactCta({ topic, vars }: { topic?: string; vars?: Vars }) {
+  const t = useT();
   return (
-    <section className="border-t border-line bg-film py-14">
-      <Container className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">
-            Planning your next crop?
-          </h2>
-          <p className="mt-2 text-lg text-muted">
-            Tell us about your land and what you want to grow.
-          </p>
-        </div>
-        <div className="shrink-0">
-          <ButtonLink href="/contact">Contact us</ButtonLink>
-        </div>
+    <section className="bg-leaf py-20 text-white">
+      <Container>
+        <Reveal className="reveal-up flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              {t("Planning your next crop?")}
+            </h2>
+            <p className="mt-3 text-lg text-white/90">
+              {t("Tell us about your land and what you want to grow.")}
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            <WhatsAppButton topic={topic} vars={vars} />
+            <ButtonLink href="/consulting#ask" variant="outline">
+              {t("Ask for advice")}
+            </ButtonLink>
+          </div>
+        </Reveal>
       </Container>
     </section>
   );

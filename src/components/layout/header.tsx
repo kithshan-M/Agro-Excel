@@ -1,20 +1,24 @@
-import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { siteConfig } from "@/config/site";
+import { hasProjects, shownLinks } from "@/lib/projects";
+import { HeaderShell } from "./header-shell";
+import { LanguageSwitch } from "./language-switch";
+import { Logo } from "./logo";
+import { MobileMenu } from "./mobile-menu";
 import { Nav } from "./nav";
+import { SeedListLink } from "./seed-list-link";
 
 export function Header() {
   return (
-    <header className="relative z-10 border-b border-line bg-paper">
-      <Container className="flex min-h-16 items-center justify-between gap-6">
-        <Link
-          href="/"
-          className="font-display text-xl font-bold tracking-tight text-leaf-dark"
-        >
-          {siteConfig.name}
-        </Link>
-        <Nav />
+    <HeaderShell>
+      <Container className="flex min-h-16 items-center justify-between gap-2 sm:gap-4">
+        <Logo />
+        <div className="flex items-center gap-1 lg:gap-5">
+          <Nav links={shownLinks} />
+          <LanguageSwitch compact className="rounded-md px-2 text-leaf-dark hover:bg-film max-[430px]:px-1 max-[340px]:hidden max-[430px]:[&>svg]:hidden" />
+          <SeedListLink />
+          <MobileMenu hasProjects={hasProjects} />
+        </div>
       </Container>
-    </header>
+    </HeaderShell>
   );
 }

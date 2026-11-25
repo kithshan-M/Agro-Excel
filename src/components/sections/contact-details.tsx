@@ -1,15 +1,20 @@
+"use client";
+
+import { useT, useWhatsapp } from "@/i18n/context";
 import { siteConfig } from "@/config/site";
 
 /** Lists the contact fields filled in src/config/site.ts. Renders nothing if all are empty. */
 export function ContactDetails() {
+  const t = useT();
+  const whatsapp_ = useWhatsapp()();
   const { phone, whatsapp, email, address, openingHours } = siteConfig.contact;
 
   const rows = [
     { label: "Phone", value: phone, href: `tel:${phone.replaceAll(" ", "")}` },
     {
       label: "WhatsApp",
-      value: whatsapp && `+${whatsapp}`,
-      href: `https://wa.me/${whatsapp}`,
+      value: whatsapp,
+      href: whatsapp_ ?? undefined,
     },
     { label: "Email", value: email, href: `mailto:${email}` },
     { label: "Address", value: address },
@@ -22,14 +27,14 @@ export function ContactDetails() {
     <dl className="space-y-3">
       {rows.map((row) => (
         <div key={row.label}>
-          <dt className="text-sm opacity-75">{row.label}</dt>
+          <dt className="text-sm opacity-75">{t(row.label)}</dt>
           <dd className="font-medium break-words">
             {row.href ? (
               <a href={row.href} className="underline underline-offset-4">
-                {row.value}
+                {t(row.value)}
               </a>
             ) : (
-              row.value
+              t(row.value)
             )}
           </dd>
         </div>

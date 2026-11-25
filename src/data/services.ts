@@ -1,5 +1,5 @@
 export type Service = {
-  slug: "greenhouses" | "seeds" | "consulting";
+  slug: "greenhouses" | "irrigation" | "seeds" | "consulting";
   title: string;
   summary: string;
   /** Short list shown on the page for this service. */
@@ -14,8 +14,16 @@ export const services: Service[] = [
     summary: "Greenhouses planned and built around your land and your crop.",
     points: [
       {
-        title: "Site and design",
-        text: "We look at your land, water and crop, then agree on a size and layout.",
+        title: "Tell us your plan",
+        text: "Message us with your location, plot size and the crop you want to grow.",
+      },
+      {
+        title: "Site check",
+        text: "We look at the land, water, sun and access.",
+      },
+      {
+        title: "Design and quotation",
+        text: "We suggest a type, size and layout, and give you a price.",
       },
       {
         title: "Construction",
@@ -28,21 +36,48 @@ export const services: Service[] = [
     ],
   },
   {
-    slug: "seeds",
-    title: "Vegetable seeds",
-    summary: "Vegetable seeds for open fields, greenhouses and home gardens.",
+    slug: "irrigation",
+    title: "Irrigation systems",
+    summary: "We build new irrigation systems and maintain the ones you already have.",
     points: [
       {
-        title: "Choose a crop",
-        text: "Tell us what you want to grow and where you will grow it.",
+        title: "Tell us what you need",
+        text: "Message us about your land, your crop and your water.",
       },
       {
-        title: "Get a variety suggestion",
-        text: "We help you match a variety to your conditions.",
+        title: "Check",
+        text: "We look at the water, the land or the system you have.",
       },
       {
-        title: "Order",
-        text: "Contact us for prices and what is in stock.",
+        title: "Plan and price",
+        text: "We suggest what to build or fix, and give you a price.",
+      },
+      {
+        title: "Build or repair",
+        text: "We fit the system or put right what is wrong.",
+      },
+      {
+        title: "Test and show",
+        text: "We run it with you and show you how to look after it.",
+      },
+    ],
+  },
+  {
+    slug: "seeds",
+    title: "Vegetable seeds",
+    summary: "Seeds for Sri Lankan vegetables, for open fields, greenhouses and home gardens.",
+    points: [
+      {
+        title: "Add seeds to your list",
+        text: "Pick the vegetables you want to grow.",
+      },
+      {
+        title: "Send it to us",
+        text: "Your list becomes one WhatsApp message.",
+      },
+      {
+        title: "Get a reply",
+        text: "We answer with varieties, prices and stock.",
       },
     ],
   },
@@ -52,16 +87,16 @@ export const services: Service[] = [
     summary: "Practical advice from planting through to harvest.",
     points: [
       {
-        title: "Crop planning",
-        text: "What to plant, when to plant it and how much.",
+        title: "Tell us about your crop",
+        text: "Say what you grow and what you need.",
       },
       {
-        title: "Growing advice",
-        text: "Guidance on watering, feeding and crop care.",
+        title: "Send photos",
+        text: "A few clear pictures tell us a lot.",
       },
       {
-        title: "Problem solving",
-        text: "Help identifying pests, diseases and poor growth.",
+        title: "Get advice",
+        text: "We reply with practical next steps.",
       },
     ],
   },
