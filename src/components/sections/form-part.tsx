@@ -1,5 +1,9 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 /** Numbered heading inside a long form. */
 export function FormPart({ number, title }: { number: number; title: string }) {
+  const t = useT();
   return (
     <h3 className="flex items-center gap-3 border-t border-line pt-7 text-xl font-semibold first:border-t-0 first:pt-0">
       <span
@@ -8,7 +12,7 @@ export function FormPart({ number, title }: { number: number; title: string }) {
       >
         {number}
       </span>
-      {title}
+      {t(title)}
     </h3>
   );
 }

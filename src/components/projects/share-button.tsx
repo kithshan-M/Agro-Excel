@@ -1,10 +1,12 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { useEffect, useState } from "react";
 import { copyText } from "@/lib/copy";
 
 /** Opens the phone's share sheet, or copies the link where there is none. */
 export function ShareButton({ title }: { title: string }) {
+  const t = useT();
   const [status, setStatus] = useState("");
 
   useEffect(() => {
@@ -20,13 +22,13 @@ export function ShareButton({ title }: { title: string }) {
       await navigator.share({ title, url }).catch(() => {});
       return;
     }
-    setStatus((await copyText(url)) ? "Link copied" : "Copy the link from the address bar");
+    setStatus((await copyText(url)) ? t("Link copied") : t("Copy the link from the address bar"));
   }
 
   return (
     <div className="flex items-center gap-3">
       <p role="status" className="text-muted">
-        {status}
+        {t(status)}
       </p>
       <button
         type="button"
@@ -40,7 +42,7 @@ export function ShareButton({ title }: { title: string }) {
         >
           <path d="M10 12V2.500m0 0L6.500 6M10 2.500 13.500 6M4 10v7.500h12V10" />
         </svg>
-        Share
+        {t("Share")}
       </button>
     </div>
   );

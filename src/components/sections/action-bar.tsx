@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { useEffect, useState } from "react";
 
 /** Phone only: keeps the main button in reach between two sections of a page. */
@@ -14,6 +15,7 @@ export function ActionBar({
   to: string;
   label: string;
 }) {
+  const t = useT();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ export function ActionBar({
         href={`#${to}`}
         className="flex min-h-12 items-center justify-center rounded-md bg-sun font-semibold text-ink"
       >
-        {label}
+        {t(label)}
       </a>
     </div>
   );

@@ -1,5 +1,5 @@
 import type { Project } from "@/data/projects";
-import { projectPlace } from "@/lib/project-photo";
+import type { T } from "@/i18n/context";
 
 const icons = {
   Place: "M10 18s6-5.6 6-10a6 6 0 0 0-12 0c0 4.4 6 10 6 10Zm0-7.6a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8Z",
@@ -10,10 +10,10 @@ const icons = {
 
 export type FactName = keyof typeof icons;
 
-export const projectFacts = (project: Project) =>
+export const projectFacts = (project: Project, t: T) =>
   (
     [
-      ["Place", projectPlace(project)],
+      ["Place", project.town ? `${t(project.town)}, ${t(project.district)}` : t(project.district)],
       ["Size", project.size],
       ["Crop", project.crop],
       ["Finished", project.year],

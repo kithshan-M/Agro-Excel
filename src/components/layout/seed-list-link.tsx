@@ -1,18 +1,20 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { SectionLink } from "@/components/ui/section-link";
 import { useSeedList } from "@/lib/seed-list";
 
 /** Appears once the visitor has added seeds, so the list is one tap away. */
 export function SeedListLink() {
+  const t = useT();
   const count = Object.keys(useSeedList()).length;
   if (count === 0) return null;
 
   return (
     <SectionLink
       href="/seeds#list"
-      aria-label={`Your seed list, ${count} ${count === 1 ? "seed" : "seeds"}`}
-      title="Your seed list"
+      aria-label={t("Your seed list, seeds: {count}", { count })}
+      title={t("Your seed list")}
       className="enter relative flex size-11 items-center justify-center rounded-md text-leaf-dark transition-colors hover:bg-film"
     >
       <svg

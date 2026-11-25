@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { useState } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -18,6 +19,7 @@ const indexOf = (key: string) => systemParts.findIndex((part) => part.key === ke
  * does. Symptoms and ticked faults go into the form.
  */
 export function SystemPicker() {
+  const t = useT();
   const { signs, toggleSign, symptom, setSymptom } = useIrrigation();
   const [active, setActive] = useState(0);
   const part = systemParts[active];
@@ -41,12 +43,12 @@ export function SystemPicker() {
     <section id="irrigation-parts" className="scroll-mt-13 py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="Find the fault"
-          text="Choose what you notice and follow the places to check, or choose any part of the picture to see what it does."
+          title={t("Find the fault")}
+          text={t("Choose what you notice and follow the places to check, or choose any part of the picture to see what it does.")}
         />
-        <div role="group" aria-label="What do you notice?" className="mt-7">
+        <div role="group" aria-label={t("What do you notice?")} className="mt-7">
           <p aria-hidden="true" className="font-semibold">
-            What do you notice?
+            {t("What do you notice?")}
           </p>
           <div className="mt-2.5 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap">
             {symptoms.map(({ name }) => (
@@ -57,7 +59,7 @@ export function SystemPicker() {
                 onClick={() => choose(name)}
                 className="min-h-11 cursor-pointer rounded-md border border-field bg-white px-3 py-2 text-left leading-tight font-medium transition-colors last:col-span-2 sm:px-4 hover:border-leaf aria-pressed:border-leaf aria-pressed:bg-leaf aria-pressed:text-white"
               >
-                {name}
+                {t(name)}
               </button>
             ))}
           </div>
@@ -75,12 +77,12 @@ export function SystemPicker() {
                   >
                     <path d="M10 3 18 17H2L10 3Zm0 5v4.500m0 2v.2" />
                   </svg>
-                  {chosen.caution}
+                  {t(chosen.caution)}
                 </p>
               )}
               <div className="grid gap-x-10 gap-y-5 lg:grid-cols-[1.25fr_1fr]">
                 <div>
-                  <p className="text-xl font-semibold">Where to look, in order</p>
+                  <p className="text-xl font-semibold">{t("Where to look, in order")}</p>
                   <ol className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-2">
                     {places.map((place, index) => {
                       const at = indexOf(place.part);
@@ -101,7 +103,7 @@ export function SystemPicker() {
                             onClick={() => setActive(at)}
                             className="min-h-11 cursor-pointer rounded-md bg-white px-3.5 font-medium transition-colors hover:bg-sun aria-pressed:bg-sun aria-pressed:font-semibold"
                           >
-                            {systemParts[at].name}
+                            {t(systemParts[at].name)}
                           </button>
                         </li>
                       );
@@ -110,16 +112,16 @@ export function SystemPicker() {
                 </div>
                 <div aria-live="polite" className="lg:pl-8">
                   <p className="text-muted">
-                    {here ? `Check ${order(active) + 1} of ${places.length}` : "Choose a place to see what to check."}
+                    {here ? t("Check {count} of {total}", { count: order(active) + 1, total: places.length }) : t("Choose a place to see what to check.")}
                   </p>
-                  {here && <p className="mt-1 text-lg font-semibold">{here.check}</p>}
+                  {here && <p className="mt-1 text-lg font-semibold">{t(here.check)}</p>}
                   {here && order(active) + 1 < places.length && (
                     <button
                       type="button"
                       onClick={() => setActive(indexOf(places[order(active) + 1].part))}
                       className="mt-1 min-h-11 cursor-pointer font-semibold text-water underline underline-offset-4 hover:text-ink"
                     >
-                      That is fine, check the next place
+                      {t("That is fine, check the next place")}
                     </button>
                   )}
                   {here && order(active) + 1 === places.length && (
@@ -127,7 +129,7 @@ export function SystemPicker() {
                       href="#irrigation-ask"
                       className="mt-1 inline-flex min-h-11 items-center font-semibold text-water underline underline-offset-4 hover:text-ink"
                     >
-                      Still not right? Tell us
+                      {t("Still not right? Tell us")}
                     </a>
                   )}
                 </div>
@@ -143,7 +145,7 @@ export function SystemPicker() {
                 />
                 <Image
                   src="/images/irrigation/system.svg"
-                  alt="Irrigation system: water source, pump, tank, filter, valves and timer, pipes, drippers and sprinklers."
+                  alt={t("Irrigation system: water source, pump, tank, filter, valves and timer, pipes, drippers and sprinklers.")}
                   width={900}
                   height={720}
                   unoptimized
@@ -171,7 +173,7 @@ export function SystemPicker() {
                   <div className="reveal-pop" style={step(index + 2)}>
                     <button
                       type="button"
-                      aria-label={`Part ${index + 1}, ${item.name}`}
+                      aria-label={t("Part {number}, {name}", { number: index + 1, name: t(item.name) })}
                       aria-pressed={active === index}
                       onClick={() => setActive(index)}
                       className={`relative flex size-8 cursor-pointer items-center justify-center rounded-full text-sm font-bold transition duration-200 active:scale-95 before:absolute before:-inset-1.5 motion-reduce:transition-none sm:size-10 sm:text-lg ${active === index ? "scale-115 bg-sun text-ink ring-3 ring-white" : order(index) >= 0 ? "bg-white text-ink ring-3 ring-sun" : "bg-ink text-white hover:bg-leaf"}`}
@@ -204,7 +206,7 @@ export function SystemPicker() {
                     >
                       {index + 1}
                     </span>
-                    {item.name}
+                    {t(item.name)}
                   </button>
                 </li>
               ))}
@@ -214,22 +216,22 @@ export function SystemPicker() {
           <div className="flex flex-col border-t border-line p-5 sm:p-8 lg:border-t-0">
             <div aria-live="polite">
               <h3 className="text-2xl font-bold">
-                {active + 1}. {part.name}
+                {active + 1}. {t(part.name)}
               </h3>
-              <p className="mt-1.5 text-lg leading-relaxed text-muted">{part.text}</p>
+              <p className="mt-1.5 text-lg leading-relaxed text-muted">{t(part.text)}</p>
             </div>
             <div className="mt-4 flex items-center justify-between border-b border-line pb-5">
               <StepButton
-                label="Previous"
+                label={t("Previous")}
                 onClick={() => setActive((active + total - 1) % total)}
               />
               <span className="text-muted">
-                {active + 1} of {total}
+                {t("{count} of {total}", { count: active + 1, total })}
               </span>
-              <StepButton label="Next" onClick={() => setActive((active + 1) % total)} />
+              <StepButton label={t("Next")} onClick={() => setActive((active + 1) % total)} />
             </div>
             <fieldset className="mt-5 mb-7">
-              <legend className="font-semibold">Is something wrong with it?</legend>
+              <legend className="font-semibold">{t("Is something wrong with it?")}</legend>
               <div className="mt-3 flex flex-wrap gap-2.5">
                 {part.signs.map((sign) => (
                   <label
@@ -249,7 +251,7 @@ export function SystemPicker() {
                     >
                       <path d="m3 10.5 4.5 4.5L17 5" />
                     </svg>
-                    {sign}
+                    {t(sign)}
                   </label>
                 ))}
               </div>
@@ -270,13 +272,14 @@ export function SystemPicker() {
 }
 
 function StepButton({ label, onClick }: { label: string; onClick: () => void }) {
+  const t = useT();
   return (
     <button
       type="button"
       onClick={onClick}
       className="min-h-11 cursor-pointer rounded-md border border-field px-4 font-semibold text-leaf transition-colors hover:border-leaf"
     >
-      {label}
+      {t(label)}
     </button>
   );
 }

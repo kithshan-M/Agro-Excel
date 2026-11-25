@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
@@ -14,12 +15,13 @@ const looks = [
 
 /** Each half leads to its own next step, and fills in the first answer of the form. */
 export function Paths() {
+  const t = useT();
   const { setNeed } = useIrrigation();
 
   return (
     <section id="irrigation-services" className="scroll-mt-13 py-16 md:py-24">
       <Container>
-        <SectionHeading title="New systems, and the one you have" />
+        <SectionHeading title={t("New systems, and the one you have")} />
         <ul className="mt-8 grid gap-5 lg:grid-cols-2">
           {irrigationPaths.map((path, index) => {
             const look = looks[index];
@@ -41,8 +43,8 @@ export function Paths() {
                     />
                   </picture>
                   <div className="flex flex-1 flex-col p-6 sm:p-9">
-                    <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">{path.title}</h3>
-                    <p className={`mt-2 text-lg ${look.text}`}>{path.text}</p>
+                    <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">{t(path.title)}</h3>
+                    <p className={`mt-2 text-lg ${look.text}`}>{t(path.text)}</p>
                     <ul className="mt-6 mb-8 space-y-3.5">
                       {path.points.map((point) => (
                         <li key={point} className="flex gap-3.5">
@@ -53,7 +55,7 @@ export function Paths() {
                           >
                             <path d="m3 10.5 4.5 4.5L17 5" />
                           </svg>
-                          {point}
+                          {t(point)}
                         </li>
                       ))}
                     </ul>
@@ -63,14 +65,14 @@ export function Paths() {
                         onClick={() => setNeed(path.need)}
                         className={`inline-flex min-h-12 items-center rounded-md px-6 font-semibold transition-colors ${look.button}`}
                       >
-                        {path.action}
+                        {t(path.action)}
                       </a>
                       <a
                         href="#irrigation-ask"
                         onClick={() => setNeed(path.need)}
                         className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4"
                       >
-                        Go to the form
+                        {t("Go to the form")}
                       </a>
                     </div>
                   </div>

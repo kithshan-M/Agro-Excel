@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   cacheComponents: true,
   partialPrefetching: true,
+  // Two languages have two layouts, so wrong addresses need a page of their own.
+  experimental: { globalNotFound: true },
   turbopack: {
     rules: {
       "*.css": {

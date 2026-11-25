@@ -9,12 +9,3 @@ export function whatsappMessageLink(message: string): string | null {
   if (!number) return null;
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
-
-/** Same, with a standard greeting about a topic. */
-export function whatsappLink(topic?: string): string | null {
-  return whatsappMessageLink(
-    topic
-      ? `Hello ${siteConfig.name}, I would like to ask about ${topic}.`
-      : `Hello ${siteConfig.name}, I have a question.`,
-  );
-}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { useRef } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -13,6 +14,7 @@ const total = cropStages.length;
 
 /** Tabs: arrow keys move between stages, as screen reader users expect. */
 export function Stages() {
+  const t = useT();
   const { open: active, setOpen, topics, toggleTopic, setStage } = useConsult();
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const stage = cropStages[active];
@@ -41,13 +43,13 @@ export function Stages() {
     <section id="stages" className="scroll-mt-13 bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="Advice at every stage"
-          text="Choose where your crop is now, then tick what you want to ask. We add it to your message."
+          title={t("Advice at every stage")}
+          text={t("Choose where your crop is now, then tick what you want to ask. We add it to your message.")}
         />
         <Reveal className="reveal-up mt-8">
           <div
             role="tablist"
-            aria-label="Crop stage"
+            aria-label={t("Crop stage")}
             onKeyDown={onKeyDown}
             className="-mx-2 flex sm:mx-0"
           >
@@ -81,14 +83,14 @@ export function Stages() {
                     {count(item.name) > 0 && (
                       <span className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-ink text-xs text-white">
                         {count(item.name)}
-                        <span className="sr-only"> ticked</span>
+                        <span className="sr-only"> {t("ticked")}</span>
                       </span>
                     )}
                   </span>
                   <span
                     className={`text-center leading-tight ${active === index ? "text-leaf" : "text-muted group-hover:text-ink"}`}
                   >
-                    {item.name}
+                    {t(item.name)}
                   </span>
                 </button>
               );
@@ -115,10 +117,10 @@ export function Stages() {
               ))}
             </div>
             <div className="flex flex-col p-5 sm:p-9">
-              <h3 className="text-2xl font-bold sm:text-3xl">{stage.title}</h3>
-              <p className="mt-2 text-lg text-muted">{stage.text}</p>
+              <h3 className="text-2xl font-bold sm:text-3xl">{t(stage.title)}</h3>
+              <p className="mt-2 text-lg text-muted">{t(stage.text)}</p>
               <fieldset className="mt-5">
-                <legend className="font-semibold">What do you want to ask?</legend>
+                <legend className="font-semibold">{t("What do you want to ask?")}</legend>
                 <div className="mt-3 grid gap-2.5 md:min-h-41 md:content-start">
                   {stage.topics.map((topic) => (
                     <Tick
@@ -126,7 +128,7 @@ export function Stages() {
                       checked={topics[stage.name]?.includes(topic) ?? false}
                       onChange={() => toggleTopic(stage.name, topic)}
                     >
-                      {topic}
+                      {t(topic)}
                     </Tick>
                   ))}
                 </div>
@@ -138,14 +140,14 @@ export function Stages() {
                   onClick={() => all === 0 && setStage(stage.name)}
                   className="inline-flex min-h-12 items-center rounded-md bg-leaf px-6 font-semibold text-white transition-colors hover:bg-leaf-dark"
                 >
-                  {all > 0 ? `Continue with ${all} ${all === 1 ? "question" : "questions"}` : "Ask about this stage"}
+                  {all > 0 ? t(all === 1 ? "Continue with {count} question" : "Continue with {count} questions", { count: all }) : t("Ask about this stage")}
                 </a>
                 <button
                   type="button"
                   onClick={() => select(active + 1)}
                   className="min-h-12 cursor-pointer rounded-md border border-field px-5 font-semibold text-leaf transition-colors hover:border-leaf"
                 >
-                  {active === total - 1 ? "Back to the start" : "Next stage"}
+                  {active === total - 1 ? t("Back to the start") : t("Next stage")}
                 </button>
               </div>
             </div>

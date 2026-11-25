@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 
 const variants = {
   primary: "bg-sun text-ink hover:bg-white",

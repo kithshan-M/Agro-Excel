@@ -1,5 +1,6 @@
 "use client";
 
+import { useLang, useT } from "@/i18n/context";
 import { useId, useState } from "react";
 import { FormPart } from "@/components/sections/form-part";
 import { MessagePanel, useMessage } from "@/components/sections/message-panel";
@@ -23,6 +24,9 @@ const typeOptions = [...irrigationTypes.map((item) => item.name), "Not sure yet"
 
 /** Builds a WhatsApp message from the answers. Nothing is stored or sent by this site. */
 export function IrrigationForm() {
+  const t = useT();
+  const lang = useLang();
+  const low = (text: string) => t(text).toLowerCase();
   const { need, setNeed, type, setType, crop, setCrop, symptom, setSymptom, signs } =
     useIrrigation();
   const [length, setLength] = useState("");
@@ -38,11 +42,11 @@ export function IrrigationForm() {
   const maintaining = need === irrigationNeeds.maintain;
   const area =
     length && width
-      ? `${length} x ${width} ${unit}`
+      ? `${length} x ${width} ${t(unit)}`
       : length
-        ? `${length} ${unit} long`
+        ? t("{length} {unit} long", { length, unit: t(unit) })
         : width
-          ? `${width} ${unit} wide`
+          ? t("{width} {unit} wide", { width, unit: t(unit) })
           : "";
   const faults = systemParts.filter((part) => signs[part.name]?.length);
   const details = [
@@ -50,30 +54,31 @@ export function IrrigationForm() {
     ["Crop", crop.trim()],
     ["Area", area],
     ["Location", location.trim()],
-    ["Water", water],
+    ["Water source", water],
     ["Power", power],
   ].filter(([, value]) => value);
   const message = useMessage(
     [
-      `Hello ${siteConfig.name}, ${
+      t(
         building
-          ? "I would like a quotation for a new irrigation system."
+          ? "Hello {name}, I would like a quotation for a new irrigation system."
           : maintaining
-            ? "I have an irrigation system that needs repair or service."
-            : "I would like to ask about irrigation."
-      }`,
-      ...details.map(([label, value]) => `${label}: ${value}`),
-      ...(maintaining && symptom ? [`What I notice: ${symptom.toLowerCase()}`] : []),
+            ? "Hello {name}, I have an irrigation system that needs repair or service."
+            : "Hello {name}, I would like to ask about irrigation.",
+        { name: siteConfig.name },
+      ),
+      ...details.map(([label, value]) => `${t(label)}: ${t(value)}`),
+      ...(maintaining && symptom ? [`${t("What I notice")}: ${low(symptom)}`] : []),
       ...(maintaining && faults.length
         ? [
-            "What is wrong:",
+            t("What is wrong:"),
             ...faults.map(
               (part) =>
-                `- ${part.name}: ${signs[part.name].map((sign) => sign.toLowerCase()).join(", ")}`,
+                `- ${t(part.name)}: ${signs[part.name].map(low).join(", ")}`,
             ),
           ]
         : []),
-      ...(notes.trim() ? [`Notes: ${notes.trim()}`] : []),
+      ...(notes.trim() ? [`${t("Notes")}: ${notes.trim()}`] : []),
     ].join("\n"),
   );
 
@@ -81,8 +86,8 @@ export function IrrigationForm() {
     <section id="irrigation-ask" className="scroll-mt-13 bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="Tell us about your water"
-          text="Fill in what you know and skip the rest. We turn your answers into a message for you to send."
+          title={t("Tell us about your water")}
+          text={t("Fill in what you know and skip the rest. We turn your answers into a message for you to send.")}
         />
         <Reveal className="reveal-up mt-10">
           <form
@@ -90,9 +95,9 @@ export function IrrigationForm() {
             className="grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid content-start gap-7 p-5 sm:p-9">
-              <FormPart number={1} title={maintaining ? "Your system" : "Your plan"} />
+              <FormPart number={1} title={maintaining ? t("Your system") : t("Your plan")} />
               <Choices
-                legend="What do you need?"
+                legend={t("What do you need?")}
                 name={`${id}-need`}
                 options={Object.values(irrigationNeeds)}
                 value={need}
@@ -100,7 +105,7 @@ export function IrrigationForm() {
               />
               {maintaining && (
                 <Choices
-                  legend="What do you notice?"
+                  legend={t("What do you notice?")}
                   name={`${id}-symptom`}
                   options={symptoms.map((item) => item.name)}
                   value={symptom}
@@ -110,54 +115,57 @@ export function IrrigationForm() {
               {maintaining && (
                 <p className="rounded-md bg-film p-4 sm:p-5">
                   {faults.length > 0
-                    ? `You ticked faults on: ${faults.map((part) => part.name.toLowerCase()).join(", ")}. `
-                    : "You can also tick what is wrong on the picture. "}
+                    ? t("You ticked faults on: {parts}.", { parts: faults.map((part) => low(part.name)).join(", ") })
+                    : t("You can also tick what is wrong on the picture.")}{" "}
                   <a
                     href="#irrigation-parts"
                     className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
                   >
-                    {faults.length > 0 ? "Change faults" : "Choose faults"}
+                    {faults.length > 0 ? t("Change faults") : t("Choose faults")}
                   </a>
                 </p>
               )}
               <Choices
-                legend={maintaining ? "What type is it?" : "Which type would you like?"}
+                legend={maintaining ? t("What type is it?") : t("Which type would you like?")}
                 name={`${id}-type`}
                 options={typeOptions}
                 value={type}
                 onChange={setType}
               />
-              <FormPart number={2} title="Your land and crop" />
+              <FormPart number={2} title={t("Your land and crop")} />
               <div className="grid gap-7 sm:grid-cols-2 sm:gap-5">
                 <div>
                   <label htmlFor={`${id}-crop`} className="font-semibold">
-                    Crop
+                    {t("Crop")}
                   </label>
                   <input
                     id={`${id}-crop`}
                     list={`${id}-crops`}
                     autoComplete="off"
-                    placeholder="Tomato, brinjal"
-                    value={crop}
-                    onChange={(event) => setCrop(event.target.value)}
+                    placeholder={t("Tomato, brinjal")}
+                    value={t(crop)}
+                    onChange={(event) => {
+                      const { value } = event.target;
+                      setCrop(seeds.find((seed) => t(seed.name) === value)?.name ?? value);
+                    }}
                     className={fieldClass}
                   />
                   <datalist id={`${id}-crops`}>
                     {seeds.map((seed) => (
-                      <option key={seed.slug} value={seed.name}>
-                        {seed.localName}
+                      <option key={seed.slug} value={t(seed.name)}>
+                        {lang === "en" ? seed.localName : null}
                       </option>
                     ))}
                   </datalist>
                 </div>
                 <div>
                   <label htmlFor={`${id}-location`} className="font-semibold">
-                    Where is your land?
+                    {t("Where is your land?")}
                   </label>
                   <input
                     id={`${id}-location`}
                     autoComplete="address-level2"
-                    placeholder="Village, town or district"
+                    placeholder={t("Village, town or district")}
                     value={location}
                     onChange={(event) => setLocation(event.target.value)}
                     className={fieldClass}
@@ -165,10 +173,10 @@ export function IrrigationForm() {
                 </div>
               </div>
               <fieldset>
-                <legend className="font-semibold">Area to water</legend>
+                <legend className="font-semibold">{t("Area to water")}</legend>
                 <div className="grid grid-cols-3 gap-3">
                   <label className="mt-2 text-muted">
-                    Length
+                    {t("Length")}
                     <input
                       type="number"
                       min="0"
@@ -180,7 +188,7 @@ export function IrrigationForm() {
                     />
                   </label>
                   <label className="mt-2 text-muted">
-                    Width
+                    {t("Width")}
                     <input
                       type="number"
                       min="0"
@@ -192,28 +200,28 @@ export function IrrigationForm() {
                     />
                   </label>
                   <label className="mt-2 text-muted">
-                    Unit
+                    {t("Unit")}
                     <select
                       value={unit}
                       onChange={(event) => setUnit(event.target.value)}
                       className={fieldClass}
                     >
-                      <option>feet</option>
-                      <option>metres</option>
+                      <option>{t("feet")}</option>
+                      <option>{t("metres")}</option>
                     </select>
                   </label>
                 </div>
               </fieldset>
-              <FormPart number={3} title="Your water and power" />
+              <FormPart number={3} title={t("Your water and power")} />
               <Choices
-                legend="Water source"
+                legend={t("Water source")}
                 name={`${id}-water`}
                 options={waterSources}
                 value={water}
                 onChange={setWater}
               />
               <Choices
-                legend="Power for the pump"
+                legend={t("Power for the pump")}
                 name={`${id}-power`}
                 options={powerSources}
                 value={power}
@@ -221,7 +229,7 @@ export function IrrigationForm() {
               />
               <div>
                 <label htmlFor={`${id}-notes`} className="font-semibold">
-                  Anything else we should know?
+                  {t("Anything else we should know?")}
                 </label>
                 <textarea
                   id={`${id}-notes`}

@@ -1,3 +1,6 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import type { Service } from "@/data/services";
@@ -14,10 +17,11 @@ export function BuildSteps({
   steps: Service["points"];
   className?: string;
 }) {
+  const t = useT();
   return (
     <section id={id} className={`scroll-mt-13 ${className}`}>
       <Container>
-        <SectionHeading title="How it works" />
+        <SectionHeading title={t("How it works")} />
         <Reveal as="ol" className="mt-12 lg:grid lg:grid-cols-5">
           {steps.map((step, index) => (
             <li
@@ -37,8 +41,8 @@ export function BuildSteps({
                 {index + 1}
               </span>
               <div className="reveal-up pt-1.5 lg:pt-5" style={delay(index * 3 + 1)}>
-                <h3 className="text-xl font-semibold">{step.title}</h3>
-                <p className="mt-2 leading-relaxed text-muted">{step.text}</p>
+                <h3 className="text-xl font-semibold">{t(step.title)}</h3>
+                <p className="mt-2 leading-relaxed text-muted">{t(step.text)}</p>
               </div>
             </li>
           ))}

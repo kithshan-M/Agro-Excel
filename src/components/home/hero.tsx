@@ -1,32 +1,35 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { scenePins } from "@/data/home";
 import { step } from "@/lib/motion";
 
 export function HomeHero() {
+  const t = useT();
   return (
     <section className="overflow-hidden bg-[linear-gradient(#cfe6ea,#f4f3dd_62%,#fdf0c8)]">
       <Container className="relative z-1 pt-12 md:pt-16">
         <h1 className="enter text-[1.9rem] font-bold leading-[1.12] tracking-tight min-[400px]:text-[2.1rem] sm:text-5xl lg:text-6xl">
-          <span className="block">Build the greenhouse. </span>
-          <span className="block">Plant the right seed. </span>
-          <span className="block">Grow with advice.</span>
+          <span className="block">{t("Build the greenhouse.")} </span>
+          <span className="block">{t("Plant the right seed.")} </span>
+          <span className="block">{t("Grow with advice.")}</span>
         </h1>
         <p
           className="enter mt-5 max-w-lg text-xl leading-relaxed"
           style={step(1)}
         >
-          We build greenhouses and irrigation systems, sell vegetable seeds and
-          advise growers on their crops.
+          {t("We build greenhouses and irrigation systems, sell vegetable seeds and advise growers on their crops.")}
         </p>
         <div className="enter mt-7 flex flex-wrap gap-3" style={step(2)}>
           <ButtonLink href="#services" variant="dark">
-            See what we do
+            {t("See what we do")}
           </ButtonLink>
           <ButtonLink href="/consulting#ask" variant="outline">
-            Ask for advice
+            {t("Ask for advice")}
           </ButtonLink>
         </div>
       </Container>
@@ -39,7 +42,7 @@ export function HomeHero() {
           />
           <Image
             src="/images/home/farm.svg"
-            alt="Farm with a greenhouse, two people talking beside a tomato plant, and a water tank, and a stall of seed packets and vegetables."
+            alt={t("Farm with a greenhouse, two people talking beside a tomato plant, and a water tank, and a stall of seed packets and vegetables.")}
             width={1600}
             height={660}
             unoptimized
@@ -47,7 +50,7 @@ export function HomeHero() {
             className="block h-72 w-full object-cover object-[50%_100%] sm:h-96 md:h-auto"
           />
         </picture>
-        <nav aria-label="Services on the farm" className="hidden md:block">
+        <nav aria-label={t("Services on the farm")} className="hidden md:block">
           <ul>
             {scenePins.map((pin, index) => (
               <li
@@ -61,7 +64,7 @@ export function HomeHero() {
                     className="group flex flex-col items-center"
                   >
                     <span className="flex min-h-11 items-center gap-2 rounded-md bg-white px-4 font-semibold whitespace-nowrap text-ink shadow-[0_2px_10px_rgb(19_37_29/0.18)] transition-colors group-hover:bg-leaf group-hover:text-white">
-                      {pin.label}
+                      {t(pin.label)}
                       <svg
                         viewBox="0 0 20 20"
                         aria-hidden="true"

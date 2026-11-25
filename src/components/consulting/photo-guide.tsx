@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { SendList } from "@/components/sections/send-list";
@@ -9,26 +10,26 @@ import { siteConfig } from "@/config/site";
 import { photoGuide, waitSteps } from "@/data/consulting";
 import { useConsult } from "./consult-context";
 
-const list = [
-  "*Until you hear from us*",
-  waitSteps.map((item) => `- ${item}`).join("\n"),
-  `From ${siteConfig.name}`,
-].join("\n\n");
-
 /** Photos to take, ticked off as they are done, and what to do meanwhile. */
 export function PhotoGuide() {
+  const t = useT();
   const { photos, togglePhoto } = useConsult();
+  const list = [
+    `*${t("Until you hear from us")}*`,
+    waitSteps.map((item) => `- ${t(item)}`).join("\n"),
+    t("From {name}", { name: siteConfig.name }),
+  ].join("\n\n");
 
   return (
     <section id="photos" className="scroll-mt-13 bg-[#dcebf0] py-16 md:py-24">
       <Container>
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <SectionHeading
-            title="Photos that help us"
-            text="Take these four in daylight. Tick each one, and your message says which photos you are sending."
+            title={t("Photos that help us")}
+            text={t("Take these four in daylight. Tick each one, and your message says which photos you are sending.")}
           />
           <p role="status" className="shrink-0 text-lg font-semibold">
-            {photos.length} of {photoGuide.length} taken
+            {t("{count} of {total} taken", { count: photos.length, total: photoGuide.length })}
           </p>
         </div>
         <ol className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
@@ -52,9 +53,9 @@ export function PhotoGuide() {
                   />
                   <span className="flex flex-1 flex-col p-3.5 sm:p-5">
                     <span className="font-display text-lg leading-tight font-semibold sm:text-xl">
-                      {photo.title}
+                      {t(photo.title)}
                     </span>
-                    <span className="mt-1.5 mb-4 leading-snug text-muted">{photo.text}</span>
+                    <span className="mt-1.5 mb-4 leading-snug text-muted">{t(photo.text)}</span>
                     <span
                       className={`mt-auto flex min-h-11 items-center justify-center gap-2 rounded-md font-semibold transition-colors ${taken ? "bg-leaf text-white" : "border border-leaf text-leaf group-hover:bg-leaf group-hover:text-white"}`}
                     >
@@ -63,7 +64,7 @@ export function PhotoGuide() {
                           <path d="m3 10.5 4.5 4.5L17 5" />
                         </svg>
                       )}
-                      {taken ? "Taken" : "I took this"}
+                      {taken ? t("Taken") : t("I took this")}
                     </span>
                   </span>
                 </button>
@@ -73,11 +74,11 @@ export function PhotoGuide() {
         </ol>
         <Reveal className="reveal-up mt-8 grid gap-x-12 gap-y-6 rounded-lg bg-white p-6 sm:p-9 lg:grid-cols-[1fr_1.5fr]">
           <div>
-            <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">Until you hear from us</h3>
+            <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("Until you hear from us")}</h3>
             <p className="mt-2 mb-6 text-lg leading-relaxed text-muted">
-              Small steps that keep the problem clear and help stop it moving.
+              {t("Small steps that keep the problem clear and help stop it moving.")}
             </p>
-            <SendList text={list} tone="leaf" />
+            <SendList text={t(list)} tone="leaf" />
           </div>
           <ol>
             {waitSteps.map((item, index) => (
@@ -88,7 +89,7 @@ export function PhotoGuide() {
                 >
                   {index + 1}
                 </span>
-                <span className="pt-0.5 text-lg leading-snug">{item}</span>
+                <span className="pt-0.5 text-lg leading-snug">{t(item)}</span>
               </li>
             ))}
           </ol>

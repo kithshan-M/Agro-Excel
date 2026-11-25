@@ -1,3 +1,6 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 /** Pick one option from a row of buttons. */
 export function Choices({
   legend,
@@ -12,9 +15,10 @@ export function Choices({
   value: string;
   onChange: (value: string) => void;
 }) {
+  const t = useT();
   return (
     <fieldset>
-      <legend className="font-semibold">{legend}</legend>
+      <legend className="font-semibold">{t(legend)}</legend>
       <div className="mt-2 flex flex-wrap gap-2.5">
         {options.map((option) => (
           <label
@@ -29,7 +33,7 @@ export function Choices({
               onChange={() => onChange(option)}
               className="sr-only"
             />
-            {option}
+            {t(option)}
           </label>
         ))}
       </div>

@@ -23,5 +23,6 @@ export function setProjectFilter({ kind, district }: ProjectFilter) {
   if (kind) params.set("kind", short(kind));
   if (district) params.set("district", short(district));
   const query = params.toString();
-  window.history.replaceState(null, "", query ? `/projects?${query}` : "/projects");
+  const path = window.location.pathname;
+  window.history.replaceState(null, "", query ? `${path}?${query}` : path);
 }

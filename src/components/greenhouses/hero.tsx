@@ -1,3 +1,6 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
@@ -13,23 +16,24 @@ const icons = [
 ];
 
 export function GreenhouseHero({ service }: { service: Service }) {
+  const t = useT();
   return (
     <section className="overflow-hidden bg-leaf-dark text-white">
       <Container className="grid items-center gap-6 pt-14 lg:grid-cols-[1fr_1.15fr] lg:pt-10">
         <div>
           <h1 className="enter text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-            {service.title}
+            {t(service.title)}
           </h1>
           <p
             className="enter mt-5 max-w-md text-xl leading-relaxed text-white/85"
             style={step(1)}
           >
-            {service.summary}
+            {t(service.summary)}
           </p>
           <div className="enter mt-8 flex flex-wrap gap-3" style={step(2)}>
-            <ButtonLink href="#types">Find your type</ButtonLink>
+            <ButtonLink href="#types">{t("Find your type")}</ButtonLink>
             <ButtonLink href="#size" variant="outline">
-              Plan a size
+              {t("Plan a size")}
             </ButtonLink>
           </div>
         </div>
@@ -66,8 +70,8 @@ export function GreenhouseHero({ service }: { service: Service }) {
                   <path d={icons[index]} />
                 </svg>
                 <div>
-                  <h2 className="text-lg font-semibold">{benefit.title}</h2>
-                  <p className="mt-1 leading-relaxed text-white/75">{benefit.text}</p>
+                  <h2 className="text-lg font-semibold">{t(benefit.title)}</h2>
+                  <p className="mt-1 leading-relaxed text-white/75">{t(benefit.text)}</p>
                 </div>
               </div>
             </div>

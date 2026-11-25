@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { districts, type District } from "@/data/projects";
 import { noFilter, setProjectFilter, useProjectFilter, type ProjectFilter } from "@/lib/project-filter";
 import { showProjectList } from "./project-list";
@@ -46,6 +47,7 @@ export function DistrictMap({
   counts: Counts;
   filter?: ProjectFilter;
 }) {
+  const t = useT();
   const worked = Object.keys(counts).length;
   const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
 
@@ -53,11 +55,10 @@ export function DistrictMap({
     <div role="group" aria-labelledby="district-map">
       <div className="flex items-baseline justify-between gap-4">
         <h2 id="district-map" className="text-lg font-semibold">
-          Find work near you
+          {t("Find work near you")}
         </h2>
         <p className="text-sm text-white/80">
-          {total} {total === 1 ? "project" : "projects"} in {worked}{" "}
-          {worked === 1 ? "district" : "districts"}
+          {t("Projects: {total}. Districts: {districts}.", { total, districts: worked })}
         </p>
       </div>
       <div className="mt-3 grid grid-cols-4 gap-1">
@@ -70,7 +71,7 @@ export function DistrictMap({
               key={name}
               type="button"
               aria-pressed={chosen}
-              aria-label={`${name}, ${count} ${count === 1 ? "project" : "projects"}`}
+              aria-label={t(count === 1 ? "{name}, {count} project" : "{name}, {count} projects", { name: t(name), count })}
               // Keyboard users can reach every district in the list further down.
               tabIndex={count > 0 || chosen ? 0 : -1}
               onClick={() => {
@@ -86,7 +87,7 @@ export function DistrictMap({
                     : "bg-white/10 text-white/85 hover:bg-white/20"
               }`}
             >
-              {name}
+              {t(name)}
               {count > 1 && (
                 <span
                   aria-hidden="true"

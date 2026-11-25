@@ -1,5 +1,6 @@
 "use client";
 
+import { useLang, useT } from "@/i18n/context";
 import Image from "next/image";
 import { Reveal } from "@/components/ui/reveal";
 import { seedImage, seedKinds, type Seed } from "@/data/seeds";
@@ -23,6 +24,8 @@ export function SeedCard({
   /** Makes the picture and name open the details. */
   onOpen?: () => void;
 }) {
+  const t = useT();
+  const lang = useLang();
   const count = useSeedList()[seed.slug] ?? 0;
   const kind = seedKinds.find((item) => item.name === seed.kind) ?? seedKinds[0];
 
@@ -39,7 +42,7 @@ export function SeedCard({
         <div
           className={`flex items-center px-3 text-sm font-semibold text-white ${grouped ? "min-h-4" : "min-h-9 pt-1"} ${kind.band} bg-[repeating-linear-gradient(90deg,rgb(255_255_255/0.16)_0_2px,transparent_2px_9px)] bg-[length:100%_7px] bg-no-repeat`}
         >
-          {!grouped && seed.kind}
+          {!grouped && t(seed.kind)}
         </div>
         <div className={`overflow-hidden ${kind.tile}`}>
           <Image
@@ -61,16 +64,16 @@ export function SeedCard({
                 onClick={onOpen}
                 className="cursor-pointer text-left transition-colors after:absolute after:inset-0 group-hover:text-leaf"
               >
-                {seed.name}
+                {t(seed.name)}
               </button>
             ) : (
-              seed.name
+              t(seed.name)
             )}
           </h3>
-          {seed.localName && <p className="text-muted">{seed.localName}</p>}
+          {seed.localName && lang === "en" && <p className="text-muted">{seed.localName}</p>}
           <p className="mt-1.5 mb-3.5 text-sm leading-snug text-muted">
-            {seed.area}
-            {seed.greenhouse && ", greenhouse"}
+            {t(seed.area)}
+            {seed.greenhouse && t(", greenhouse")}
           </p>
           <div className="relative mt-auto">
             <AddOrCount slug={seed.slug} name={seed.name} count={count} />

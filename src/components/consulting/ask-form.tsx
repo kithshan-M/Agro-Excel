@@ -1,5 +1,6 @@
 "use client";
 
+import { useLang, useT } from "@/i18n/context";
 import { useId, useState } from "react";
 import { FormPart } from "@/components/sections/form-part";
 import { MessagePanel, useMessage } from "@/components/sections/message-panel";
@@ -21,6 +22,9 @@ import { useConsult } from "./consult-context";
 
 /** Builds a WhatsApp message from the answers. Nothing is stored or sent by this site. */
 export function AskForm() {
+  const t = useT();
+  const lang = useLang();
+  const low = (text: string) => t(text).toLowerCase();
   const {
     help,
     setHelp,
@@ -54,24 +58,24 @@ export function AskForm() {
     .filter((part) => signs[part.name]?.length)
     .map(
       (part) =>
-        `- ${part.name}: ${signs[part.name].map((sign) => sign.toLowerCase()).join(", ")}`,
+        `- ${t(part.name)}: ${signs[part.name].map(low).join(", ")}`,
     );
   const asked = cropStages
     .filter((item) => topics[item.name]?.length)
     .map(
-      (item) => `- ${item.name}: ${topics[item.name].map((topic) => topic.toLowerCase()).join(", ")}`,
+      (item) => `- ${t(item.name)}: ${topics[item.name].map(low).join(", ")}`,
     );
   const taken = photoGuide.filter((photo) => photos.includes(photo.title));
   const message = useMessage(
     [
-      `Hello ${siteConfig.name}, I would like advice about my crop.`,
-      ...details.map(([label, value]) => `${label}: ${value}`),
-      ...(asked.length ? ["I want to ask about:", ...asked] : []),
-      ...(isProblem && seen.length ? ["What I see:", ...seen] : []),
+      t("Hello {name}, I would like advice about my crop.", { name: siteConfig.name }),
+      ...details.map(([label, value]) => `${t(label)}: ${t(value)}`),
+      ...(asked.length ? [t("I want to ask about:"), ...asked] : []),
+      ...(isProblem && seen.length ? [t("What I see:"), ...seen] : []),
       ...(taken.length
-        ? [`Photos I will send: ${taken.map((photo) => photo.title.toLowerCase()).join(", ")}`]
+        ? [t("Photos I will send: {photos}", { photos: taken.map((photo) => low(photo.title)).join(", ") })]
         : []),
-      ...(notes.trim() ? [`Notes: ${notes.trim()}`] : []),
+      ...(notes.trim() ? [`${t("Notes")}: ${notes.trim()}`] : []),
     ].join("\n"),
   );
 
@@ -79,8 +83,8 @@ export function AskForm() {
     <section id="ask" className="scroll-mt-13 bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="Ask for advice"
-          text="Fill in what you know and skip the rest. We turn your answers into a message for you to send."
+          title={t("Ask for advice")}
+          text={t("Fill in what you know and skip the rest. We turn your answers into a message for you to send.")}
         />
         <Reveal className="reveal-up mt-10">
           <form
@@ -88,9 +92,9 @@ export function AskForm() {
             className="grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid content-start gap-7 p-5 sm:p-9">
-              <FormPart number={1} title="Your question" />
+              <FormPart number={1} title={t("Your question")} />
               <Choices
-                legend="What do you need help with?"
+                legend={t("What do you need help with?")}
                 name={`${id}-help`}
                 options={helpTypes}
                 value={help}
@@ -100,27 +104,29 @@ export function AskForm() {
                 <div className="grid gap-5 rounded-md bg-film p-4 sm:p-5">
                   <p>
                     {seen.length > 0
-                      ? `You ticked signs on: ${plantParts
-                          .filter((part) => signs[part.name]?.length)
-                          .map((part) => part.name.toLowerCase())
-                          .join(", ")}. `
-                      : "You can tick what you see on the plant. "}
+                      ? t("You ticked signs on: {parts}.", {
+                          parts: plantParts
+                            .filter((part) => signs[part.name]?.length)
+                            .map((part) => low(part.name))
+                            .join(", "),
+                        })
+                      : t("You can tick what you see on the plant.")}{" "}
                     <a
                       href="#problem"
                       className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
                     >
-                      {seen.length > 0 ? "Change signs" : "Choose signs"}
+                      {seen.length > 0 ? t("Change signs") : t("Choose signs")}
                     </a>
                   </p>
                   <Choices
-                    legend="When did it start?"
+                    legend={t("When did it start?")}
                     name={`${id}-age`}
                     options={problemAge}
                     value={age}
                     onChange={setAge}
                   />
                   <Choices
-                    legend="How many plants look like this?"
+                    legend={t("How many plants look like this?")}
                     name={`${id}-spread`}
                     options={problemSpread}
                     value={spread}
@@ -130,46 +136,49 @@ export function AskForm() {
               )}
               <p className="rounded-md bg-film p-4 sm:p-5">
                 {asked.length > 0
-                  ? "Your ticked questions are in the message. "
-                  : "You can tick questions for each stage of the crop. "}
+                  ? t("Your ticked questions are in the message.")
+                  : t("You can tick questions for each stage of the crop.")}{" "}
                 <a
                   href="#stages"
                   className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
                 >
-                  {asked.length > 0 ? "Change questions" : "Choose questions"}
+                  {asked.length > 0 ? t("Change questions") : t("Choose questions")}
                 </a>
               </p>
-              <FormPart number={2} title="Your crop" />
+              <FormPart number={2} title={t("Your crop")} />
               <div className="grid gap-7 sm:grid-cols-2 sm:gap-5">
                 <div>
                   <label htmlFor={`${id}-crop`} className="font-semibold">
-                    Crop
+                    {t("Crop")}
                   </label>
                   <input
                     id={`${id}-crop`}
                     list={`${id}-crops`}
                     autoComplete="off"
-                    placeholder="Tomato, brinjal"
-                    value={crop}
-                    onChange={(event) => setCrop(event.target.value)}
+                    placeholder={t("Tomato, brinjal")}
+                    value={t(crop)}
+                    onChange={(event) => {
+                      const { value } = event.target;
+                      setCrop(seeds.find((seed) => t(seed.name) === value)?.name ?? value);
+                    }}
                     className={fieldClass}
                   />
                   <datalist id={`${id}-crops`}>
                     {seeds.map((seed) => (
-                      <option key={seed.slug} value={seed.name}>
-                        {seed.localName}
+                      <option key={seed.slug} value={t(seed.name)}>
+                        {lang === "en" ? seed.localName : null}
                       </option>
                     ))}
                   </datalist>
                 </div>
                 <div>
                   <label htmlFor={`${id}-location`} className="font-semibold">
-                    Where is your land?
+                    {t("Where is your land?")}
                   </label>
                   <input
                     id={`${id}-location`}
                     autoComplete="address-level2"
-                    placeholder="Village, town or district"
+                    placeholder={t("Village, town or district")}
                     value={location}
                     onChange={(event) => setLocation(event.target.value)}
                     className={fieldClass}
@@ -177,14 +186,14 @@ export function AskForm() {
                 </div>
               </div>
               <Choices
-                legend="What stage is it at?"
+                legend={t("What stage is it at?")}
                 name={`${id}-stage`}
                 options={cropStages.map((item) => item.name)}
                 value={stage}
                 onChange={setStage}
               />
               <Choices
-                legend="Where do you grow it?"
+                legend={t("Where do you grow it?")}
                 name={`${id}-place`}
                 options={growingPlaces}
                 value={place}
@@ -192,7 +201,7 @@ export function AskForm() {
               />
               <div>
                 <label htmlFor={`${id}-notes`} className="font-semibold">
-                  Anything else we should know?
+                  {t("Anything else we should know?")}
                 </label>
                 <textarea
                   id={`${id}-notes`}

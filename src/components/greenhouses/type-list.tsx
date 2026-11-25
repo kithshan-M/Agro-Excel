@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { useState } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -10,15 +11,18 @@ import { useQuote } from "./quote-context";
 import { TypeTable } from "./type-table";
 
 type GreenhouseType = (typeof greenhouseTypes)[number];
-/** "a", "a or b", "a, b or c" */
-const either = (names: string[]) =>
-  names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} or ${names.at(-1)}`;
 const crops = [...new Set(greenhouseTypes.flatMap((type) => type.crops))];
 /** Choosing one of these takes back the other. */
 const sizes = ["Small plot", "Large area"];
 
 /** Choose a crop and what matters, and see how many wishes each type meets. */
 export function TypeList() {
+  const t = useT();
+  /** "a", "a or b", "a, b or c" */
+  const either = (names: string[]) =>
+    names.length < 2
+      ? names.join("")
+      : t("{names} or {last}", { names: names.slice(0, -1).join(", "), last: names.at(-1) ?? "" });
   const { setType, crop, setCrop } = useQuote();
   const [growing, setGrowing] = useState("");
   const [goals, setGoals] = useState<string[]>([]);
@@ -63,19 +67,30 @@ export function TypeList() {
     <section id="types" className="scroll-mt-13 py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="Which greenhouse suits you?"
-          text="Choose a crop and everything that matters to you. We show how many of your wishes each type meets."
+          title={t("Which greenhouse suits you?")}
+          text={t("Choose a crop and everything that matters to you. We show how many of your wishes each type meets.")}
         />
         <div className="mt-7 grid grid-cols-1 gap-4">
-          <ChipRow title="I want to grow" items={crops} chosen={[growing]} onChoose={chooseCrop} />
-          <ChipRow title="What matters" items={greenhouseGoals} chosen={goals} onChoose={chooseGoal} />
+          <ChipRow title={t("I want to grow")} items={crops} chosen={[growing]} onChoose={chooseCrop} />
+          <ChipRow title={t("What matters")} items={greenhouseGoals} chosen={goals} onChoose={chooseGoal} />
         </div>
         <div className="mt-3 mb-4 flex min-h-11 flex-wrap items-center gap-x-4">
           <p role="status" className="font-medium">
             {all.length > 0 &&
               (winners.length === 0
-                ? "None of these types meets that. Ask us and we will suggest one."
-                : `Best match: ${either(winners.map((type) => type.name.toLowerCase()))}, ${best === all.length ? `meets ${all.length === 1 ? "your wish" : `all ${all.length} wishes`}` : `meets ${best} of ${all.length} wishes`}.`)}
+                ? t("None of these types meets that. Ask us and we will suggest one.")
+                : t(
+                    best < all.length
+                      ? "Best match: {names}, meets {best} of {total} wishes."
+                      : all.length === 1
+                        ? "Best match: {names}, meets your wish."
+                        : "Best match: {names}, meets all {total} wishes.",
+                    {
+                      names: either(winners.map((type) => t(type.name).toLowerCase())),
+                      best,
+                      total: all.length,
+                    },
+                  ))}
           </p>
           {all.length > 0 && (
             <button
@@ -86,13 +101,13 @@ export function TypeList() {
               }}
               className="min-h-11 cursor-pointer font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
             >
-              Clear
+              {t("Clear")}
             </button>
           )}
         </div>
         <TypeTabs
           id="greenhouse"
-          label="Greenhouse types"
+          label={t("Greenhouse types")}
           tone="leaf"
           active={active}
           onChange={setActive}
@@ -107,7 +122,7 @@ export function TypeList() {
                 ? undefined
                 : winners.includes(type)
                   ? "Best match"
-                  : `${score(type)} of ${all.length}`,
+                  : t("{count} of {total}", { count: score(type), total: all.length }),
           }))}
         >
           {greenhouseTypes.map((type) => (
@@ -122,11 +137,11 @@ export function TypeList() {
               />
               <div className="grid gap-x-10 gap-y-6 p-5 sm:p-8 xl:grid-cols-[1fr_1.1fr]">
                 <div>
-                  <h3 className="text-2xl font-semibold sm:text-3xl">{type.name}</h3>
-                  <p className="mt-2 text-lg leading-relaxed text-muted">{type.text}</p>
+                  <h3 className="text-2xl font-semibold sm:text-3xl">{t(type.name)}</h3>
+                  <p className="mt-2 text-lg leading-relaxed text-muted">{t(type.text)}</p>
                   <p className="mt-4">
-                    <span className="font-semibold">Often used for:</span>{" "}
-                    {type.crops.join(", ").toLowerCase()}
+                    <span className="font-semibold">{t("Often used for:")}</span>{" "}
+                    {type.crops.map((item) => t(item)).join(", ").toLowerCase()}
                   </p>
                   {all.length > 0 && (
                     <ul className="mt-5 flex flex-wrap gap-2">
@@ -140,8 +155,8 @@ export function TypeList() {
                             <svg viewBox="0 0 20 20" aria-hidden="true" className="size-4 shrink-0 fill-none stroke-current stroke-[2.5]">
                               <path d={met ? "m3 10.5 4.5 4.5L17 5" : "m5 5 10 10M15 5 5 15"} />
                             </svg>
-                            <span className="sr-only">{met ? "Meets: " : "Does not meet: "}</span>
-                            {wish.label}
+                            <span className="sr-only">{met ? t("Meets: ") : t("Does not meet: ")}</span>
+                            {t(wish.label)}
                           </li>
                         );
                       })}
@@ -155,18 +170,18 @@ export function TypeList() {
                     ["Air movement", type.air],
                   ].map(([label, value]) => (
                     <div key={label} className="grid grid-cols-[9.5rem_1fr] gap-3 border-t border-line py-3">
-                      <dt className="text-muted">{label}</dt>
-                      <dd className="font-medium">{value}</dd>
+                      <dt className="text-muted">{t(label)}</dt>
+                      <dd className="font-medium">{t(value)}</dd>
                     </div>
                   ))}
                 </dl>
                 <a
                   href="#quotation"
                   onClick={() => setType(type.name)}
-                  aria-label={`Choose this type: ${type.name}`}
+                  aria-label={t("Choose this type: {name}", { name: t(type.name) })}
                   className="inline-flex min-h-12 items-center justify-center rounded-md bg-leaf px-6 font-semibold text-white transition-colors hover:bg-leaf-dark sm:justify-self-start"
                 >
-                  Choose this type
+                  {t("Choose this type")}
                 </a>
               </div>
             </div>

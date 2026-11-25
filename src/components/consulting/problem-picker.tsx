@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { useId, useState } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -13,6 +14,7 @@ import { useConsult } from "./consult-context";
 
 /** Choose a part of the plant, then the signs. They go into the form below. */
 export function ProblemPicker() {
+  const t = useT();
   const { crop, signs, toggleSign, spread, setSpread } = useConsult();
   const [active, setActive] = useState(0);
   const id = useId();
@@ -23,15 +25,15 @@ export function ProblemPicker() {
     <section id="problem" className="scroll-mt-13 py-16 md:py-24">
       <Container>
         <SectionHeading
-          title={crop ? `Describe a problem with your ${crop.toLowerCase()}` : "Describe a problem"}
-          text="Choose the part of the plant that looks wrong, then the pictures closest to what you see. The plants shown are examples."
+          title={crop ? t("Describe a problem with your {crop}", { crop: t(crop).toLowerCase() }) : t("Describe a problem")}
+          text={t("Choose the part of the plant that looks wrong, then the pictures closest to what you see. The plants shown are examples.")}
         />
         <div className="mt-9 grid items-stretch overflow-hidden rounded-lg border border-line bg-white lg:grid-cols-[1fr_1.12fr]">
           <div className="flex flex-col lg:border-r lg:border-line">
             <Reveal className="relative overflow-hidden bg-[#dcebf0]">
               <Image
                 src="/images/consulting/plant.svg"
-                alt="Tomato plant with leaves, flowers, fruit, stem and roots."
+                alt={t("Tomato plant with leaves, flowers, fruit, stem and roots.")}
                 width={720}
                 height={680}
                 unoptimized
@@ -61,13 +63,13 @@ export function ProblemPicker() {
                       onClick={() => setActive(index)}
                       className={`relative flex min-h-11 cursor-pointer items-center gap-2 rounded-md px-3 text-sm font-semibold whitespace-nowrap transition duration-200 active:scale-95 motion-reduce:transition-none sm:px-4 sm:text-base ${active === index ? "bg-sun text-ink ring-3 ring-white" : "bg-ink text-white hover:bg-leaf"}`}
                     >
-                      {item.name}
+                      {t(item.name)}
                       {count(item.name) > 0 && (
                         <span
                           className={`flex size-5 items-center justify-center rounded-full text-xs ${active === index ? "bg-ink text-white" : "bg-sun text-ink"}`}
                         >
                           {count(item.name)}
-                          <span className="sr-only"> ticked</span>
+                          <span className="sr-only"> {t("ticked")}</span>
                         </span>
                       )}
                     </button>
@@ -76,14 +78,14 @@ export function ProblemPicker() {
               ))}
             </Reveal>
             <p className="flex flex-1 items-center border-t border-line px-5 py-4 text-muted sm:px-8">
-              This page does not name a disease. We look at your photos and details first.
+              {t("This page does not name a disease. We look at your photos and details first.")}
             </p>
           </div>
 
           <div className="flex flex-col border-t border-line p-5 sm:p-8 lg:border-t-0">
             <fieldset aria-live="polite">
               <legend className="font-display text-2xl font-bold">
-                {part.name}: what do you see?
+                {t("{part}: what do you see?", { part: t(part.name) })}
               </legend>
               <div className="mt-4 grid grid-cols-2 gap-2.5 min-[360px]:grid-cols-3 lg:min-h-74 lg:content-start">
                 {part.signs.map((sign) => (
@@ -113,7 +115,7 @@ export function ProblemPicker() {
                       </svg>
                     </span>
                     <span className="flex min-h-11 flex-1 items-center px-2 py-1.5 text-sm leading-tight font-medium sm:px-2.5 sm:text-[0.9375rem] peer-checked:bg-leaf peer-checked:text-white">
-                      {sign.name}
+                      {t(sign.name)}
                     </span>
                   </label>
                 ))}
@@ -121,7 +123,7 @@ export function ProblemPicker() {
             </fieldset>
             <div className="mt-6 border-t border-line pt-5 lg:pb-7">
               <Choices
-                legend="How many plants look like this?"
+                legend={t("How many plants look like this?")}
                 name={`${id}-spread`}
                 options={problemSpread}
                 value={spread}

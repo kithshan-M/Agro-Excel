@@ -13,8 +13,8 @@
   --color-sun: #f6b92b;
   --color-water: #12506b;
 
-  --font-sans: var(--font-figtree), system-ui, sans-serif;
-  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-sans: var(--font-figtree), var(--font-sinhala, system-ui), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-sinhala, system-ui), system-ui, sans-serif;
 }
 
 @layer base {
@@ -33,6 +33,20 @@
   h3 {
     font-family: var(--font-display);
     text-wrap: balance;
+  }
+
+  /* Sinhala letters are taller, and spreading or squeezing them breaks joined letters. */
+  :lang(si) {
+    letter-spacing: normal !important;
+  }
+
+  :lang(si) :is(h1, h2, h3, legend, summary, button, a, label) {
+    line-height: 1.4 !important;
+  }
+
+  /* Room for a second line in buttons. */
+  :lang(si) :is(a, button, label)[class*="min-h-1"][class*="px-"] {
+    padding-block: 0.375rem;
   }
 
   /* Two-tone ring stays visible on both light and dark sections. */

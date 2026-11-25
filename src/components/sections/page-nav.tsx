@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/container";
 
@@ -7,6 +8,7 @@ type Link = { id: string; label: string };
 
 /** Stays at the top of the screen and marks the section being read. */
 export function PageNav({ links, action }: { links: Link[]; action: Link }) {
+  const t = useT();
   const [active, setActive] = useState("");
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export function PageNav({ links, action }: { links: Link[]; action: Link }) {
 
   return (
     <nav
-      aria-label="On this page"
+      aria-label={t("On this page")}
       className="sticky top-[var(--header-offset,0px)] z-[5] border-b border-line bg-paper transition-[top] duration-300 motion-reduce:transition-none"
     >
       <Container className="flex items-center justify-between">
@@ -43,7 +45,7 @@ export function PageNav({ links, action }: { links: Link[]; action: Link }) {
                   aria-current={current ? "location" : undefined}
                   className={`relative flex min-h-13 items-center font-medium whitespace-nowrap transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:bg-leaf after:transition-transform after:duration-300 motion-reduce:after:transition-none hover:text-leaf ${current ? "text-leaf after:scale-x-100" : "text-muted after:scale-x-0"}`}
                 >
-                  {label}
+                  {t(label)}
                 </a>
               </li>
             );
@@ -53,7 +55,7 @@ export function PageNav({ links, action }: { links: Link[]; action: Link }) {
           href={`#${action.id}`}
           className="hidden min-h-9 items-center rounded-md bg-leaf px-4 font-semibold text-white transition-colors hover:bg-leaf-dark md:flex"
         >
-          {action.label}
+          {t(action.label)}
         </a>
       </Container>
     </nav>

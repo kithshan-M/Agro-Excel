@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { useId, useState } from "react";
 import { FormPart } from "@/components/sections/form-part";
 import { MessagePanel, useMessage } from "@/components/sections/message-panel";
@@ -18,6 +19,8 @@ const crops = [
 
 /** Builds a WhatsApp message from the answers. Nothing is stored or sent by this site. */
 export function QuoteForm() {
+  const t = useT();
+  const low = (text: string) => t(text).toLowerCase();
   const { type, setType, crop, setCrop, size, setSize, wishes } = useQuote();
   const { length, width, unit } = size;
   const [location, setLocation] = useState("");
@@ -27,38 +30,38 @@ export function QuoteForm() {
 
   const plot =
     length && width
-      ? `${length} x ${width} ${unit}`
+      ? `${length} x ${width} ${t(unit)}`
       : length
-        ? `${length} ${unit} long`
+        ? t("{length} {unit} long", { length, unit: t(unit) })
         : width
-          ? `${width} ${unit} wide`
+          ? t("{width} {unit} wide", { width, unit: t(unit) })
           : "";
   const details = [
     ["Type", type],
     ["Crop", crop.trim()],
     ["Size", plot],
     ["Location", location.trim()],
-    ["Water", water],
+    ["Water source", water],
   ].filter(([, value]) => value);
   const wished = greenhouseParts.filter((part) => wishes[part.name]?.length);
   const message = useMessage([
-    `Hello ${siteConfig.name}, I would like a quotation for a greenhouse.`,
-    ...details.map(([label, value]) => `${label}: ${value}`),
+    t("Hello {name}, I would like a quotation for a greenhouse.", { name: siteConfig.name }),
+    ...details.map(([label, value]) => `${t(label)}: ${t(value)}`),
     ...(wished.length
       ? [
-          "What I would like:",
-          ...wished.map((part) => `- ${part.name}: ${wishes[part.name].join(", ").toLowerCase()}`),
+          t("What I would like:"),
+          ...wished.map((part) => `- ${t(part.name)}: ${wishes[part.name].map(low).join(", ")}`),
         ]
       : []),
-    ...(notes.trim() ? [`Notes: ${notes.trim()}`] : []),
+    ...(notes.trim() ? [`${t("Notes")}: ${notes.trim()}`] : []),
   ].join("\n"));
 
   return (
     <section id="quotation" className="scroll-mt-13 bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="Ask for a quotation"
-          text="Fill in what you know and skip the rest. We turn your answers into a message for you to send."
+          title={t("Ask for a quotation")}
+          text={t("Fill in what you know and skip the rest. We turn your answers into a message for you to send.")}
         />
         <Reveal className="reveal-up mt-10">
           <form
@@ -66,9 +69,9 @@ export function QuoteForm() {
             className="grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid content-start gap-7 p-5 sm:p-9">
-              <FormPart number={1} title="The greenhouse" />
+              <FormPart number={1} title={t("The greenhouse")} />
               <Choices
-                legend="Greenhouse type"
+                legend={t("Greenhouse type")}
                 name={`${id}-type`}
                 options={[...greenhouseTypes.map((item) => item.name), NOT_SURE]}
                 value={type}
@@ -76,36 +79,39 @@ export function QuoteForm() {
               />
               <div>
                 <label htmlFor={`${id}-crop`} className="font-semibold">
-                  What do you want to grow?
+                  {t("What do you want to grow?")}
                 </label>
                 <input
                   id={`${id}-crop`}
                   list={`${id}-crops`}
                   autoComplete="off"
-                  value={crop}
-                  onChange={(event) => setCrop(event.target.value)}
+                  value={t(crop)}
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    setCrop(crops.find((item) => t(item) === value) ?? value);
+                  }}
                   className={fieldClass}
                 />
                 <datalist id={`${id}-crops`}>
                   {crops.map((item) => (
-                    <option key={item} value={item} />
+                    <option key={item} value={t(item)} />
                   ))}
                 </datalist>
               </div>
               <fieldset>
-                <legend className="font-semibold">Size</legend>
+                <legend className="font-semibold">{t("Size")}</legend>
                 <p className="text-muted">
-                  Of the greenhouse, or of the land you have.{" "}
+                  {t("Of the greenhouse, or of the land you have.")}{" "}
                   <a
                     href="#size"
                     className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
                   >
-                    Plan a size
+                    {t("Plan a size")}
                   </a>
                 </p>
                 <div className="grid grid-cols-3 gap-3">
                   <label className="mt-2 text-muted">
-                    Length
+                    {t("Length")}
                     <input
                       type="number"
                       min="0"
@@ -117,7 +123,7 @@ export function QuoteForm() {
                     />
                   </label>
                   <label className="mt-2 text-muted">
-                    Width
+                    {t("Width")}
                     <input
                       type="number"
                       min="0"
@@ -129,7 +135,7 @@ export function QuoteForm() {
                     />
                   </label>
                   <label className="mt-2 text-muted">
-                    Unit
+                    {t("Unit")}
                     <select
                       value={unit}
                       onChange={(event) =>
@@ -137,39 +143,43 @@ export function QuoteForm() {
                       }
                       className={fieldClass}
                     >
-                      <option>feet</option>
-                      <option>metres</option>
+                      <option>{t("feet")}</option>
+                      <option>{t("metres")}</option>
                     </select>
                   </label>
                 </div>
               </fieldset>
               <p className="rounded-md bg-film p-4 sm:p-5">
                 {wished.length > 0
-                  ? `Your wishes: ${wished.map((part) => `${part.name.toLowerCase()} (${wishes[part.name].join(", ").toLowerCase()})`).join(", ")}. `
-                  : "You can also choose the cover, watering and more on the picture. "}
+                  ? t("Your wishes: {wishes}.", {
+                      wishes: wished
+                        .map((part) => `${low(part.name)} (${wishes[part.name].map(low).join(", ")})`)
+                        .join(", "),
+                    })
+                  : t("You can also choose the cover, watering and more on the picture.")}{" "}
                 <a
                   href="#parts"
                   className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
                 >
-                  {wished.length > 0 ? "Change wishes" : "Choose parts"}
+                  {wished.length > 0 ? t("Change wishes") : t("Choose parts")}
                 </a>
               </p>
-              <FormPart number={2} title="Your land" />
+              <FormPart number={2} title={t("Your land")} />
               <div>
                 <label htmlFor={`${id}-location`} className="font-semibold">
-                  Where is your land?
+                  {t("Where is your land?")}
                 </label>
                 <input
                   id={`${id}-location`}
                   autoComplete="address-level2"
-                  placeholder="Village, town or district"
+                  placeholder={t("Village, town or district")}
                   value={location}
                   onChange={(event) => setLocation(event.target.value)}
                   className={fieldClass}
                 />
               </div>
               <Choices
-                legend="Water source"
+                legend={t("Water source")}
                 name={`${id}-water`}
                 options={waterSources}
                 value={water}
@@ -177,7 +187,7 @@ export function QuoteForm() {
               />
               <div>
                 <label htmlFor={`${id}-notes`} className="font-semibold">
-                  Anything else we should know?
+                  {t("Anything else we should know?")}
                 </label>
                 <textarea
                   id={`${id}-notes`}

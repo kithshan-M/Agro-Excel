@@ -1,38 +1,40 @@
 "use client";
 
+import { useLang, usePath, useT, useWhatsapp } from "@/i18n/context";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "@/components/ui/link";
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { serviceNav } from "@/data/navigation";
 import { getService } from "@/data/services";
-import { whatsappLink } from "@/lib/whatsapp";
+import { LanguageSwitch } from "./language-switch";
 import { Logo } from "./logo";
 
 /** Panel for phones and tablets. The dialog element keeps focus inside and closes on Escape. */
 export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
-  const pathname = usePathname();
+  const t = useT();
+  const pathname = usePath();
+  const sinhala = useLang() === "si";
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const { phone } = siteConfig.contact;
-  const whatsapp = whatsappLink();
+  const whatsapp = useWhatsapp()();
 
   const close = () => dialog.current?.close();
 
   useEffect(() => {
     // The panel is only for narrow screens, so close it if the window grows.
-    const wide = window.matchMedia("(min-width: 64rem)");
+    const wide = window.matchMedia(sinhala ? "(min-width: 80rem)" : "(min-width: 64rem)");
     const onChange = () => wide.matches && dialog.current?.close();
     wide.addEventListener("change", onChange);
     return () => wide.removeEventListener("change", onChange);
-  }, []);
+  }, [sinhala]);
 
   const row = (active: boolean) =>
     `flex min-h-13 items-center rounded-md px-3 text-lg font-semibold transition-colors hover:bg-film ${active ? "bg-film text-leaf" : ""}`;
 
   return (
-    <div className="lg:hidden">
+    <div className={sinhala ? "xl:hidden" : "lg:hidden"}>
       <button
         type="button"
         aria-haspopup="dialog"
@@ -43,7 +45,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
         }}
         className="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2 font-semibold"
       >
-        Menu
+        {t("Menu")}
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -55,7 +57,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
 
       <dialog
         ref={dialog}
-        aria-label="Menu"
+        aria-label={t("Menu")}
         onClose={() => setOpen(false)}
         onClick={(event) => event.target === dialog.current && close()}
         className="fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-none w-full max-w-md translate-x-full bg-paper text-ink transition-[translate,display,overlay] duration-300 transition-discrete backdrop:bg-ink/55 open:translate-x-0 motion-reduce:transition-none starting:open:translate-x-full"
@@ -68,7 +70,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
               onClick={close}
               className="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2 font-semibold"
             >
-              Close
+              {t("Close")}
               <svg
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -79,7 +81,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
             </button>
           </div>
 
-          <nav aria-label="Menu" className="px-3 py-4 sm:px-5">
+          <nav aria-label={t("Menu")} className="px-3 py-4 sm:px-5">
             <ul className="space-y-1">
               {serviceNav.map((item) => {
                 const href = `/${item.slug}`;
@@ -106,10 +108,10 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
                         <span
                           className={`block text-lg leading-tight font-semibold ${active ? "text-leaf" : ""}`}
                         >
-                          {item.label}
+                          {t(item.label)}
                         </span>
                         <span className="mt-1 line-clamp-2 text-sm leading-snug text-muted">
-                          {getService(item.slug).summary}
+                          {t(getService(item.slug).summary)}
                         </span>
                       </span>
                     </Link>
@@ -120,24 +122,25 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
             <ul className="mt-3 border-t border-line pt-3">
               <li>
                 <Link href="/" onClick={close} aria-current={pathname === "/" ? "page" : undefined} className={row(pathname === "/")}>
-                  Home
+                  {t("Home")}
                 </Link>
               </li>
               {hasProjects && (
                 <li>
                   <Link href="/projects" onClick={close} aria-current={pathname === "/projects" ? "page" : undefined} className={row(pathname.startsWith("/projects"))}>
-                    Projects
+                    {t("Projects")}
                   </Link>
                 </li>
               )}
               <li>
                 <Link href="/about" onClick={close} aria-current={pathname === "/about" ? "page" : undefined} className={row(pathname === "/about")}>
-                  About
+                  {t("About")}
                 </Link>
               </li>
             </ul>
           </nav>
 
+          <LanguageSwitch className="mx-3 rounded-md px-3 text-lg text-leaf hover:bg-film sm:mx-5" />
           <div className="mt-auto grid gap-3 border-t border-line p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6">
             <Link
               href="/contact"
@@ -145,7 +148,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
               aria-current={pathname === "/contact" ? "page" : undefined}
               className="flex min-h-12 items-center justify-center rounded-md bg-leaf font-semibold text-white transition-colors hover:bg-leaf-dark"
             >
-              Contact us
+              {t("Contact us")}
             </Link>
             {(whatsapp || phone) && (
               <div className="grid grid-flow-col gap-3">
@@ -156,7 +159,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
                     rel="noopener noreferrer"
                     className="flex min-h-12 items-center justify-center rounded-md border border-leaf font-semibold text-leaf"
                   >
-                    WhatsApp
+                    {t("WhatsApp")}
                   </a>
                 )}
                 {phone && (
@@ -164,7 +167,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
                     href={`tel:${phone.replaceAll(" ", "")}`}
                     className="flex min-h-12 items-center justify-center rounded-md border border-leaf font-semibold text-leaf"
                   >
-                    Call
+                    {t("Call")}
                   </a>
                 )}
               </div>

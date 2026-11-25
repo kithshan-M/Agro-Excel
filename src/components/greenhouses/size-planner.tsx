@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { useId, useState } from "react";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -16,6 +17,7 @@ const number = (value: number) => value.toLocaleString("en-LK", { maximumFractio
 
 /** Drag a length and width to see the area and an example layout from above. */
 export function SizePlanner() {
+  const t = useT();
   const { setSize } = useQuote();
   const [unit, setUnit] = useState<Size["unit"]>("feet");
   const [length, setLength] = useState(planner.sizes[1][0]);
@@ -57,17 +59,16 @@ export function SizePlanner() {
     <section id="size" className="scroll-mt-13 bg-leaf-dark py-16 text-white md:py-24">
       <Container>
         <Reveal className="reveal-up max-w-2xl">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Plan a size</h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{t("Plan a size")}</h2>
           <p className="mt-3 text-lg leading-relaxed text-white/85">
-            Drag the sliders to see how much space it gives. This is an example layout, and we
-            measure your land before we suggest one.
+            {t("Drag the sliders to see how much space it gives. This is an example layout, and we measure your land before we suggest one.")}
           </p>
         </Reveal>
         <div className="mt-8 grid overflow-hidden rounded-lg border border-white/20 lg:grid-cols-[1fr_1.6fr] lg:grid-rows-[1fr_auto]">
           <div className="order-2 bg-white p-5 text-ink sm:p-8 lg:order-none lg:row-span-2">
             <div className="flex items-center justify-between gap-4">
               <p className="font-semibold" id={`${id}-unit`}>
-                Measure in
+                {t("Measure in")}
               </p>
               <div role="group" aria-labelledby={`${id}-unit`} className="flex overflow-hidden rounded-md border border-field">
                 {(["feet", "metres"] as const).map((item) => (
@@ -78,7 +79,7 @@ export function SizePlanner() {
                     onClick={() => changeUnit(item)}
                     className="min-h-11 cursor-pointer px-4 font-medium -outline-offset-2 transition-colors hover:bg-film aria-pressed:bg-leaf aria-pressed:text-white"
                   >
-                    {item}
+                    {t(item)}
                   </button>
                 ))}
               </div>
@@ -92,10 +93,10 @@ export function SizePlanner() {
               <div key={label} className="mt-6">
                 <div className="flex items-baseline justify-between">
                   <label htmlFor={`${id}-${label}`} className="font-semibold">
-                    {label}
+                    {t(label)}
                   </label>
                   <output htmlFor={`${id}-${label}`} className="font-display text-xl font-semibold text-leaf">
-                    {value} {unit}
+                    {t(value)} {t(unit)}
                   </output>
                 </div>
                 <input
@@ -105,15 +106,15 @@ export function SizePlanner() {
                   max={max}
                   step={range.step}
                   value={value}
-                  aria-valuetext={`${value} ${unit}`}
+                  aria-valuetext={`${value} ${t(unit)}`}
                   onChange={(event) => set(Number(event.target.value))}
                   className="mt-1 h-11 w-full cursor-pointer accent-leaf"
                 />
               </div>
             ))}
-            <div role="group" aria-label="Sizes to try" className="mt-4">
+            <div role="group" aria-label={t("Sizes to try")} className="mt-4">
               <p aria-hidden="true" className="text-muted">
-                Sizes to try
+                {t("Sizes to try")}
               </p>
               <div className="mt-1.5 flex flex-wrap gap-2.5">
                 {planner.sizes.map(([l, b]) => (
@@ -128,7 +129,7 @@ export function SizePlanner() {
                     }}
                     className="min-h-11 cursor-pointer rounded-md border border-field px-3 font-medium transition-colors hover:border-leaf aria-pressed:border-leaf aria-pressed:bg-film"
                   >
-                    {l} x {b} ft
+                    {l} x {b} {t("ft")}
                   </button>
                 ))}
               </div>
@@ -138,7 +139,7 @@ export function SizePlanner() {
               onClick={() => setSize({ length: String(length), width: String(width), unit })}
               className="mt-7 inline-flex min-h-12 items-center rounded-md bg-leaf px-6 font-semibold text-white transition-colors hover:bg-leaf-dark"
             >
-              Use this size
+              {t("Use this size")}
             </a>
           </div>
 
@@ -146,7 +147,12 @@ export function SizePlanner() {
             <svg
               viewBox="0 0 440 250"
               role="img"
-              aria-label={`Greenhouse from above, ${length} by ${width} ${unit}, with ${beds} ${beds === 1 ? "bed" : "beds"}.`}
+              aria-label={t("Greenhouse from above, {length} by {width} {unit}. Beds: {beds}.", {
+                length,
+                width,
+                unit: t(unit),
+                beds,
+              })}
               className="my-auto max-h-[26rem] w-full"
             >
               <rect x={x} y={y} width={w} height={h} rx="3" fill="#ffffff" fillOpacity="0.1" stroke="#f3f8f4" strokeWidth="2.5" />
@@ -181,10 +187,10 @@ export function SizePlanner() {
               </g>
               <g fill="#ffffff" fontWeight="600" textAnchor="middle" className="text-[15px] lg:text-[12px]">
                 <text x={x + w / 2} y={y + h + 36}>
-                  {length} {unit}
+                  {t(length)} {t(unit)}
                 </text>
                 <text x={x + w + 30} y={y + h / 2} transform={`rotate(90 ${x + w + 30} ${y + h / 2})`} dy="5">
-                  {width} {unit}
+                  {t(width)} {t(unit)}
                 </text>
               </g>
             </svg>
@@ -195,16 +201,16 @@ export function SizePlanner() {
                 ["Square feet", number(area)],
                 ["Square metres", number(area / FEET / FEET)],
                 ["Perches", (area / PERCH).toLocaleString("en-LK", { maximumFractionDigits: 1 })],
-                ["Example beds", `${beds} x ${number(unit === "feet" ? bedLength : bedLength / FEET)} ${unit === "feet" ? "ft" : "m"}`],
+                ["Example beds", `${beds} x ${number(unit === "feet" ? bedLength : bedLength / FEET)} ${t(unit === "feet" ? "ft" : "m")}`],
               ].map(([label, value]) => (
                 <div key={label} className="flex flex-col-reverse justify-end">
-                  <dt className="text-white/80">{label}</dt>
-                  <dd className="font-display text-2xl font-bold text-sun">{value}</dd>
+                  <dt className="text-white/80">{t(label)}</dt>
+                  <dd className="font-display text-2xl font-bold text-sun">{t(value)}</dd>
                 </div>
               ))}
             </dl>
             <p className="mt-4 text-sm text-white/75">
-              Example beds are {bed} feet wide with {path} foot paths. The yellow mark is the door.
+              {t("Example beds are {bed} feet wide with {path} foot paths. The yellow mark is the door.", { bed, path })}
             </p>
           </div>
         </div>

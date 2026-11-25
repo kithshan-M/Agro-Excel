@@ -23,5 +23,6 @@ export function setSeedFilter({ kind, place }: SeedFilter) {
   if (kind) params.set("kind", short(kind));
   if (place) params.set("place", short(place));
   const query = params.toString();
-  window.history.replaceState(null, "", query ? `/seeds?${query}` : "/seeds");
+  const path = window.location.pathname;
+  window.history.replaceState(null, "", query ? `${path}?${query}` : path);
 }

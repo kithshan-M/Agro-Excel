@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/container";
@@ -16,6 +17,7 @@ const most = 5;
  * stops above the footer. Keep it last on the page.
  */
 export function ListBar() {
+  const t = useT();
   const list = useSeedList();
   const chosen = seeds.filter((seed) => list[seed.slug]);
   const count = chosen.length;
@@ -71,11 +73,11 @@ export function ListBar() {
               )}
             </ul>
             <p role="status" className="font-semibold">
-              {count} {count === 1 ? "seed" : "seeds"} in your list
+              {t(count === 1 ? "{count} seed in your list" : "{count} seeds in your list", { count })}
             </p>
           </div>
           <SectionLink href="/seeds#list" className={button}>
-            View list
+            {t("View list")}
           </SectionLink>
         </Container>
       </div>

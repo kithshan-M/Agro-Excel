@@ -1,3 +1,6 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
@@ -5,25 +8,26 @@ import type { Service } from "@/data/services";
 import { step } from "@/lib/motion";
 
 export function SeedsHero({ service }: { service: Service }) {
+  const t = useT();
   return (
     <section className="overflow-hidden bg-sun">
       <Container className="grid items-end gap-4 pt-12 lg:grid-cols-[1fr_1.15fr] lg:pt-6">
         <div className="self-center">
           <h1 className="enter text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-            {service.title}
+            {t(service.title)}
           </h1>
           <p
             className="enter mt-5 max-w-md text-xl leading-relaxed"
             style={step(1)}
           >
-            {service.summary}
+            {t(service.summary)}
           </p>
           <div className="enter mt-8 flex flex-wrap gap-3" style={step(2)}>
             <ButtonLink href="#catalogue" variant="dark">
-              Browse seeds
+              {t("Browse seeds")}
             </ButtonLink>
             <ButtonLink href="#seasons" variant="outline">
-              When to plant
+              {t("When to plant")}
             </ButtonLink>
           </div>
         </div>
@@ -59,8 +63,8 @@ export function SeedsHero({ service }: { service: Service }) {
                   {index + 1}
                 </span>
                 <div>
-                  <h2 className="text-lg font-semibold">{item.title}</h2>
-                  <p className="mt-0.5 leading-relaxed text-white/75">{item.text}</p>
+                  <h2 className="text-lg font-semibold">{t(item.title)}</h2>
+                  <p className="mt-0.5 leading-relaxed text-white/75">{t(item.text)}</p>
                 </div>
               </li>
             ))}

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePath } from "@/i18n/context";
+import { Link } from "./link";
 
 /**
  * Link to a page or to a section of one, such as "/seeds#list". A normal Link to
@@ -16,7 +16,7 @@ export function SectionLink({
   React.ComponentProps<"a">,
   "href" | "children"
 >) {
-  const pathname = usePathname();
+  const pathname = usePath();
   const [path, section] = href.split("#");
 
   return section && path === pathname ? (

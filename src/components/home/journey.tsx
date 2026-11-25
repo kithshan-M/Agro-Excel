@@ -1,5 +1,8 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -7,12 +10,13 @@ import { journey } from "@/data/home";
 import { step } from "@/lib/motion";
 
 export function Journey() {
+  const t = useT();
   return (
     <section className="bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="From empty land to harvest"
-          text="Start at whichever step you are at now."
+          title={t("From empty land to harvest")}
+          text={t("Start at whichever step you are at now.")}
         />
         <Reveal as="ol" className="mt-10 grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-5">
           {journey.map((item, index) => (
@@ -45,8 +49,8 @@ export function Journey() {
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-4 pb-2 lg:p-5 lg:pb-3">
-                  <h3 className="text-xl font-semibold">{item.title}</h3>
-                  <p className="mt-1 mb-2 leading-relaxed text-muted">{item.text}</p>
+                  <h3 className="text-xl font-semibold">{t(item.title)}</h3>
+                  <p className="mt-1 mb-2 leading-relaxed text-muted">{t(item.text)}</p>
                   <ul className="mt-auto">
                     {item.links.map((link) => (
                       <li key={link.href}>
@@ -61,7 +65,7 @@ export function Journey() {
                           >
                             <path d="M3 10h13m-5-5 5 5-5 5" />
                           </svg>
-                          {link.label}
+                          {t(link.label)}
                         </Link>
                       </li>
                     ))}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { useEffect, useState } from "react";
 import { copyText } from "@/lib/copy";
 
@@ -10,6 +11,7 @@ const tones = {
 
 /** Sends a list to any of the visitor's own WhatsApp contacts, or copies it. */
 export function SendList({ text, tone }: { text: string; tone: keyof typeof tones }) {
+  const t = useT();
   const [status, setStatus] = useState("");
 
   useEffect(() => {
@@ -27,22 +29,22 @@ export function SendList({ text, tone }: { text: string; tone: keyof typeof tone
           rel="noopener noreferrer"
           className={`inline-flex min-h-12 items-center rounded-md px-6 font-semibold transition-colors ${tones[tone].main}`}
         >
-          Send by WhatsApp
+          {t("Send by WhatsApp")}
         </a>
         <button
           type="button"
           onClick={async () =>
             setStatus(
-              (await copyText(text)) ? "List copied" : "Copying did not work. Select the text below.",
+              (await copyText(text)) ? t("List copied") : t("Copying did not work. Select the text below."),
             )
           }
           className={`min-h-12 cursor-pointer rounded-md border px-6 font-semibold transition-colors ${tones[tone].other}`}
         >
-          Copy the list
+          {t("Copy the list")}
         </button>
       </div>
       <p role="status" className="min-h-6 pt-1 text-muted lg:text-right">
-        {status}
+        {t(status)}
       </p>
     </div>
   );

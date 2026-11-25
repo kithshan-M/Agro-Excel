@@ -1,6 +1,8 @@
+"use client";
+
+import { useHref, useT, useWhatsapp } from "@/i18n/context";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
-import { whatsappLink } from "@/lib/whatsapp";
 import { SectionHeading } from "./section-heading";
 
 export function QuestionList({
@@ -19,7 +21,9 @@ export function QuestionList({
   /** Used in the WhatsApp message, e.g. "crop consulting". */
   topic?: string;
 }) {
-  const link = whatsappLink(topic);
+  const t = useT();
+  const link = useWhatsapp()(topic);
+  const to = useHref();
   return (
     <section
       id={id}
@@ -27,15 +31,15 @@ export function QuestionList({
     >
       <Container className="grid gap-8 lg:grid-cols-[1fr_1.7fr]">
         <div>
-          <SectionHeading title={title} />
+          <SectionHeading title={t(title)} />
           {contactLink && (
             <p className="mt-3 text-lg text-muted">
-              Something else on your mind?{" "}
+              {t("Something else on your mind?")}{" "}
               <a
-                href={link ?? "/contact"}
+                href={link ?? to("/contact")}
                 className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
               >
-                {link ? "Ask us on WhatsApp" : "Contact us"}
+                {link ? t("Ask us on WhatsApp") : t("Contact us")}
               </a>
             </p>
           )}
@@ -48,7 +52,7 @@ export function QuestionList({
               className="smooth-details group border-b border-line last:border-b-0"
             >
               <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 sm:px-6 text-lg font-semibold [&::-webkit-details-marker]:hidden">
-                {item.question}
+                {t(item.question)}
                 <svg
                   viewBox="0 0 20 20"
                   aria-hidden="true"
@@ -57,7 +61,7 @@ export function QuestionList({
                   <path d="m4 7 6 6 6-6" />
                 </svg>
               </summary>
-              <p className="px-5 pb-6 sm:px-6 leading-relaxed text-muted">{item.answer}</p>
+              <p className="px-5 pb-6 sm:px-6 leading-relaxed text-muted">{t(item.answer)}</p>
             </details>
           ))}
         </Reveal>

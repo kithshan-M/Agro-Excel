@@ -28,7 +28,9 @@ Open http://localhost:3000.
 ```
 public/images/         Photos, one folder per service
 src/
-  app/                 Pages (each folder is a URL)
+  app/                 Addresses: (en) is English, si is Sinhala
+  views/               What each page shows, in both languages
+  i18n/                Languages, with the Sinhala text in i18n/si
   components/
     layout/            Header, navigation, footer
     about/             Sections for the About page
@@ -60,7 +62,8 @@ src/
 - Completed projects: `src/data/projects.ts`, with photos in `public/images/projects`. While the list is empty, `npm run dev` shows samples and the live site hides the page
 - Menu pictures and footer shortcuts: `src/data/navigation.ts`
 - Colours: `src/app/globals.css`
-- Fonts: `src/app/layout.tsx`, and `src/assets/fonts` for link pictures
-- Picture shown when a page is shared: `opengraph-image.tsx` beside each page in `src/app`
+- Fonts: `src/lib/fonts.ts` and `src/lib/fonts-si.ts`, and `src/assets/fonts` for link pictures
+- Picture shown when a page is shared: `src/previews`
 - Details for Google: `src/components/sections/business-details.tsx`
+- Sinhala: `src/i18n/si`, where the left side is the English text. Change English text, then run `npm run check-sinhala` to see what needs translating
 - Live web address: `NEXT_PUBLIC_SITE_URL`, set before building

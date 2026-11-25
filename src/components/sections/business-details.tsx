@@ -21,7 +21,8 @@ export function BusinessDetails() {
         description,
         url: url("/"),
         logo: url("/apple-icon"),
-        image: url("/opengraph-image"),
+        // The English one has a changing code in its address.
+        image: url("/si/opengraph-image"),
         telephone: contact.phone || contact.whatsapp || undefined,
         email: contact.email || undefined,
         address: contact.address

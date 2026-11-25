@@ -1,11 +1,11 @@
 "use client";
 
+import { useHref, useT, useWhatsapp } from "@/i18n/context";
 import { useState } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { seedKinds, seedPlaces, seeds, type Seed } from "@/data/seeds";
 import { noFilter, setSeedFilter, useSeedFilter, type SeedFilter } from "@/lib/seed-filter";
-import { whatsappLink } from "@/lib/whatsapp";
 import { SeedCard } from "./seed-card";
 import { SeedDetails } from "./seed-details";
 
@@ -23,14 +23,17 @@ export function FilteredCatalogue() {
 }
 
 export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
+  const t = useT();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState("");
+  const to = useHref();
+  const whatsappLink = useWhatsapp();
   const { kind, place } = filter;
 
   const words = search.trim().toLowerCase();
   const base = seeds.filter(
     (seed) =>
-      (!words || `${seed.name} ${seed.localName ?? ""}`.toLowerCase().includes(words)) &&
+      (!words || `${seed.name} ${seed.localName ?? ""} ${t(seed.name)}`.toLowerCase().includes(words)) &&
       growsIn(seed, place),
   );
   const shown = base.filter((seed) => !kind || seed.kind === kind);
@@ -65,12 +68,12 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
       <Container>
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
-            title="Find your seeds"
-            text="Search by English or local name, or choose a kind and area."
+            title={t("Find your seeds")}
+            text={t("Search by English or local name, or choose a kind and area.")}
           />
           <div className="relative md:w-80">
             <label htmlFor="seed-search" className="sr-only">
-              Search seeds
+              {t("Search seeds")}
             </label>
             <svg
               viewBox="0 0 20 20"
@@ -83,7 +86,7 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
               id="seed-search"
               type="search"
               autoComplete="off"
-              placeholder="Tomato, karavila"
+              placeholder={t("Tomato, karavila")}
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               className="block min-h-12 w-full rounded-md border border-field bg-white pr-3 pl-11 placeholder:text-muted"
@@ -98,19 +101,19 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
             {/* One sideways-scrolling row on phones. */}
             <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:mx-0 lg:-ml-1 lg:px-1">
               <select
-                aria-label="Where you grow"
+                aria-label={t("Where you grow")}
                 value={place}
                 onChange={(event) => choose({ place: event.target.value as SeedFilter["place"] })}
                 className={`${control} w-36 lg:order-last lg:ml-auto lg:w-44 ${place ? "border-leaf bg-film text-leaf-dark" : off}`}
               >
-                <option value="">All areas</option>
+                <option value="">{t("All areas")}</option>
                 {seedPlaces.map((item) => (
-                  <option key={item}>{item}</option>
+                  <option key={item}>{t(item)}</option>
                 ))}
               </select>
-              <div role="group" aria-label="Kind" className="flex gap-2.5">
+              <div role="group" aria-label={t("Kind")} className="flex gap-2.5">
                 <button type="button" aria-pressed={kind === ""} onClick={() => choose({ kind: "" })} className={`${control} ${kind === "" ? on : off}`}>
-                  All
+                  {t("All")}
                 </button>
                 {seedKinds.map(({ name, band }) => (
                   <button
@@ -121,7 +124,7 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
                     className={`${control} flex items-center gap-2 ${kind === name ? on : off}`}
                   >
                     <span aria-hidden="true" className={`size-3 rounded-full ${kind === name ? "bg-white" : band}`} />
-                    {name}
+                    {t(name)}
                     <span className="opacity-75">
                       ({base.filter((seed) => seed.kind === name).length})
                     </span>
@@ -135,7 +138,7 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
         <Container className="pb-16 md:pb-24">
           <div className="flex min-h-14 flex-wrap items-center gap-x-4 pt-2">
             <p role="status" className="text-muted">
-              Showing {shown.length} of {seeds.length} seeds
+              {t("Showing {count} of {total} seeds", { count: shown.length, total: seeds.length })}
             </p>
             {filtered && (
               <button
@@ -143,7 +146,7 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
                 onClick={clear}
                 className="min-h-11 cursor-pointer font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
               >
-                Clear filters
+                {t("Clear filters")}
               </button>
             )}
           </div>
@@ -158,16 +161,16 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
                         aria-hidden="true"
                         className={`size-4 rounded-full ${seedKinds.find((item) => item.name === group.name)?.band}`}
                       />
-                      {group.name}
+                      {t(group.name)}
                     </h3>
                     {group.seeds.length > 2 && (
                       <button
                         type="button"
-                        aria-label={`See all ${group.seeds.length} seeds: ${group.name}`}
+                        aria-label={t("See all {count} seeds: {kind}", { count: group.seeds.length, kind: t(group.name) })}
                         onClick={() => choose({ kind: group.name as SeedFilter["kind"] })}
                         className="min-h-11 cursor-pointer font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark sm:hidden"
                       >
-                        See all {group.seeds.length}
+                        {t("See all {count}", { count: group.seeds.length })}
                       </button>
                     )}
                   </div>
@@ -187,26 +190,27 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
             ))
           ) : (
             <div className="mt-2 rounded-lg border border-line bg-white p-8 sm:p-12">
-              <p className="font-display text-2xl font-semibold">No seeds match</p>
+              <p className="font-display text-2xl font-semibold">{t("No seeds match")}</p>
               <p className="mt-2 max-w-xl text-lg leading-relaxed text-muted">
-                Try another name or fewer filters. If you need a seed that is not here, ask us for it.
+                {t("Try another name or fewer filters. If you need a seed that is not here, ask us for it.")}
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a
                   href={
-                    whatsappLink(words ? `${search.trim()} seeds` : "a seed that is not on your list") ??
-                    "/contact"
+                    (words
+                      ? whatsappLink("{name} seeds", { name: search.trim() })
+                      : whatsappLink("a seed that is not on your list")) ?? to("/contact")
                   }
                   className="inline-flex min-h-12 items-center rounded-md bg-leaf px-6 font-semibold text-white transition-colors hover:bg-leaf-dark"
                 >
-                  Ask for a seed
+                  {t("Ask for a seed")}
                 </a>
                 <button
                   type="button"
                   onClick={clear}
                   className="min-h-12 cursor-pointer rounded-md border border-leaf px-6 font-semibold text-leaf transition-colors hover:bg-film"
                 >
-                  Clear filters
+                  {t("Clear filters")}
                 </button>
               </div>
             </div>

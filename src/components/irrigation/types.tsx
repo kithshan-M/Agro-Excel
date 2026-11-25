@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { useState } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -20,6 +21,7 @@ const icons = {
 
 /** Pick what you water to see which type suits it, or look through the types. */
 export function IrrigationTypes() {
+  const t = useT();
   const { need, setNeed, setType, crop, setCrop } = useIrrigation();
   const [watering, setWatering] = useState("");
   const [active, setActive] = useState(0);
@@ -37,16 +39,16 @@ export function IrrigationTypes() {
     <section id="irrigation-types" className="scroll-mt-13 bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="Which type suits you?"
-          text="Choose what you water and we show the type that often suits it. Your water and soil matter too, so we check before we suggest one."
+          title={t("Which type suits you?")}
+          text={t("Choose what you water and we show the type that often suits it. Your water and soil matter too, so we check before we suggest one.")}
         />
         <div className="mt-7 mb-8 grid grid-cols-1 gap-4">
-          <ChipRow title="Crops" items={crops} chosen={[watering]} onChoose={choose} />
-          <ChipRow title="Places" items={places} chosen={[watering]} onChoose={choose} />
+          <ChipRow title={t("Crops")} items={crops} chosen={[watering]} onChoose={choose} />
+          <ChipRow title={t("Places")} items={places} chosen={[watering]} onChoose={choose} />
         </div>
         <TypeTabs
           id="irrigation"
-          label="Types of irrigation"
+          label={t("Types of irrigation")}
           tone="water"
           active={active}
           onChange={setActive}
@@ -77,11 +79,11 @@ export function IrrigationTypes() {
               </picture>
               <div className="grid gap-x-10 gap-y-6 p-5 sm:p-8 xl:grid-cols-[1fr_1.1fr]">
                 <div>
-                  <h3 className="text-2xl font-semibold sm:text-3xl">{type.name}</h3>
-                  <p className="mt-2 text-lg leading-relaxed text-muted">{type.text}</p>
+                  <h3 className="text-2xl font-semibold sm:text-3xl">{t(type.name)}</h3>
+                  <p className="mt-2 text-lg leading-relaxed text-muted">{t(type.text)}</p>
                   <p className="mt-4">
-                    <span className="font-semibold">Often suits:</span>{" "}
-                    {suits(type).join(", ").toLowerCase()}
+                    <span className="font-semibold">{t("Often suits:")}</span>{" "}
+                    {suits(type).map((item) => t(item)).join(", ").toLowerCase()}
                   </p>
                 </div>
                 <dl>
@@ -101,22 +103,22 @@ export function IrrigationTypes() {
                         <path d={icons[icon]} />
                       </svg>
                       <div>
-                        <dt className="text-sm text-muted">{title}</dt>
-                        <dd className="font-medium">{text}</dd>
+                        <dt className="text-sm text-muted">{t(title)}</dt>
+                        <dd className="font-medium">{t(text)}</dd>
                       </div>
                     </div>
                   ))}
                 </dl>
                 <a
                   href="#irrigation-ask"
-                  aria-label={`Ask about this type: ${type.name}`}
+                  aria-label={t("Ask about this type: {name}", { name: t(type.name) })}
                   onClick={() => {
                     setType(type.name);
                     if (!need) setNeed(irrigationNeeds.build);
                   }}
                   className="inline-flex min-h-12 items-center justify-center rounded-md bg-leaf px-6 font-semibold text-white transition-colors hover:bg-leaf-dark sm:justify-self-start"
                 >
-                  Ask about this type
+                  {t("Ask about this type")}
                 </a>
               </div>
             </div>

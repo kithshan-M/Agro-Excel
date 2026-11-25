@@ -1,5 +1,8 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -18,26 +21,27 @@ const more =
 
 /** The services, each in the colour of its own page. */
 export function ServicePanels({ id }: { id?: string }) {
+  const t = useT();
   return (
     <section id={id} className="scroll-mt-4 py-16 md:py-24">
       <Container>
-        <SectionHeading title="What we do" />
+        <SectionHeading title={t("What we do")} />
         <ul className="mt-8 grid gap-5 lg:grid-cols-[1.15fr_1fr]">
           <Reveal as="li" className="reveal-up lg:row-span-2">
             <div className="group flex h-full flex-col overflow-hidden rounded-lg bg-leaf-dark text-white">
               <div className="p-6 sm:p-9">
                 <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                  {greenhouses.title}
+                  {t(greenhouses.title)}
                 </h3>
                 <p className="mt-3 max-w-md text-lg leading-relaxed text-white/85">
-                  {greenhouses.summary}
+                  {t(greenhouses.summary)}
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
                   <ButtonLink href="/greenhouses#quotation">
-                    Get a quotation
+                    {t("Get a quotation")}
                   </ButtonLink>
                   <Link href="/greenhouses#types" className={more}>
-                    Find your type
+                    {t("Find your type")}
                   </Link>
                 </div>
               </div>
@@ -58,17 +62,17 @@ export function ServicePanels({ id }: { id?: string }) {
             <div className="group grid h-full overflow-hidden rounded-lg bg-water text-white md:grid-cols-2">
               <div className="p-6 sm:p-9 md:self-center">
                 <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                  {irrigation.title}
+                  {t(irrigation.title)}
                 </h3>
                 <p className="mt-3 max-w-md text-lg leading-relaxed text-white/85">
-                  {irrigation.summary}
+                  {t(irrigation.summary)}
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
                   <ButtonLink href="/irrigation#irrigation-ask">
-                    Get a quotation
+                    {t("Get a quotation")}
                   </ButtonLink>
                   <Link href="/irrigation#irrigation-parts" className={more}>
-                    Find a fault
+                    {t("Find a fault")}
                   </Link>
                 </div>
               </div>
@@ -89,15 +93,15 @@ export function ServicePanels({ id }: { id?: string }) {
             <div className={`${small} bg-sun`}>
               <div className="relative z-1 p-6 sm:w-3/5 sm:p-8">
                 <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                  {seeds.title}
+                  {t(seeds.title)}
                 </h3>
-                <p className="mt-2 leading-relaxed">{seeds.summary}</p>
+                <p className="mt-2 leading-relaxed">{t(seeds.summary)}</p>
                 <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
                   <ButtonLink href="/seeds#catalogue" variant="dark">
-                    Browse seeds
+                    {t("Browse seeds")}
                   </ButtonLink>
                   <Link href="/seeds#seasons" className={more}>
-                    When to plant
+                    {t("When to plant")}
                   </Link>
                 </div>
               </div>
@@ -117,15 +121,15 @@ export function ServicePanels({ id }: { id?: string }) {
             <div className={`${small} bg-[#cfe4ea]`}>
               <div className="relative z-1 p-6 sm:w-3/5 sm:p-8">
                 <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                  {consulting.title}
+                  {t(consulting.title)}
                 </h3>
-                <p className="mt-2 leading-relaxed">{consulting.summary}</p>
+                <p className="mt-2 leading-relaxed">{t(consulting.summary)}</p>
                 <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
                   <ButtonLink href="/consulting#ask" variant="dark">
-                    Ask for advice
+                    {t("Ask for advice")}
                   </ButtonLink>
                   <Link href="/consulting#problem" className={more}>
-                    Describe a problem
+                    {t("Describe a problem")}
                   </Link>
                 </div>
               </div>

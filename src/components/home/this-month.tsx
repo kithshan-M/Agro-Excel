@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { useT } from "@/i18n/context";
+import { Link } from "@/components/ui/link";
 import { seasonLinks } from "@/data/home";
 import { seasons } from "@/data/seeds";
 import { useMonth } from "@/lib/month";
@@ -9,6 +10,7 @@ const names = ["January", "February", "March", "April", "May", "June", "July", "
 
 /** The season in the visitor's month, and what to get ready. */
 export function ThisMonth() {
+  const t = useT();
   const month = useMonth();
   const index = seasons.findIndex((item) => item.months.includes(month));
   const season = seasons[index];
@@ -22,9 +24,9 @@ export function ThisMonth() {
     >
       {season ? (
         <div className="enter flex flex-1 flex-col">
-          <p className="font-semibold">It is {names[month - 1]}</p>
-          <h3 className="mt-1 text-3xl font-bold tracking-tight">{season.name} season</h3>
-          <p className="mt-1">{season.span}</p>
+          <p className="font-semibold">{t("It is {month}", { month: t(names[month - 1]) })}</p>
+          <h3 className="mt-1 text-3xl font-bold tracking-tight">{t("{season} season", { season: t(season.name) })}</h3>
+          <p className="mt-1">{t(season.span)}</p>
           <div aria-hidden="true" className="mt-5 grid grid-cols-6 gap-1.5">
             {season.months.map((item) => (
               <span
@@ -33,8 +35,8 @@ export function ThisMonth() {
               />
             ))}
           </div>
-          <p className="mt-5 leading-relaxed">{season.text}</p>
-          <p className="mt-5 font-semibold">Get ready</p>
+          <p className="mt-5 leading-relaxed">{t(season.text)}</p>
+          <p className="mt-5 font-semibold">{t("Get ready")}</p>
           <ul className="mt-2 mb-6 space-y-2">
             {season.ready.map((item) => (
               <li key={item} className="flex gap-3">
@@ -45,12 +47,12 @@ export function ThisMonth() {
                 >
                   <path d="m3 10.5 4.5 4.5L17 5" />
                 </svg>
-                {item}
+                {t(item)}
               </li>
             ))}
           </ul>
           <p className="mb-4 border-t border-current/25 pt-4">
-            {next.name} starts {left === 1 ? "next month" : `in ${left} months`}.
+            {t(left === 1 ? "{season} starts next month." : "{season} starts in {count} months.", { season: t(next.name), count: left })}
           </p>
           <ul className="mt-auto flex flex-wrap gap-x-6 gap-y-1">
             {[{ href: "/seeds#seasons", label: "When to plant" }, ...(seasonLinks[season.name] ?? [])].map((link) => (
@@ -59,7 +61,7 @@ export function ThisMonth() {
                   href={link.href}
                   className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4"
                 >
-                  {link.label}
+                  {t(link.label)}
                 </Link>
               </li>
             ))}
@@ -67,7 +69,7 @@ export function ThisMonth() {
         </div>
       ) : (
         <Link href="/seeds#seasons" className="mt-auto font-semibold underline underline-offset-4">
-          When to plant
+          {t("When to plant")}
         </Link>
       )}
     </div>

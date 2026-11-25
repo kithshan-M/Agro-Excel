@@ -1,8 +1,12 @@
-import Link from "next/link";
+"use client";
+
+import { useT } from "@/i18n/context";
+import { Link } from "@/components/ui/link";
 import { siteConfig } from "@/config/site";
 
 /** The mark matches the browser tab icon in src/app/icon.svg. */
 export function Logo({ light = false, onClick }: { light?: boolean; onClick?: () => void }) {
+  const t = useT();
   return (
     <Link
       href="/"
@@ -25,7 +29,7 @@ export function Logo({ light = false, onClick }: { light?: boolean; onClick?: ()
           className="origin-[16px_18px] fill-sun transition-transform duration-300 group-hover:scale-125 motion-reduce:transition-none"
         />
       </svg>
-      {siteConfig.name}
+      {t(siteConfig.name)}
     </Link>
   );
 }

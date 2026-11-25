@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useT } from "@/i18n/context";
+import { Link } from "@/components/ui/link";
 import { Container } from "@/components/ui/container";
 import { tasks } from "@/data/home";
 import { step } from "@/lib/motion";
@@ -23,12 +26,13 @@ const tones = {
 
 /** Straight to the tools on the other pages. */
 export function Tasks() {
+  const t = useT();
   return (
     <section aria-labelledby="tasks" className="relative z-2">
       <Container>
         <div className="enter -mt-8 rounded-lg bg-white p-4 shadow-[0_6px_30px_rgb(19_37_29/0.14)] sm:p-7" style={step(4)}>
           <h2 id="tasks" className="text-2xl font-bold tracking-tight sm:text-3xl">
-            What do you want to do?
+            {t("What do you want to do?")}
           </h2>
           <ul className="mt-4 grid grid-cols-2 gap-2.5 sm:mt-5 sm:gap-3 lg:grid-cols-4">
             {tasks.map((task) => (
@@ -48,7 +52,7 @@ export function Tasks() {
                       <path d={icons[task.icon]} />
                     </svg>
                   </span>
-                  <span className="leading-tight font-semibold group-hover:text-leaf">{task.label}</span>
+                  <span className="leading-tight font-semibold group-hover:text-leaf">{t(task.label)}</span>
                 </Link>
               </li>
             ))}

@@ -1,16 +1,20 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import { ContactDetails } from "@/components/sections/contact-details";
 import { Container } from "@/components/ui/container";
 import { SectionLink } from "@/components/ui/section-link";
 import { siteConfig } from "@/config/site";
 import { quickLinks, serviceNav } from "@/data/navigation";
-import { hasProjects } from "@/lib/projects";
+import { LanguageSwitch } from "./language-switch";
 import { BackToTop } from "./back-to-top";
 import { FooterSkyline } from "./footer-skyline";
 import { Logo } from "./logo";
 
 const hasDetails = Object.values(siteConfig.contact).some(Boolean);
 
-export function Footer() {
+export function Footer({ hasProjects }: { hasProjects: boolean }) {
+  const t = useT();
   return (
     <footer className="relative bg-leaf-dark text-white">
       <FooterSkyline />
@@ -18,38 +22,38 @@ export function Footer() {
         <div className="col-span-2 sm:col-span-1">
           <Logo light />
           <p className="mt-4 max-w-xs leading-relaxed text-white/80">
-            {siteConfig.description}
+            {t(siteConfig.description)}
           </p>
           <div className="mt-6">
             <SectionLink
               href="/contact#message"
               className="inline-flex min-h-12 items-center rounded-md bg-sun px-6 font-semibold text-ink transition-colors hover:bg-white"
             >
-              Write to us
+              {t("Write to us")}
             </SectionLink>
           </div>
         </div>
         <FooterColumn
-          title="Services"
+          title={t("Services")}
           links={serviceNav.map((item) => ({ href: `/${item.slug}`, label: item.label }))}
         />
         {/* On phones the last column moves up beside Services. */}
         <FooterColumn
-          title="Quick links"
+          title={t("Quick links")}
           links={quickLinks}
           className="order-last col-span-2 sm:order-none sm:col-span-1"
         />
         <div className="min-w-0">
           {hasDetails ? (
             <>
-              <h2 className="text-lg font-semibold">Contact</h2>
+              <h2 className="text-lg font-semibold">{t("Contact")}</h2>
               <div className="mt-3">
                 <ContactDetails />
               </div>
             </>
           ) : (
             <FooterColumn
-              title={siteConfig.name}
+              title={t(siteConfig.name)}
               links={[
                 ...(hasProjects ? [{ href: "/projects", label: "Projects" }] : []),
                 { href: "/about", label: "About us" },
@@ -61,23 +65,26 @@ export function Footer() {
       </Container>
       <div className="border-t border-white/15">
         <Container className="flex flex-wrap items-center justify-between gap-x-6 py-3 text-white/80">
-          <p>© {siteConfig.name}</p>
+          <p>© {t(siteConfig.name)}</p>
           <ul className="flex flex-wrap items-center gap-x-6">
             {hasDetails && (
               <>
                 {hasProjects && (
                   <li>
-                    <FooterLink href="/projects">Projects</FooterLink>
+                    <FooterLink href="/projects">{t("Projects")}</FooterLink>
                   </li>
                 )}
                 <li>
-                  <FooterLink href="/about">About us</FooterLink>
+                  <FooterLink href="/about">{t("About us")}</FooterLink>
                 </li>
                 <li>
-                  <FooterLink href="/contact">Contact</FooterLink>
+                  <FooterLink href="/contact">{t("Contact")}</FooterLink>
                 </li>
               </>
             )}
+            <li>
+              <LanguageSwitch className="text-white underline-offset-4 hover:underline" />
+            </li>
             <li>
               <BackToTop />
             </li>
@@ -97,13 +104,14 @@ function FooterColumn({
   links: { href: string; label: string }[];
   className?: string;
 }) {
+  const t = useT();
   return (
-    <nav aria-label={title} className={className}>
-      <h2 className="text-lg font-semibold">{title}</h2>
+    <nav aria-label={t(title)} className={className}>
+      <h2 className="text-lg font-semibold">{t(title)}</h2>
       <ul className="mt-2">
         {links.map((link) => (
           <li key={link.href}>
-            <FooterLink href={link.href}>{link.label}</FooterLink>
+            <FooterLink href={link.href}>{t(link.label)}</FooterLink>
           </li>
         ))}
       </ul>

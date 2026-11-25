@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useT } from "@/i18n/context";
+import { Link } from "@/components/ui/link";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -14,16 +17,17 @@ const icons = [
 
 /** How we work, taken from the About page. */
 export function Promises() {
+  const t = useT();
   return (
     <section className="border-t border-line py-16 md:py-24">
       <Container>
         <div className="flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
-          <SectionHeading title="How we work" />
+          <SectionHeading title={t("How we work")} />
           <Link
             href="/about"
             className="inline-flex min-h-11 items-center font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
           >
-            More about us
+            {t("More about us")}
           </Link>
         </div>
         <ul className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
@@ -37,8 +41,8 @@ export function Promises() {
                 <path d={icons[index % icons.length]} />
               </svg>
               <div className="lg:mt-4">
-                <h3 className="text-xl font-semibold">{item.title}</h3>
-                <p className="mt-1.5 leading-relaxed text-muted">{item.text}</p>
+                <h3 className="text-xl font-semibold">{t(item.title)}</h3>
+                <p className="mt-1.5 leading-relaxed text-muted">{t(item.text)}</p>
               </div>
             </Reveal>
           ))}

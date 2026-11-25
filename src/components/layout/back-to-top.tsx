@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import { useEffect, useRef, useState } from "react";
 
 const arrow = "M10 17V4M4.5 9.5 10 4l5.5 5.5";
@@ -12,13 +13,14 @@ function goToTop() {
 
 /** Link in the footer. */
 export function BackToTop() {
+  const t = useT();
   return (
     <button
       type="button"
       onClick={goToTop}
       className="flex min-h-11 cursor-pointer items-center gap-2 font-semibold text-white underline-offset-4 hover:underline"
     >
-      Back to top
+      {t("Back to top")}
       <svg
         viewBox="0 0 20 20"
         aria-hidden="true"
@@ -35,6 +37,7 @@ export function BackToTop() {
  * after some scrolling, and its ring fills up towards the end of the page.
  */
 export function TopButton() {
+  const t = useT();
   const ring = useRef<SVGCircleElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -60,8 +63,8 @@ export function TopButton() {
   return (
     <button
       type="button"
-      aria-label="Back to top"
-      title="Back to top"
+      aria-label={t("Back to top")}
+      title={t("Back to top")}
       inert={!visible}
       onClick={goToTop}
       // On very short screens it stays clear of the bars at the bottom.

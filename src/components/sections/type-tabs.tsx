@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { useRef } from "react";
 import { Reveal } from "@/components/ui/reveal";
@@ -35,6 +36,7 @@ export function TypeTabs({
   /** One panel per item, in the same order. */
   children: React.ReactNode[];
 }) {
+  const t = useT();
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
 
   function onKeyDown(event: React.KeyboardEvent) {
@@ -58,7 +60,7 @@ export function TypeTabs({
     <Reveal className="reveal-up overflow-hidden rounded-lg border border-line bg-white lg:grid lg:grid-cols-[17.5rem_1fr]">
       <div
         role="tablist"
-        aria-label={label}
+        aria-label={t(label)}
         onKeyDown={onKeyDown}
         className="grid grid-cols-4 border-b border-line sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-4 lg:border-r lg:border-b-0"
       >
@@ -91,18 +93,18 @@ export function TypeTabs({
                 <span className="block font-display text-sm leading-tight font-semibold sm:text-lg">
                   {item.short ? (
                     <>
-                      <span className="sm:hidden">{item.short}</span>
-                      <span className="max-sm:hidden">{item.name}</span>
+                      <span className="sm:hidden">{t(item.short)}</span>
+                      <span className="max-sm:hidden">{t(item.name)}</span>
                     </>
                   ) : (
-                    item.name
+                    t(item.name)
                   )}
                 </span>
                 {item.badge && (
                   <span
                     className={`mt-1.5 inline-block rounded px-1.5 py-0.5 text-xs leading-tight font-semibold text-ink sm:px-2 sm:text-sm ${item.best ? "bg-sun" : "bg-film"}`}
                   >
-                    {item.badge}
+                    {t(item.badge)}
                   </span>
                 )}
               </span>
@@ -120,7 +122,7 @@ export function TypeTabs({
           hidden={active !== index}
           className="-outline-offset-2"
         >
-          {children[index]}
+          {t(children[index])}
         </div>
       ))}
     </Reveal>
@@ -139,10 +141,11 @@ export function ChipRow({
   chosen: string[];
   onChoose: (item: string) => void;
 }) {
+  const t = useT();
   return (
-    <div role="group" aria-label={title} className="sm:flex sm:items-baseline">
+    <div role="group" aria-label={t(title)} className="sm:flex sm:items-baseline">
       <span aria-hidden="true" className="block shrink-0 text-muted sm:w-36">
-        {title}
+        {t(title)}
       </span>
       <div className="-mx-4 flex gap-2.5 overflow-x-auto px-4 py-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
         {items.map((item) => (
@@ -153,7 +156,7 @@ export function ChipRow({
             onClick={() => onChoose(item)}
             className="min-h-11 shrink-0 cursor-pointer rounded-md border border-field bg-white px-4 font-medium whitespace-nowrap transition-colors hover:border-leaf aria-pressed:border-leaf aria-pressed:bg-leaf aria-pressed:text-white"
           >
-            {item}
+            {t(item)}
           </button>
         ))}
       </div>

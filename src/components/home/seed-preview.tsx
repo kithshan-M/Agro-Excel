@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useT } from "@/i18n/context";
+import { Link } from "@/components/ui/link";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { SeedCard } from "@/components/seeds/seed-card";
 import { Container } from "@/components/ui/container";
@@ -9,19 +12,20 @@ import { ThisMonth } from "./this-month";
 const shown = homeSeeds.flatMap((slug) => seeds.find((seed) => seed.slug === slug) ?? []);
 
 export function SeedPreview() {
+  const t = useT();
   return (
     <section className="py-16 md:py-24">
       <Container>
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
-            title="Plan this season"
-            text="Start a seed list here, then see the rest and send us one message. Ask us which seeds suit your area now."
+            title={t("Plan this season")}
+            text={t("Start a seed list here, then see the rest and send us one message. Ask us which seeds suit your area now.")}
           />
           <Link
             href="/seeds#catalogue"
             className="inline-flex min-h-12 shrink-0 items-center rounded-md border border-leaf px-6 font-semibold text-leaf transition-colors hover:bg-leaf hover:text-white"
           >
-            See all {seeds.length} seeds
+            {t("See all {count} seeds", { count: seeds.length })}
           </Link>
         </div>
         <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-[20rem_1fr]">

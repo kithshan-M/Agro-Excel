@@ -1,3 +1,6 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
@@ -13,12 +16,13 @@ const initials = (name: string) =>
 
 /** Hidden until people are listed in src/data/about.ts. */
 export function Team() {
+  const t = useT();
   if (team.length === 0) return null;
 
   return (
     <section className="border-t border-line py-16 md:py-24">
       <Container>
-        <SectionHeading title="The people you will talk to" />
+        <SectionHeading title={t("The people you will talk to")} />
         <ul className="mt-9 grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-6">
           {team.map((person, index) => (
             <Reveal as="li" key={person.name} index={index % 4} className="reveal-up">
@@ -40,8 +44,8 @@ export function Team() {
                   </span>
                 )}
               </div>
-              <h3 className="mt-4 text-lg font-semibold">{person.name}</h3>
-              <p className="text-muted">{person.role}</p>
+              <h3 className="mt-4 text-lg font-semibold">{t(person.name)}</h3>
+              <p className="text-muted">{t(person.role)}</p>
             </Reveal>
           ))}
         </ul>
@@ -52,12 +56,13 @@ export function Team() {
 
 /** Hidden until photos are listed in src/data/about.ts. */
 export function WorkPhotos() {
+  const t = useT();
   if (workPhotos.length === 0) return null;
 
   return (
     <section className="border-t border-line py-16 md:py-24">
       <Container>
-        <SectionHeading title="Our work" />
+        <SectionHeading title={t("Our work")} />
         <ul className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {workPhotos.map((photo, index) => (
             <Reveal
@@ -68,7 +73,7 @@ export function WorkPhotos() {
             >
               <Image
                 src={`/images/about/${photo.file}`}
-                alt={photo.alt}
+                alt={t(photo.alt)}
                 fill
                 sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
                 className="rounded-lg bg-film object-cover"

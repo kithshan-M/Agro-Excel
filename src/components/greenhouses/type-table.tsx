@@ -1,3 +1,6 @@
+"use client";
+
+import { useT } from "@/i18n/context";
 import { Reveal } from "@/components/ui/reveal";
 import { greenhouseTypes } from "@/data/greenhouses";
 
@@ -5,16 +8,17 @@ const columns = ["Type", "Keeps rain off", "Keeps insects out", "Air movement"];
 
 /** Phones show the same facts inside each card instead. */
 export function TypeTable() {
+  const t = useT();
   return (
     <Reveal className="reveal-up mt-14 hidden md:block">
-      <h3 className="text-2xl font-semibold">Compare at a glance</h3>
+      <h3 className="text-2xl font-semibold">{t("Compare at a glance")}</h3>
       <div className="mt-5 overflow-hidden rounded-lg border border-line bg-white">
         <table className="w-full text-left">
           <thead className="bg-film">
             <tr>
               {columns.map((heading) => (
                 <th key={heading} scope="col" className="px-6 py-4 font-semibold">
-                  {heading}
+                  {t(heading)}
                 </th>
               ))}
             </tr>
@@ -23,12 +27,12 @@ export function TypeTable() {
             {greenhouseTypes.map((type) => (
               <tr key={type.name} className="border-t border-line">
                 <th scope="row" className="px-6 py-4 font-semibold">
-                  {type.name}
+                  {t(type.name)}
                 </th>
                 {[type.rain, type.insects, type.air].map((value, index) => (
                   <td key={columns[index + 1]} className="px-6 py-4 text-muted">
                     <Mark value={value} />
-                    {value}
+                    {t(value)}
                   </td>
                 ))}
               </tr>

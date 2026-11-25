@@ -1,5 +1,6 @@
 "use client";
 
+import { useLang, useT } from "@/i18n/context";
 import Image from "next/image";
 import { useEffect, useId, useState } from "react";
 import { MessagePanel, useMessage } from "@/components/sections/message-panel";
@@ -13,6 +14,8 @@ import { setList, setPacks, useSeedList, type List } from "@/lib/seed-list";
 import { PackStepper, packs } from "./pack-stepper";
 
 export function Enquiry() {
+  const t = useT();
+  const lang = useLang();
   const list = useSeedList();
   const [location, setLocation] = useState("");
   const [plot, setPlot] = useState("");
@@ -27,21 +30,21 @@ export function Enquiry() {
   }, [undo]);
 
   function remove(slug: string, name: string) {
-    setUndo({ text: `${name} removed`, list });
+    setUndo({ text: t("{name} removed", { name: t(name) }), list });
     setPacks(slug, 0);
   }
 
   const chosen = seeds.filter((seed) => list[seed.slug]);
   const message = useMessage(
     [
-      `Hello ${siteConfig.name}, please send me prices and stock for these seeds:`,
+      t("Hello {name}, please send me prices and stock for these seeds:", { name: siteConfig.name }),
       ...chosen.map(
         (seed) =>
-          `- ${seed.name}${seed.localName ? ` (${seed.localName})` : ""}: ${packs(list[seed.slug])}`,
+          `- ${t(seed.name)}${seed.localName && lang === "en" ? ` (${seed.localName})` : ""}: ${t(packs(list[seed.slug]), { count: list[seed.slug] })}`,
       ),
-      ...(location.trim() ? [`Location: ${location.trim()}`] : []),
-      ...(plot.trim() ? [`Plot size: ${plot.trim()}`] : []),
-      ...(place ? [`Growing in: ${place}`] : []),
+      ...(location.trim() ? [`${t("Location")}: ${location.trim()}`] : []),
+      ...(plot.trim() ? [`${t("Plot size")}: ${plot.trim()}`] : []),
+      ...(place ? [`${t("Growing in")}: ${t(place)}`] : []),
     ].join("\n"),
   );
 
@@ -49,13 +52,13 @@ export function Enquiry() {
     <section id="list" className="scroll-mt-4 bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="Your seed list"
-          text="Check your list, then send it to us for varieties, prices and stock."
+          title={t("Your seed list")}
+          text={t("Check your list, then send it to us for varieties, prices and stock.")}
         />
         <div role="status" className="min-h-10 pt-4">
           {undo && (
             <p className="enter inline-flex flex-wrap items-center gap-x-4 rounded-md bg-ink px-4 text-white">
-              {undo.text}
+              {t(undo.text)}
               <button
                 type="button"
                 onClick={() => {
@@ -64,15 +67,15 @@ export function Enquiry() {
                 }}
                 className="min-h-11 cursor-pointer font-semibold text-sun underline underline-offset-4 hover:text-white"
               >
-                Undo
+                {t("Undo")}
               </button>
             </p>
           )}
         </div>
         {chosen.length === 0 ? (
           <div className="mt-4 rounded-lg border border-line bg-white p-6 sm:p-10">
-            <p className="font-display text-2xl font-semibold">Your list is empty</p>
-            <p className="mt-1 mb-6 text-lg text-muted">Choose a kind to start with.</p>
+            <p className="font-display text-2xl font-semibold">{t("Your list is empty")}</p>
+            <p className="mt-1 mb-6 text-lg text-muted">{t("Choose a kind to start with.")}</p>
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
               {seedKinds.map((kind) => {
                 const example = seeds.find((seed) => seed.kind === kind.name);
@@ -99,7 +102,7 @@ export function Enquiry() {
                         />
                       )}
                       <span className={`relative flex min-h-11 items-center px-3.5 font-semibold text-white ${kind.band}`}>
-                        {kind.name}
+                        {t(kind.name)}
                       </span>
                     </a>
                   </li>
@@ -130,8 +133,8 @@ export function Enquiry() {
                         className="w-16 rounded-md bg-film"
                       />
                       <div className="min-w-28 flex-1">
-                        <p className="font-semibold">{seed.name}</p>
-                        <p className="text-muted">{seed.localName}</p>
+                        <p className="font-semibold">{t(seed.name)}</p>
+                        {lang === "en" && <p className="text-muted">{seed.localName}</p>}
                       </div>
                       <PackStepper
                         slug={seed.slug}
@@ -142,38 +145,38 @@ export function Enquiry() {
                       />
                       <button
                         type="button"
-                        aria-label={`Remove ${seed.name}`}
+                        aria-label={t("Remove {name}", { name: t(seed.name) })}
                         onClick={() => remove(seed.slug, seed.name)}
                         className="min-h-11 cursor-pointer px-1 font-semibold text-muted underline underline-offset-4 hover:text-ink"
                       >
-                        Remove
+                        {t("Remove")}
                       </button>
                     </li>
                   );
                 })}
               </ul>
               <div className="-mt-3 flex flex-wrap items-center justify-between gap-x-4 text-muted">
-                <p>Your list is saved on this device.</p>
+                <p>{t("Your list is saved on this device.")}</p>
                 <button
                   type="button"
                   onClick={() => {
-                    setUndo({ text: "List cleared", list });
+                    setUndo({ text: t("List cleared"), list });
                     setList({});
                   }}
                   className="min-h-11 cursor-pointer px-1 font-semibold underline underline-offset-4 hover:text-ink"
                 >
-                  Clear list
+                  {t("Clear list")}
                 </button>
               </div>
               <div className="grid gap-7 sm:grid-cols-2 sm:gap-5">
                 <div>
                   <label htmlFor={`${id}-location`} className="font-semibold">
-                    Where is your land?
+                    {t("Where is your land?")}
                   </label>
                   <input
                     id={`${id}-location`}
                     autoComplete="address-level2"
-                    placeholder="Village, town or district"
+                    placeholder={t("Village, town or district")}
                     value={location}
                     onChange={(event) => setLocation(event.target.value)}
                     className={fieldClass}
@@ -181,12 +184,12 @@ export function Enquiry() {
                 </div>
                 <div>
                   <label htmlFor={`${id}-plot`} className="font-semibold">
-                    How big is your plot?
+                    {t("How big is your plot?")}
                   </label>
                   <input
                     id={`${id}-plot`}
                     autoComplete="off"
-                    placeholder="20 perches, 60 x 30 feet"
+                    placeholder={t("20 perches, 60 x 30 feet")}
                     value={plot}
                     onChange={(event) => setPlot(event.target.value)}
                     className={fieldClass}
@@ -194,7 +197,7 @@ export function Enquiry() {
                 </div>
               </div>
               <Choices
-                legend="Where will you grow them?"
+                legend={t("Where will you grow them?")}
                 name={`${id}-place`}
                 options={growingPlaces}
                 value={place}

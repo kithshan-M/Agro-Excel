@@ -1,5 +1,6 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { ProjectPhoto } from "@/data/projects";
@@ -20,6 +21,7 @@ const layouts = [
  * larger screens show up to five. Swipe, arrow keys and buttons work in the viewer.
  */
 export function Gallery({ photos }: { photos: ProjectPhoto[] }) {
+  const t = useT();
   const dialog = useRef<HTMLDialogElement>(null);
   const track = useRef<HTMLUListElement>(null);
   const [current, setCurrent] = useState(0);
@@ -75,7 +77,7 @@ export function Gallery({ photos }: { photos: ProjectPhoto[] }) {
             <button
               type="button"
               aria-haspopup="dialog"
-              aria-label={`Photo ${index + 1} of ${photos.length}: ${photo.alt}`}
+              aria-label={t("Photo {count} of {total}: {text}", { count: index + 1, total: photos.length, text: t(photo.alt) })}
               onClick={() => open(index)}
               className={`group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-lg bg-film ${tiles > 2 ? "sm:aspect-auto sm:h-full" : tiles === 1 ? "sm:aspect-[2/1]" : ""}`}
             >
@@ -102,13 +104,13 @@ export function Gallery({ photos }: { photos: ProjectPhoto[] }) {
           <svg viewBox="0 0 20 20" aria-hidden="true" className="size-5 fill-none stroke-current stroke-[1.8] [stroke-linejoin:round]">
             <path d="M3 3h6v6H3V3Zm8 0h6v6h-6V3ZM3 11h6v6H3v-6Zm8 0h6v6h-6v-6Z" />
           </svg>
-          See all {photos.length} photos
+          {t("See all {count} photos", { count: photos.length })}
         </button>
       )}
 
       <dialog
         ref={dialog}
-        aria-label="Photos"
+        aria-label={t("Photos")}
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft") move(-1);
           else if (event.key === "ArrowRight") move(1);
@@ -120,14 +122,14 @@ export function Gallery({ photos }: { photos: ProjectPhoto[] }) {
         <div className="flex h-full flex-col">
           <div className="flex min-h-16 items-center justify-between px-4 sm:px-6">
             <p role="status" className="font-semibold">
-              {current + 1} of {photos.length}
+              {t("{count} of {total}", { count: current + 1, total: photos.length })}
             </p>
             <button
               type="button"
               onClick={() => dialog.current?.close()}
               className="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2 font-semibold"
             >
-              Close
+              {t("Close")}
               <svg viewBox="0 0 24 24" aria-hidden="true" className={icon}>
                 <path d="m6 6 12 12M18 6 6 18" />
               </svg>
@@ -152,7 +154,7 @@ export function Gallery({ photos }: { photos: ProjectPhoto[] }) {
                 {opened && (
                   <Image
                     {...projectPhoto(photo)}
-                    alt={photo.alt}
+                    alt={t(photo.alt)}
                     fill
                     sizes="100vw"
                     loading={Math.abs(index - current) < 2 ? "eager" : "lazy"}
@@ -164,17 +166,17 @@ export function Gallery({ photos }: { photos: ProjectPhoto[] }) {
           </ul>
           <div className="flex min-h-20 items-center justify-between gap-4 px-4 sm:px-6">
             {several && (
-              <button type="button" aria-label="Previous photo" aria-disabled={current === 0} onClick={() => move(-1)} className={round}>
+              <button type="button" aria-label={t("Previous photo")} aria-disabled={current === 0} onClick={() => move(-1)} className={round}>
                 <svg viewBox="0 0 20 20" aria-hidden="true" className={icon}>
                   <path d="m12 4-6 6 6 6" />
                 </svg>
               </button>
             )}
             <p className="mx-auto line-clamp-2 max-w-xl text-center">
-              {photos[current].caption ?? photos[current].alt}
+              {t(photos[current].caption) ?? t(photos[current].alt)}
             </p>
             {several && (
-              <button type="button" aria-label="Next photo" aria-disabled={current === photos.length - 1} onClick={() => move(1)} className={round}>
+              <button type="button" aria-label={t("Next photo")} aria-disabled={current === photos.length - 1} onClick={() => move(1)} className={round}>
                 <svg viewBox="0 0 20 20" aria-hidden="true" className={icon}>
                   <path d="m8 4 6 6-6 6" />
                 </svg>
@@ -188,7 +190,7 @@ export function Gallery({ photos }: { photos: ProjectPhoto[] }) {
                   <li key={photo.file} className="shrink-0">
                     <button
                       type="button"
-                      aria-label={`Show photo ${index + 1}`}
+                      aria-label={t("Show photo {count}", { count: index + 1 })}
                       aria-current={index === current || undefined}
                       onClick={() => pick(index)}
                       className="relative block h-12 w-16 cursor-pointer overflow-hidden rounded border-2 border-transparent opacity-60 transition-opacity hover:opacity-100 aria-[current]:border-sun aria-[current]:opacity-100"

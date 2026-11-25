@@ -1,7 +1,8 @@
 "use client";
 
+import { useT } from "@/i18n/context";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { useId, useState } from "react";
 import { MessagePanel, useMessage } from "@/components/sections/message-panel";
 import { SectionHeading } from "@/components/sections/section-heading";
@@ -11,8 +12,11 @@ import { Reveal } from "@/components/ui/reveal";
 import { siteConfig } from "@/config/site";
 import { contactTopics, replyBy } from "@/data/contact";
 
+const lowerFirst = (text: string) => text.charAt(0).toLowerCase() + text.slice(1);
+
 /** Builds a message from the answers. Nothing is stored or sent by this site. */
 export function ContactForm() {
+  const t = useT();
   const [topicKey, setTopicKey] = useState("");
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -24,7 +28,10 @@ export function ContactForm() {
   const topic = contactTopics.find((item) => item.key === topicKey);
   const message = useMessage(
     [
-      `Hello ${siteConfig.name}, I would like to ask about ${topic ? topic.about : "your services"}.`,
+      t("Hello {name}, I would like to ask about {topic}.", {
+        name: siteConfig.name,
+        topic: t(topic ? topic.about : "your services"),
+      }),
       ...(question.trim() ? [question.trim()] : []),
       ...[
         ["Name", name.trim()],
@@ -33,7 +40,7 @@ export function ContactForm() {
         [reply === "Email" ? "My email" : "My number", reply && reply !== "WhatsApp" ? number.trim() : ""],
       ]
         .filter(([, value]) => value)
-        .map(([label, value]) => `${label}: ${value}`),
+        .map(([label, value]) => `${t(label)}: ${t(value)}`),
     ].join("\n"),
   );
 
@@ -41,11 +48,11 @@ export function ContactForm() {
     <section id="message" className="scroll-mt-4 py-16 md:py-24">
       <Container>
         <SectionHeading
-          title="What is it about?"
-          text="Choose one, then write to us here or use the longer form for that service."
+          title={t("What is it about?")}
+          text={t("Choose one, then write to us here or use the longer form for that service.")}
         />
         <fieldset className="mt-8">
-          <legend className="sr-only">Topic</legend>
+          <legend className="sr-only">{t("Topic")}</legend>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
             {contactTopics.map((item) => (
               <label
@@ -71,7 +78,7 @@ export function ContactForm() {
                   />
                 </span>
                 <span className="flex min-h-14 items-center justify-between gap-2 px-4 py-2 font-semibold peer-checked:bg-leaf peer-checked:text-white">
-                  {item.name}
+                  {t(item.name)}
                   <svg
                     viewBox="0 0 20 20"
                     aria-hidden="true"
@@ -88,12 +95,12 @@ export function ContactForm() {
         <div aria-live="polite" className="mt-5 min-h-12">
           {topic?.form && (
             <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-lg">
-              Have a few details ready?
+              {t("Have a few details ready?")}
               <Link
                 href={topic.form.href}
                 className="inline-flex min-h-11 items-center gap-2 font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
               >
-                Use the {topic.form.label.charAt(0).toLowerCase() + topic.form.label.slice(1)}
+                {t("Use the {form}", { form: lowerFirst(t(topic.form.label)) })}
               </Link>
             </p>
           )}
@@ -107,7 +114,7 @@ export function ContactForm() {
             <div className="grid content-start gap-7 p-5 sm:p-9">
               <div>
                 <label htmlFor={`${id}-question`} className="font-semibold">
-                  What would you like to know?
+                  {t("What would you like to know?")}
                 </label>
                 <textarea
                   id={`${id}-question`}
@@ -121,7 +128,7 @@ export function ContactForm() {
               <div className="grid gap-7 sm:grid-cols-2 sm:gap-5">
                 <div>
                   <label htmlFor={`${id}-name`} className="font-semibold">
-                    Your name
+                    {t("Your name")}
                   </label>
                   <input
                     id={`${id}-name`}
@@ -133,12 +140,12 @@ export function ContactForm() {
                 </div>
                 <div>
                   <label htmlFor={`${id}-location`} className="font-semibold">
-                    Where you are
+                    {t("Where you are")}
                   </label>
                   <input
                     id={`${id}-location`}
                     autoComplete="address-level2"
-                    placeholder="Village, town or district"
+                    placeholder={t("Village, town or district")}
                     value={location}
                     onChange={(event) => setLocation(event.target.value)}
                     className={fieldClass}
@@ -146,7 +153,7 @@ export function ContactForm() {
                 </div>
               </div>
               <Choices
-                legend="How should we reply?"
+                legend={t("How should we reply?")}
                 name={`${id}-reply`}
                 options={replyBy}
                 value={reply}
@@ -158,7 +165,7 @@ export function ContactForm() {
               {reply && reply !== "WhatsApp" && (
                 <div>
                   <label htmlFor={`${id}-number`} className="font-semibold">
-                    {reply === "Email" ? "Your email" : "Your phone number"}
+                    {reply === "Email" ? t("Your email") : t("Your phone number")}
                   </label>
                   <input
                     key={reply}
