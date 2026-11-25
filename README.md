@@ -21,6 +21,7 @@ Open http://localhost:3000.
 | `npm run build` | Build for production |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Check the code with ESLint |
+| `npm run draw` | Redraw the greenhouse illustrations |
 
 ## Structure
 

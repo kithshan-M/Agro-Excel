@@ -15,44 +15,55 @@ export const benefits = [
   },
 ];
 
-export type GreenhouseKind =
-  | "tunnel"
-  | "multi-span"
-  | "net-house"
-  | "rain-shelter";
-
 export const greenhouseTypes: {
-  kind: GreenhouseKind;
   name: string;
   text: string;
   suits: string;
+  /** Swap for a photo, e.g. "/images/greenhouses/my-tunnel.jpg". */
+  image: string;
+  rain: string;
+  insects: string;
+  air: string;
 }[] = [
   {
-    kind: "tunnel",
     name: "Tunnel greenhouse",
     text: "A single row of curved hoops under a clear cover. A simple shape that fits small plots.",
     suits: "Tomato, cucumber, bell pepper",
+    image: "/images/greenhouses/tunnel.svg",
+    rain: "Yes",
+    insects: "With netted sides",
+    air: "Through netted sides and vents",
   },
   {
-    kind: "multi-span",
     name: "Multi-span greenhouse",
     text: "Several bays joined side by side, giving one large growing area under a shared roof.",
     suits: "Larger commercial crops",
+    image: "/images/greenhouses/multi-span.svg",
+    rain: "Yes",
+    insects: "With netted openings",
+    air: "Through roof or side vents",
   },
   {
-    kind: "net-house",
     name: "Net house",
     text: "A frame covered in net instead of clear film. It gives shade and lets air move through.",
     suits: "Leafy vegetables, nurseries",
+    image: "/images/greenhouses/net-house.svg",
+    rain: "No",
+    insects: "Yes, with fine net",
+    air: "High",
   },
   {
-    kind: "rain-shelter",
     name: "Rain shelter",
     text: "A covered roof with open sides. It keeps rain off the crop while staying airy.",
     suits: "Chilli, tomato, seedlings",
+    image: "/images/greenhouses/rain-shelter.svg",
+    rain: "Yes",
+    insects: "No, the sides are open",
+    air: "High",
   },
 ];
 
+// Keep this order: it matches the numbers in cutaway.svg.
 export const greenhouseParts = [
   { name: "Frame", text: "The posts, hoops and joints that carry the structure." },
   { name: "Cover", text: "Clear film or net, chosen to suit the crop and the weather." },

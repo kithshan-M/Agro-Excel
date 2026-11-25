@@ -1,22 +1,32 @@
 import { Container } from "@/components/ui/container";
 import type { Service } from "@/data/services";
+import { SectionHeading } from "./section-heading";
 
 export function BuildSteps({ steps }: { steps: Service["points"] }) {
   return (
-    <section className="bg-leaf-dark py-16 text-white md:py-24">
+    <section id="process" className="scroll-mt-13 py-20 md:py-28">
       <Container>
-        <h2 className="text-3xl font-bold tracking-tight">How it works</h2>
-        <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+        <SectionHeading title="How it works" />
+        <ol className="mt-12 lg:grid lg:grid-cols-5">
           {steps.map((step, index) => (
-            <li key={step.title}>
+            <li
+              key={step.title}
+              className="group relative flex gap-5 pb-9 last:pb-0 lg:block lg:pr-7 lg:pb-0"
+            >
               <span
                 aria-hidden="true"
-                className="font-display text-4xl font-bold text-sun"
+                className="absolute top-11 bottom-0 left-[1.3125rem] w-0.5 bg-line group-last:hidden lg:top-[1.3125rem] lg:right-0 lg:bottom-auto lg:left-11 lg:h-0.5 lg:w-auto"
+              />
+              <span
+                aria-hidden="true"
+                className="relative flex size-11 shrink-0 items-center justify-center rounded-full bg-leaf font-display text-lg font-bold text-white"
               >
                 {index + 1}
               </span>
-              <h3 className="mt-2 text-xl font-semibold">{step.title}</h3>
-              <p className="mt-2 text-white/85">{step.text}</p>
+              <div className="pt-1.5 lg:pt-5">
+                <h3 className="text-xl font-semibold">{step.title}</h3>
+                <p className="mt-2 leading-relaxed text-muted">{step.text}</p>
+              </div>
             </li>
           ))}
         </ol>
