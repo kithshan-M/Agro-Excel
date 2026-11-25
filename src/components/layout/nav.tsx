@@ -2,47 +2,40 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { navLinks } from "@/config/site";
 
+/** Wide screens. Smaller ones use MobileMenu. */
 export function Nav() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const links = navLinks.filter((link) => link.href !== "/contact");
 
   return (
-    <>
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls="site-nav"
-        onClick={() => setOpen(!open)}
-        className="min-h-11 px-2 font-semibold md:hidden"
-      >
-        {open ? "Close" : "Menu"}
-      </button>
-      <nav
-        id="site-nav"
-        aria-label="Main"
-        className={`${open ? "block" : "hidden"} absolute inset-x-0 top-full border-b border-line bg-paper px-4 py-3 md:static md:block md:border-0 md:p-0`}
-      >
-        <ul className="flex flex-col md:flex-row md:gap-7">
-          {navLinks.map((link) => {
-            const active = pathname === link.href;
-            return (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  aria-current={active ? "page" : undefined}
-                  onClick={() => setOpen(false)}
-                  className={`block py-3 font-medium underline-offset-8 hover:underline ${active ? "text-leaf underline decoration-2" : ""}`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-    </>
+    <nav aria-label="Main" className="hidden lg:block">
+      <ul className="flex items-center gap-7">
+        {links.map((link) => {
+          const active = pathname === link.href;
+          return (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={`relative flex min-h-16 items-center font-medium transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:origin-left after:bg-leaf after:transition-transform after:duration-300 hover:text-leaf hover:after:scale-x-100 motion-reduce:after:transition-none ${active ? "text-leaf after:scale-x-100" : "after:scale-x-0"}`}
+              >
+                {link.label}
+              </Link>
+            </li>
+          );
+        })}
+        <li>
+          <Link
+            href="/contact"
+            aria-current={pathname === "/contact" ? "page" : undefined}
+            className={`flex min-h-11 items-center rounded-md px-5 font-semibold transition-colors ${pathname === "/contact" ? "bg-leaf-dark text-white" : "bg-leaf text-white hover:bg-leaf-dark"}`}
+          >
+            Contact
+          </Link>
+        </li>
+      </ul>
+    </nav>
   );
 }

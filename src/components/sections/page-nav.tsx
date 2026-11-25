@@ -30,7 +30,7 @@ export function PageNav({ links, action }: { links: Link[]; action: Link }) {
   return (
     <nav
       aria-label="On this page"
-      className="sticky top-0 z-[5] border-b border-line bg-paper"
+      className="sticky top-[var(--header-offset,0px)] z-[5] border-b border-line bg-paper transition-[top] duration-300 motion-reduce:transition-none"
     >
       <Container className="flex items-center justify-between">
         <ul className="flex gap-5 sm:gap-7">

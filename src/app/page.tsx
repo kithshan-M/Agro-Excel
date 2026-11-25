@@ -13,7 +13,7 @@ export default function HomePage() {
       <Journey />
       <SeedPreview />
       <ContactCta />
-      <ListBar href="/seeds#list" />
+      <ListBar />
     </>
   );
 }

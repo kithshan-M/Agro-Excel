@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/container";
+import { SectionLink } from "@/components/ui/section-link";
 import { useSeedList } from "@/lib/seed-list";
 
 const button =
@@ -12,7 +12,7 @@ const button =
  * Follows the visitor once a seed is added. It hides at the list itself and
  * stops above the footer. Keep it last on the page.
  */
-export function ListBar({ href = "#list" }: { href?: string }) {
+export function ListBar() {
   const count = Object.keys(useSeedList()).length;
   const [atList, setAtList] = useState(false);
 
@@ -47,16 +47,9 @@ export function ListBar({ href = "#list" }: { href?: string }) {
           <p role="status" className="font-semibold">
             {count} {count === 1 ? "seed" : "seeds"} in your list
           </p>
-          {/* A Link to a section already in the address bar would do nothing. */}
-          {href.startsWith("#") ? (
-            <a href={href} className={button}>
-              View list
-            </a>
-          ) : (
-            <Link href={href} className={button}>
-              View list
-            </Link>
-          )}
+          <SectionLink href="/seeds#list" className={button}>
+            View list
+          </SectionLink>
         </Container>
       </div>
     </div>

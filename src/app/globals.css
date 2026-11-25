@@ -18,6 +18,11 @@
 }
 
 @layer base {
+  /* No scrolling behind the open phone menu. */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
   body {
     background: var(--color-paper);
     color: var(--color-ink);
