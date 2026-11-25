@@ -6,7 +6,7 @@ import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 /** topic is added to the WhatsApp message, e.g. "greenhouse construction". */
 export function ContactCta({ topic }: { topic?: string }) {
   return (
-    <section className="bg-leaf py-14 text-white md:py-20">
+    <section className="bg-leaf py-20 text-white">
       <Container>
         <Reveal className="reveal-up flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
           <div>

@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
-      <ServicePanels />
+      <ServicePanels id="services" />
       <Journey />
       <SeedPreview />
       <ContactCta />

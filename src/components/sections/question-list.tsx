@@ -4,9 +4,12 @@ import { whatsappLink } from "@/lib/whatsapp";
 import { SectionHeading } from "./section-heading";
 
 export function QuestionList({
+  id,
   questions,
   topic,
 }: {
+  /** Different on every page: earlier pages can stay in the document. */
+  id: string;
   questions: { question: string; answer: string }[];
   /** Used in the WhatsApp message, e.g. "crop consulting". */
   topic: string;
@@ -14,7 +17,7 @@ export function QuestionList({
   const link = whatsappLink(topic);
   return (
     <section
-      id="questions"
+      id={id}
       className="scroll-mt-13 border-t border-line py-16 md:py-24"
     >
       <Container className="grid gap-8 lg:grid-cols-[1fr_1.7fr]">

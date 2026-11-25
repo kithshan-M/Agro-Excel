@@ -25,6 +25,15 @@ export function ButtonLink({
     );
   }
 
+  // A Link to a section already in the address bar would do nothing.
+  if (href.startsWith("#")) {
+    return (
+      <a href={href} className={className}>
+        {children}
+      </a>
+    );
+  }
+
   return (
     <Link href={href} className={className}>
       {children}

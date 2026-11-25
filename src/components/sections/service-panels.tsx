@@ -16,9 +16,9 @@ const more =
   "inline-flex min-h-12 items-center font-semibold underline underline-offset-4";
 
 /** The three services, each in the colour of its own page. */
-export function ServicePanels() {
+export function ServicePanels({ id }: { id?: string }) {
   return (
-    <section id="services" className="scroll-mt-4 py-16 md:py-24">
+    <section id={id} className="scroll-mt-4 py-16 md:py-24">
       <Container>
         <SectionHeading title="What we do" />
         <ul className="mt-8 grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:grid-rows-2">

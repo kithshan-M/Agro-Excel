@@ -23,7 +23,7 @@ const links = [
   { id: "stages", label: "Stages" },
   { id: "problem", label: "Problems" },
   { id: "photos", label: "Photos" },
-  { id: "questions", label: "Questions" },
+  { id: "crop-questions", label: "Questions" },
 ];
 
 export default function ConsultingPage() {
@@ -36,6 +36,7 @@ export default function ConsultingPage() {
       <PhotoGuide />
       <AskForm />
       <QuestionList
+        id="crop-questions"
         questions={consultingQuestions}
         topic={service.title.toLowerCase()}
       />

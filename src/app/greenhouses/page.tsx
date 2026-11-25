@@ -24,7 +24,7 @@ const links = [
   { id: "types", label: "Types" },
   { id: "parts", label: "Parts" },
   { id: "process", label: "Process" },
-  { id: "questions", label: "Questions" },
+  { id: "greenhouse-questions", label: "Questions" },
 ];
 
 export default function GreenhousesPage() {
@@ -37,6 +37,7 @@ export default function GreenhousesPage() {
       <BuildSteps steps={service.points} />
       <PhotoGrid />
       <QuestionList
+        id="greenhouse-questions"
         questions={greenhouseQuestions}
         topic={service.title.toLowerCase()}
       />
