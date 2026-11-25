@@ -24,7 +24,7 @@ export default function SeedsPage() {
       <div className="border-t border-line">
         <NextSteps
           title="More help with your crop"
-          slugs={["greenhouses", "consulting"]}
+          slugs={["greenhouses", "irrigation", "consulting"]}
         />
       </div>
       <ListBar />

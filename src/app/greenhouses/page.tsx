@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { BuildSteps } from "@/components/greenhouses/build-steps";
 import { GreenhouseHero } from "@/components/greenhouses/hero";
 import { PartList } from "@/components/greenhouses/part-list";
 import { PhotoGrid } from "@/components/greenhouses/photo-grid";
@@ -7,6 +6,7 @@ import { QuoteProvider } from "@/components/greenhouses/quote-context";
 import { QuoteForm } from "@/components/greenhouses/quote-form";
 import { TypeList } from "@/components/greenhouses/type-list";
 import { ActionBar } from "@/components/sections/action-bar";
+import { BuildSteps } from "@/components/sections/build-steps";
 import { NextSteps } from "@/components/sections/next-steps";
 import { PageNav } from "@/components/sections/page-nav";
 import { QuestionList } from "@/components/sections/question-list";
@@ -34,7 +34,7 @@ export default function GreenhousesPage() {
       <PageNav links={links} action={{ id: "quotation", label: "Get a quotation" }} />
       <TypeList />
       <PartList />
-      <BuildSteps steps={service.points} />
+      <BuildSteps id="process" steps={service.points} />
       <PhotoGrid />
       <QuestionList
         id="greenhouse-questions"
@@ -42,7 +42,7 @@ export default function GreenhousesPage() {
         topic={service.title.toLowerCase()}
       />
       <QuoteForm />
-      <NextSteps title="Once it is built" slugs={["seeds", "consulting"]} />
+      <NextSteps title="Once it is built" slugs={["irrigation", "seeds", "consulting"]} />
       <ActionBar from="types" to="quotation" label="Get a quotation" />
     </QuoteProvider>
   );

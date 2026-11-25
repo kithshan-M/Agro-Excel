@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Brand tokens. Each becomes a Tailwind class, e.g. bg-leaf, text-ink. */
+/* Brand colours and fonts. Each becomes a Tailwind class, e.g. bg-leaf, text-ink. */
 @theme inline {
   --color-paper: #f5f8f6;
   --color-film: #dfeae5;
@@ -11,6 +11,7 @@
   --color-leaf: #17613f;
   --color-leaf-dark: #0d3d28;
   --color-sun: #f6b92b;
+  --color-water: #12506b;
 
   --font-sans: var(--font-figtree), system-ui, sans-serif;
   --font-display: var(--font-bricolage), system-ui, sans-serif;

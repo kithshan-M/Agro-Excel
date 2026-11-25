@@ -11,13 +11,13 @@ export function Reasons() {
       <Container>
         <SectionHeading
           title="Why one team helps"
-          text="A greenhouse, a seed and a piece of advice work best when they match."
+          text="The greenhouse, the water, the seed and the advice work best when they match."
         />
-        <ul className="mt-10 grid gap-9 md:grid-cols-3 md:gap-6">
+        <ul className="mt-10 grid gap-9 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {reasons.map((reason, index) => (
             <Reveal as="li" key={reason.title} index={index} className="reveal-up">
               <Link href={reason.href} className="group block">
-                <div className="relative h-56 overflow-hidden rounded-lg bg-sun">
+                <div className="relative h-48 overflow-hidden rounded-lg bg-sun">
                   <Image
                     src={reason.image}
                     alt=""

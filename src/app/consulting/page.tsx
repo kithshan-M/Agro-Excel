@@ -41,7 +41,7 @@ export default function ConsultingPage() {
         topic={service.title.toLowerCase()}
       />
       <div className="border-t border-line">
-        <NextSteps title="More from us" slugs={["greenhouses", "seeds"]} />
+        <NextSteps title="More from us" slugs={["greenhouses", "irrigation", "seeds"]} />
       </div>
       <ActionBar from="stages" to="ask" label="Ask for advice" />
     </ConsultProvider>

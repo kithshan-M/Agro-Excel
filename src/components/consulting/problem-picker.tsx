@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { SignSummary } from "@/components/sections/sign-summary";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { plantParts } from "@/data/consulting";
@@ -15,7 +16,6 @@ export function ProblemPicker() {
   const [active, setActive] = useState(0);
   const part = plantParts[active];
   const count = (name: string) => signs[name]?.length ?? 0;
-  const total = plantParts.reduce((sum, item) => sum + count(item.name), 0);
 
   return (
     <section id="problem" className="scroll-mt-13 bg-film py-16 md:py-24">
@@ -103,42 +103,13 @@ export function ProblemPicker() {
               </div>
             </fieldset>
 
-            <div className="mt-7 border-t border-line pt-6 lg:mt-auto">
-              <h3 className="text-lg font-semibold">
-                {total === 0
-                  ? "Nothing ticked yet"
-                  : `${total} ${total === 1 ? "sign" : "signs"} in your message`}
-              </h3>
-              <ul className="mt-2 flex flex-wrap gap-2">
-                {plantParts.flatMap((item) =>
-                  (signs[item.name] ?? []).map((sign) => (
-                    <li key={`${item.key}-${sign}`}>
-                      <button
-                        type="button"
-                        aria-label={`Remove ${item.name}, ${sign}`}
-                        onClick={() => toggleSign(item.name, sign)}
-                        className="flex min-h-11 cursor-pointer items-center gap-2 rounded-md bg-film px-3 hover:bg-line"
-                      >
-                        {item.name}: {sign.toLowerCase()}
-                        <svg
-                          viewBox="0 0 20 20"
-                          aria-hidden="true"
-                          className="size-3.5 fill-none stroke-current stroke-[2.5]"
-                        >
-                          <path d="m4 4 12 12M16 4 4 16" />
-                        </svg>
-                      </button>
-                    </li>
-                  )),
-                )}
-              </ul>
-              <a
-                href="#ask"
-                className={`mt-5 inline-flex min-h-12 items-center rounded-md px-6 font-semibold transition-colors ${total > 0 ? "bg-leaf text-white hover:bg-leaf-dark" : "border border-field text-leaf hover:border-leaf"}`}
-              >
-                {total > 0 ? "Continue" : "Skip to the form"}
-              </a>
-            </div>
+            <SignSummary
+              parts={plantParts}
+              signs={signs}
+              toggleSign={toggleSign}
+              href="#ask"
+              noun="sign"
+            />
           </div>
         </div>
         <p className="mt-4 text-muted">

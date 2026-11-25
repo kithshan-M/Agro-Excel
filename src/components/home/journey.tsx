@@ -16,7 +16,7 @@ export function Journey() {
         />
         <Reveal
           as="ol"
-          className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5"
         >
           {journey.map((item, index) => (
             <li key={item.title} className="relative">
@@ -24,7 +24,7 @@ export function Journey() {
                 <span
                   aria-hidden="true"
                   style={step(index * 2)}
-                  className="reveal-line absolute top-[6.5rem] -left-5 hidden h-0.5 w-5 origin-left bg-leaf [--line-from:0,1] lg:block"
+                  className="reveal-line absolute top-[5.5rem] -left-5 hidden h-0.5 w-5 origin-left bg-leaf [--line-from:0,1] lg:block"
                 />
               )}
               <div className="reveal-up h-full" style={step(index * 2)}>
@@ -32,7 +32,7 @@ export function Journey() {
                   href={item.href}
                   className="group flex h-full gap-4 overflow-hidden rounded-lg border border-line bg-white transition-colors hover:border-leaf sm:block"
                 >
-                  <div className="relative w-28 shrink-0 overflow-hidden sm:h-52 sm:w-full">
+                  <div className="relative w-28 shrink-0 overflow-hidden sm:h-44 sm:w-full">
                     <Image
                       src={item.image}
                       alt=""

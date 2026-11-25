@@ -4,9 +4,9 @@
  */
 export const siteConfig = {
   name: "Agro Excel",
-  tagline: "Greenhouses, vegetable seeds and crop advice",
+  tagline: "Greenhouses, irrigation, vegetable seeds and crop advice",
   description:
-    "Agro Excel builds greenhouses, sells vegetable seeds and advises growers on their crops.",
+    "Agro Excel builds greenhouses and irrigation systems, sells vegetable seeds and advises growers on their crops.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   contact: {
     phone: "",
@@ -20,6 +20,7 @@ export const siteConfig = {
 
 export const navLinks = [
   { href: "/greenhouses", label: "Greenhouses" },
+  { href: "/irrigation", label: "Irrigation" },
   { href: "/seeds", label: "Seeds" },
   { href: "/consulting", label: "Crop consulting" },
   { href: "/about", label: "About" },

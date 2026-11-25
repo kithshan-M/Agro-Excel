@@ -16,7 +16,7 @@ export function NextSteps({
     <section className="py-16 md:py-24">
       <Container>
         <SectionHeading title={title} />
-        <ul className="mt-8 grid gap-5 md:grid-cols-2">
+        <ul className={`mt-8 grid gap-5 ${slugs.length > 2 ? "lg:grid-cols-3" : "md:grid-cols-2"}`}>
           {slugs.map(getService).map((service, index) => (
             <Reveal as="li" key={service.slug} index={index} className="reveal-up">
               <Link

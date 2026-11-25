@@ -1,5 +1,5 @@
 export type Service = {
-  slug: "greenhouses" | "seeds" | "consulting";
+  slug: "greenhouses" | "irrigation" | "seeds" | "consulting";
   title: string;
   summary: string;
   /** Short list shown on the page for this service. */
@@ -32,6 +32,33 @@ export const services: Service[] = [
       {
         title: "Handover",
         text: "We walk you through using and maintaining the greenhouse.",
+      },
+    ],
+  },
+  {
+    slug: "irrigation",
+    title: "Irrigation systems",
+    summary: "We build new irrigation systems and maintain the ones you already have.",
+    points: [
+      {
+        title: "Tell us what you need",
+        text: "Message us about your land, your crop and your water.",
+      },
+      {
+        title: "Check",
+        text: "We look at the water, the land or the system you have.",
+      },
+      {
+        title: "Plan and price",
+        text: "We suggest what to build or fix, and give you a price.",
+      },
+      {
+        title: "Build or repair",
+        text: "We fit the system or put right what is wrong.",
+      },
+      {
+        title: "Test and show",
+        text: "We run it with you and show you how to look after it.",
       },
     ],
   },

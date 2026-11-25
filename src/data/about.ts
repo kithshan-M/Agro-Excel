@@ -2,7 +2,7 @@
 
 export const aboutIntro = {
   title: "We help you grow vegetables, from the greenhouse to the harvest.",
-  text: "Agro Excel builds greenhouses, sells vegetable seeds and advises growers on their crops.",
+  text: "Agro Excel builds greenhouses and irrigation systems, sells vegetable seeds and advises growers on their crops.",
 };
 
 /** Pictures: public/images/about/<key>.svg. Links lead to the most useful next steps. */
@@ -34,7 +34,7 @@ export const growers = [
     links: [
       { label: "Make a seed list", href: "/seeds#catalogue" },
       { label: "Describe a crop problem", href: "/consulting#problem" },
-      { label: "Compare covers for your crop", href: "/greenhouses#types" },
+      { label: "Compare irrigation types", href: "/irrigation#irrigation-types" },
     ],
   },
   {
@@ -43,13 +43,13 @@ export const growers = [
     text: "You grow under cover, or want to.",
     links: [
       { label: "Get a quotation", href: "/greenhouses#quotation" },
-      { label: "Find seeds for a greenhouse", href: "/seeds#catalogue" },
+      { label: "Plan or repair irrigation", href: "/irrigation#irrigation-services" },
       { label: "Get advice on your crop", href: "/consulting#ask" },
     ],
   },
 ];
 
-/** Why it helps to have all three services in one place. */
+/** Why it helps to have all the services in one place. */
 export const reasons = [
   {
     title: "The greenhouse fits the crop",
@@ -57,6 +57,13 @@ export const reasons = [
     image: "/images/greenhouses/tunnel.svg",
     href: "/greenhouses",
     link: "Greenhouses",
+  },
+  {
+    title: "The water fits the plot",
+    text: "We ask about your water and land before we suggest a system.",
+    image: "/images/irrigation/drip-still.svg",
+    href: "/irrigation",
+    link: "Irrigation",
   },
   {
     title: "The seed fits the place",

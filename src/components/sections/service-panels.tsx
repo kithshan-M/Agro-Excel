@@ -7,6 +7,7 @@ import { getService } from "@/data/services";
 import { SectionHeading } from "./section-heading";
 
 const greenhouses = getService("greenhouses");
+const irrigation = getService("irrigation");
 const seeds = getService("seeds");
 const consulting = getService("consulting");
 
@@ -15,13 +16,13 @@ const small =
 const more =
   "inline-flex min-h-12 items-center font-semibold underline underline-offset-4";
 
-/** The three services, each in the colour of its own page. */
+/** The services, each in the colour of its own page. */
 export function ServicePanels({ id }: { id?: string }) {
   return (
     <section id={id} className="scroll-mt-4 py-16 md:py-24">
       <Container>
         <SectionHeading title="What we do" />
-        <ul className="mt-8 grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:grid-rows-2">
+        <ul className="mt-8 grid gap-5 lg:grid-cols-[1.15fr_1fr]">
           <Reveal as="li" className="reveal-up lg:row-span-2">
             <div className="group flex h-full flex-col overflow-hidden rounded-lg bg-leaf-dark text-white">
               <div className="p-6 sm:p-9">
@@ -48,6 +49,37 @@ export function ServicePanels({ id }: { id?: string }) {
                   height={640}
                   unoptimized
                   className="block w-[132%] max-w-none transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
+                />
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal as="li" className="reveal-up lg:col-span-2 lg:row-start-3">
+            <div className="group grid h-full overflow-hidden rounded-lg bg-water text-white md:grid-cols-2">
+              <div className="p-6 sm:p-9 md:self-center">
+                <h3 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  {irrigation.title}
+                </h3>
+                <p className="mt-3 max-w-md text-lg leading-relaxed text-white/85">
+                  {irrigation.summary}
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+                  <ButtonLink href="/irrigation#irrigation-ask">
+                    Get a quotation
+                  </ButtonLink>
+                  <Link href="/irrigation#irrigation-parts" className={more}>
+                    Report a fault
+                  </Link>
+                </div>
+              </div>
+              <div className="relative min-h-60 overflow-hidden md:min-h-80">
+                <Image
+                  src="/images/irrigation/panel.svg"
+                  alt=""
+                  width={720}
+                  height={460}
+                  unoptimized
+                  className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
                 />
               </div>
             </div>

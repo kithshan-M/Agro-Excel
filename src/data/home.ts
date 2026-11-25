@@ -4,6 +4,7 @@ import type { Service } from "./services";
 export const scenePins: { slug: Service["slug"]; label: string; at: [number, number] }[] = [
   { slug: "greenhouses", label: "Greenhouses", at: [27, 55] },
   { slug: "consulting", label: "Crop consulting", at: [50.4, 61] },
+  { slug: "irrigation", label: "Irrigation", at: [65.3, 35] },
   { slug: "seeds", label: "Vegetable seeds", at: [85, 36] },
 ];
 
@@ -22,6 +23,13 @@ export const journey = [
     image: "/images/greenhouses/tunnel.svg",
     href: "/greenhouses#types",
     link: "Greenhouse types",
+  },
+  {
+    title: "Water",
+    text: "Set up irrigation, or repair what you have.",
+    image: "/images/irrigation/drip-still.svg",
+    href: "/irrigation#irrigation-services",
+    link: "Irrigation",
   },
   {
     title: "Plant",

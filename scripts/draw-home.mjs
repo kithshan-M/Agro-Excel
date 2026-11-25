@@ -4,6 +4,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { at, frill, leaf, line, n, oval, path } from "./draw-helpers.mjs";
 import { crate, greens, stages } from "./draw-plants.mjs";
 import { embed, newPicture, palm, person } from "./draw-scene.mjs";
+import { tank } from "./draw-water.mjs";
 
 const OUT = "public/images/home";
 const W = 1600;
@@ -59,9 +60,9 @@ function scene(animate) {
     ? "<style>.rise{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}.sun{animation:sun 1.6s ease-out both}@keyframes rise{from{opacity:0;transform:translateY(46px)}}@keyframes sun{from{transform:translateY(120px)}}</style>"
     : "";
   const sun = `<g${animate ? ' class="sun"' : ""}>${oval(1010, 250, 58, 58, "#f6c94f")}</g>`;
-  const content = sky + style + sun + mountains + palm(96, 452, 1.15, 30) + palm(1130, 452, 0.9, -24) + palm(1556, 462, 1.3, -40) + ground +
+  const content = sky + style + sun + mountains + palm(96, 452, 1.15, 30) + palm(1150, 452, 0.8, 20) + palm(1556, 462, 1.3, -40) + ground +
     rows + rise(0, bushes) + rise(1, embed("greenhouses/plain", 24, 250, 620, 310)) +
-    rise(2, stall) + rise(3, grower) + rise(4, adviser) + rise(3, tall(806, 598, 0.62)) + rise(5, crate(1140, 600, 0.72));
+    rise(1, tank(1044, 486, 0.72)) + rise(2, stall) + rise(3, grower) + rise(4, adviser) + rise(3, tall(806, 598, 0.62)) + rise(5, crate(1140, 600, 0.72));
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${content}</svg>`;
 }
 

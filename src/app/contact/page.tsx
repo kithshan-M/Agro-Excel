@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Contact ${siteConfig.name} about greenhouses, seeds or crop advice.`,
+  description: `Contact ${siteConfig.name} about greenhouses, irrigation, seeds or crop advice.`,
 };
 
 const hasDetails = Object.values(siteConfig.contact).some(Boolean);
@@ -17,7 +17,7 @@ export default function ContactPage() {
     <>
       <PageIntro
         title="Contact us"
-        text="Ask about a greenhouse, order seeds or get advice on a crop."
+        text="Ask about a greenhouse or irrigation, order seeds or get advice on a crop."
       />
       <section className="py-16 text-lg">
         <Container>

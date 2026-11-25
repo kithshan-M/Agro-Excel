@@ -1,6 +1,6 @@
 # Agro Excel website
 
-Website for Agro Excel: greenhouse construction, vegetable seeds and crop consulting.
+Website for Agro Excel: greenhouse construction, irrigation, vegetable seeds and crop consulting.
 Built with Next.js, TypeScript and Tailwind CSS.
 
 ## Run it
@@ -35,6 +35,7 @@ src/
     consulting/        Sections for the crop consulting page
     greenhouses/       Sections for the greenhouse page
     home/              Sections for the home page
+    irrigation/        Sections for the irrigation page
     seeds/             Sections for the seeds page
     sections/          Shared page sections
     ui/                Small reusable pieces
@@ -49,6 +50,7 @@ src/
 - Service text: `src/data/services.ts`
 - Greenhouse page text and photos: `src/data/greenhouses.ts`
 - Seed list: `src/data/seeds.ts`
+- Irrigation text: `src/data/irrigation.ts`
 - Crop consulting text: `src/data/consulting.ts`
 - Home page steps and seeds: `src/data/home.ts`
 - About page, story, team and photos: `src/data/about.ts`

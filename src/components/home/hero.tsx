@@ -15,11 +15,11 @@ export function HomeHero() {
           <span className="block">Grow with advice.</span>
         </h1>
         <p
-          className="enter mt-5 max-w-md text-xl leading-relaxed"
+          className="enter mt-5 max-w-lg text-xl leading-relaxed"
           style={step(1)}
         >
-          We construct greenhouses, sell vegetable seeds and advise growers on
-          their crops.
+          We build greenhouses and irrigation systems, sell vegetable seeds and
+          advise growers on their crops.
         </p>
         <div className="enter mt-7 flex flex-wrap gap-3" style={step(2)}>
           <ButtonLink href="#services" variant="dark">
@@ -39,7 +39,7 @@ export function HomeHero() {
           />
           <Image
             src="/images/home/farm.svg"
-            alt="Farm with a greenhouse, two people talking beside a tomato plant, and a stall of seed packets and vegetables."
+            alt="Farm with a greenhouse, two people talking beside a tomato plant, and a water tank, and a stall of seed packets and vegetables."
             width={1600}
             height={660}
             unoptimized
