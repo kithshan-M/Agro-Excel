@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/* Brand tokens. Each becomes a Tailwind class, e.g. bg-leaf, text-ink. */
+@theme inline {
+  --color-paper: #f5f8f6;
+  --color-film: #dfeae5;
+  --color-line: #c3d3cb;
+  --color-ink: #13251d;
+  --color-muted: #4a5f55;
+  --color-leaf: #17613f;
+  --color-leaf-dark: #0d3d28;
+  --color-sun: #f6b92b;
+
+  --font-sans: var(--font-figtree), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  /* Two-tone ring stays visible on both light and dark sections. */
+  :focus-visible {
+    outline: 2px solid #fff;
+    box-shadow: 0 0 0 4px var(--color-ink);
+  }
+}
