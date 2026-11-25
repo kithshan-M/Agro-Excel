@@ -1,20 +1,39 @@
 "use client";
 
 import { useId, useState } from "react";
+import { FormPart } from "@/components/sections/form-part";
 import { MessagePanel, useMessage } from "@/components/sections/message-panel";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Choices, fieldClass } from "@/components/ui/choices";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { siteConfig } from "@/config/site";
-import { cropStages, helpTypes, plantParts, problemAge } from "@/data/consulting";
+import {
+  cropStages,
+  helpTypes,
+  photoGuide,
+  plantParts,
+  problemAge,
+  problemSpread,
+} from "@/data/consulting";
 import { growingPlaces, seeds } from "@/data/seeds";
 import { useConsult } from "./consult-context";
 
 /** Builds a WhatsApp message from the answers. Nothing is stored or sent by this site. */
 export function AskForm() {
-  const { help, setHelp, stage, askAbout, signs } = useConsult();
-  const [crop, setCrop] = useState("");
+  const {
+    help,
+    setHelp,
+    crop,
+    setCrop,
+    stage,
+    setStage,
+    topics,
+    signs,
+    spread,
+    setSpread,
+    photos,
+  } = useConsult();
   const [location, setLocation] = useState("");
   const [place, setPlace] = useState("");
   const [age, setAge] = useState("");
@@ -29,6 +48,7 @@ export function AskForm() {
     ["Growing in", place],
     ["Location", location.trim()],
     ["Started", isProblem ? age : ""],
+    ["How many plants", isProblem ? spread : ""],
   ].filter(([, value]) => value);
   const seen = plantParts
     .filter((part) => signs[part.name]?.length)
@@ -36,11 +56,21 @@ export function AskForm() {
       (part) =>
         `- ${part.name}: ${signs[part.name].map((sign) => sign.toLowerCase()).join(", ")}`,
     );
+  const asked = cropStages
+    .filter((item) => topics[item.name]?.length)
+    .map(
+      (item) => `- ${item.name}: ${topics[item.name].map((topic) => topic.toLowerCase()).join(", ")}`,
+    );
+  const taken = photoGuide.filter((photo) => photos.includes(photo.title));
   const message = useMessage(
     [
       `Hello ${siteConfig.name}, I would like advice about my crop.`,
       ...details.map(([label, value]) => `${label}: ${value}`),
+      ...(asked.length ? ["I want to ask about:", ...asked] : []),
       ...(isProblem && seen.length ? ["What I see:", ...seen] : []),
+      ...(taken.length
+        ? [`Photos I will send: ${taken.map((photo) => photo.title.toLowerCase()).join(", ")}`]
+        : []),
       ...(notes.trim() ? [`Notes: ${notes.trim()}`] : []),
     ].join("\n"),
   );
@@ -58,6 +88,7 @@ export function AskForm() {
             className="grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid content-start gap-7 p-5 sm:p-9">
+              <FormPart number={1} title="Your question" />
               <Choices
                 legend="What do you need help with?"
                 name={`${id}-help`}
@@ -88,15 +119,27 @@ export function AskForm() {
                     value={age}
                     onChange={setAge}
                   />
+                  <Choices
+                    legend="How many plants look like this?"
+                    name={`${id}-spread`}
+                    options={problemSpread}
+                    value={spread}
+                    onChange={setSpread}
+                  />
                 </div>
               )}
-              <Choices
-                legend="What stage is the crop at?"
-                name={`${id}-stage`}
-                options={cropStages.map((item) => item.name)}
-                value={stage}
-                onChange={(name) => askAbout(name, name === cropStages[0].name)}
-              />
+              <p className="rounded-md bg-film p-4 sm:p-5">
+                {asked.length > 0
+                  ? "Your ticked questions are in the message. "
+                  : "You can tick questions for each stage of the crop. "}
+                <a
+                  href="#stages"
+                  className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
+                >
+                  {asked.length > 0 ? "Change questions" : "Choose questions"}
+                </a>
+              </p>
+              <FormPart number={2} title="Your crop" />
               <div className="grid gap-7 sm:grid-cols-2 sm:gap-5">
                 <div>
                   <label htmlFor={`${id}-crop`} className="font-semibold">
@@ -133,6 +176,13 @@ export function AskForm() {
                   />
                 </div>
               </div>
+              <Choices
+                legend="What stage is it at?"
+                name={`${id}-stage`}
+                options={cropStages.map((item) => item.name)}
+                value={stage}
+                onChange={setStage}
+              />
               <Choices
                 legend="Where do you grow it?"
                 name={`${id}-place`}

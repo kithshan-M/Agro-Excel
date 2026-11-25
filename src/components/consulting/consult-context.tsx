@@ -1,44 +1,93 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { helpTypes } from "@/data/consulting";
+import { cropStages, helpTypes } from "@/data/consulting";
 
-type Signs = Readonly<Record<string, string[]>>;
+type Lists = Readonly<Record<string, string[]>>;
 
-/** Carries the chosen help and the signs picked on the plant into the form. */
+const toggle = (lists: Lists, key: string, item: string): Lists => {
+  const now = lists[key] ?? [];
+  return {
+    ...lists,
+    [key]: now.includes(item) ? now.filter((other) => other !== item) : [...now, item],
+  };
+};
+
+/** Carries choices made on the page into the form. */
 const ConsultContext = createContext<{
   help: string;
   setHelp: (help: string) => void;
+  crop: string;
+  setCrop: (crop: string) => void;
+  /** Stage in the form. */
   stage: string;
-  /** Puts a crop stage in the form. */
-  askAbout: (stage: string, planning: boolean) => void;
-  signs: Signs;
+  setStage: (stage: string) => void;
+  /** Stage open on the page, as a place in cropStages. */
+  open: number;
+  setOpen: (index: number) => void;
+  /** Questions ticked per stage. */
+  topics: Lists;
+  toggleTopic: (stage: string, topic: string) => void;
+  /** Signs ticked per plant part. */
+  signs: Lists;
   toggleSign: (part: string, sign: string) => void;
+  spread: string;
+  setSpread: (spread: string) => void;
+  /** Titles of the photos already taken. */
+  photos: string[];
+  togglePhoto: (title: string) => void;
 } | null>(null);
 
 export function ConsultProvider({ children }: { children: React.ReactNode }) {
   const [help, setHelp] = useState("");
+  const [crop, setCrop] = useState("");
   const [stage, setStage] = useState("");
-  const [signs, setSigns] = useState<Signs>({});
+  const [open, setOpen] = useState(0);
+  const [topics, setTopics] = useState<Lists>({});
+  const [signs, setSigns] = useState<Lists>({});
+  const [spread, chooseSpread] = useState("");
+  const [photos, setPhotos] = useState<Lists>({});
 
-  function askAbout(name: string, planning: boolean) {
+  function toggleTopic(name: string, topic: string) {
+    const adding = !topics[name]?.includes(topic);
+    setTopics(toggle(topics, name, topic));
+    if (!adding) return;
     setStage(name);
     // Keep the kind of help the visitor already chose.
-    if (!help) setHelp(helpTypes[planning ? 0 : 1]);
+    if (!help) setHelp(helpTypes[name === cropStages[0].name ? 0 : 1]);
   }
 
   function toggleSign(part: string, sign: string) {
-    const now = signs[part] ?? [];
-    const adding = !now.includes(sign);
-    setSigns({
-      ...signs,
-      [part]: adding ? [...now, sign] : now.filter((item) => item !== sign),
-    });
-    if (adding) setHelp(helpTypes[2]);
+    if (!signs[part]?.includes(sign)) setHelp(helpTypes[2]);
+    setSigns(toggle(signs, part, sign));
+  }
+
+  function setSpread(name: string) {
+    chooseSpread(name);
+    if (name) setHelp(helpTypes[2]);
   }
 
   return (
-    <ConsultContext value={{ help, setHelp, stage, askAbout, signs, toggleSign }}>
+    <ConsultContext
+      value={{
+        help,
+        setHelp,
+        crop,
+        setCrop,
+        stage,
+        setStage,
+        open,
+        setOpen,
+        topics,
+        toggleTopic,
+        signs,
+        toggleSign,
+        spread,
+        setSpread,
+        photos: photos.taken ?? [],
+        togglePhoto: (title) => setPhotos(toggle(photos, "taken", title)),
+      }}
+    >
       {children}
     </ConsultContext>
   );

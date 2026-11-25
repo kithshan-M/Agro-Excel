@@ -18,8 +18,8 @@ export function ConsultingHero({ service }: { service: Service }) {
           {service.summary}
         </p>
         <div className="enter mt-8 flex flex-wrap gap-3" style={step(2)}>
-          <ButtonLink href="#ask" variant="dark">
-            Ask for advice
+          <ButtonLink href="#start" variant="dark">
+            Choose your crop
           </ButtonLink>
           <ButtonLink href="#problem" variant="outline">
             Describe a problem

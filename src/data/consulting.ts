@@ -56,42 +56,78 @@ export const cropStages = [
  * key is the spotlight picture plant-<key>.svg. label is where the button sits
  * ([left %, top %]), matching the pointer lines in scripts/draw-consulting.mjs.
  */
-export const plantParts = [
+export const plantParts: {
+  key: string;
+  name: string;
+  label: [number, number];
+  /** picture is public/images/consulting/sign-<picture>.svg. Leave it out for words only. */
+  signs: { name: string; picture?: string }[];
+}[] = [
   {
     key: "leaves",
     name: "Leaves",
     label: [13.3, 22.9],
-    signs: ["Yellowing", "Spots", "Curling", "Holes", "White powder", "Dry edges"],
+    signs: [
+      { name: "Yellowing", picture: "leaves-yellowing" },
+      { name: "Spots", picture: "leaves-spots" },
+      { name: "Curling", picture: "leaves-curling" },
+      { name: "Holes", picture: "leaves-holes" },
+      { name: "White powder", picture: "leaves-white-powder" },
+      { name: "Dry edges", picture: "leaves-dry-edges" },
+    ],
   },
   {
     key: "flowers",
     name: "Flowers",
     label: [81.9, 14.1],
-    signs: ["Dropping off", "Very few flowers", "Damaged"],
+    signs: [
+      { name: "Dropping off", picture: "flowers-dropping-off" },
+      { name: "Very few flowers", picture: "flowers-very-few-flowers" },
+      { name: "Damaged", picture: "flowers-damaged" },
+    ],
   },
   {
     key: "fruit",
     name: "Fruit",
     label: [86.9, 44.1],
-    signs: ["Spots", "Rotting", "Cracks", "Holes", "Small or misshapen"],
+    signs: [
+      { name: "Spots", picture: "fruit-spots" },
+      { name: "Rotting", picture: "fruit-rotting" },
+      { name: "Cracks", picture: "fruit-cracks" },
+      { name: "Holes", picture: "fruit-holes" },
+      { name: "Small or misshapen", picture: "fruit-small-or-misshapen" },
+    ],
   },
   {
     key: "stem",
     name: "Stem",
     label: [12.8, 58.8],
-    signs: ["Soft or rotting", "Cracks", "Dark marks", "Insects on it"],
+    signs: [
+      { name: "Soft or rotting", picture: "stem-soft-or-rotting" },
+      { name: "Cracks", picture: "stem-cracks" },
+      { name: "Dark marks", picture: "stem-dark-marks" },
+      { name: "Insects on it", picture: "stem-insects-on-it" },
+    ],
   },
   {
     key: "roots",
     name: "Roots",
     label: [84.7, 88.2],
-    signs: ["Swollen or knotted", "Rotting", "Few or weak"],
+    signs: [
+      { name: "Swollen or knotted", picture: "roots-swollen-or-knotted" },
+      { name: "Rotting", picture: "roots-rotting" },
+      { name: "Few or weak", picture: "roots-few-or-weak" },
+    ],
   },
   {
     key: "whole",
     name: "Whole plant",
     label: [16.4, 87.6],
-    signs: ["Wilting", "Slow growth", "Dying suddenly"],
+    signs: [
+      { name: "Wilting", picture: "whole-wilting" },
+      { name: "Slow growth", picture: "whole-slow-growth" },
+      { name: "Dying suddenly", picture: "whole-dying-suddenly" },
+    ],
   },
 ];
 
@@ -108,6 +144,51 @@ export const helpTypes = [
   "Growing advice",
   "A problem with my crop",
 ];
+
+/** One per help type, in the same order. stage opens that crop stage (0 is the first). */
+export const helpCards: {
+  title: string;
+  text: string;
+  action: string;
+  href: string;
+  image: string;
+  stage?: number;
+}[] = [
+  {
+    title: "Plan a crop",
+    text: "Choose what, when and how much to plant.",
+    action: "Plan it",
+    href: "#stages",
+    image: "/images/consulting/stage-1.svg",
+    stage: 0,
+  },
+  {
+    title: "Grow it well",
+    text: "Watering, feeding and care at each stage.",
+    action: "See the stages",
+    href: "#stages",
+    image: "/images/consulting/stage-3.svg",
+    stage: 2,
+  },
+  {
+    title: "Solve a problem",
+    text: "Something looks wrong with the plants.",
+    action: "Describe it",
+    href: "#problem",
+    image: "/images/consulting/sign-leaves-spots.svg",
+  },
+];
+
+/** Safe steps for anyone with a problem, whatever it turns out to be. */
+export const waitSteps = [
+  "Take the photos today, before the plants change",
+  "Note when you first saw it",
+  "Note the watering, feeding and spraying you did before it",
+  "Keep tools and hands clean between sick and healthy plants",
+  "Ask us before you spray",
+];
+
+export const problemSpread = ["One or two plants", "A patch", "Most of the crop"];
 
 export const problemAge = ["Today", "A few days", "A week or more", "Not sure"];
 

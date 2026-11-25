@@ -1,25 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { cropStages } from "@/data/consulting";
 import { useConsult } from "./consult-context";
+import { Tick } from "./tick";
 
 const total = cropStages.length;
 
 /** Tabs: arrow keys move between stages, as screen reader users expect. */
 export function Stages() {
-  const { askAbout } = useConsult();
-  const [active, setActive] = useState(0);
+  const { open: active, setOpen, topics, toggleTopic, setStage } = useConsult();
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const stage = cropStages[active];
+  const count = (name: string) => topics[name]?.length ?? 0;
+  const all = cropStages.reduce((sum, item) => sum + count(item.name), 0);
 
   function select(index: number, focus = false) {
     const next = (index + total) % total;
-    setActive(next);
+    setOpen(next);
     if (focus) tabs.current[next]?.focus();
   }
 
@@ -36,11 +38,11 @@ export function Stages() {
   }
 
   return (
-    <section id="stages" className="scroll-mt-13 py-16 md:py-24">
+    <section id="stages" className="scroll-mt-13 bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
           title="Advice at every stage"
-          text="Choose where your crop is now to see what you can ask us."
+          text="Choose where your crop is now, then tick what you want to ask. We add it to your message."
         />
         <Reveal className="reveal-up mt-8">
           <div
@@ -76,6 +78,12 @@ export function Stages() {
                     className={`relative z-1 flex size-11 items-center justify-center rounded-full border-2 font-display text-lg transition duration-200 motion-reduce:transition-none ${active === index ? "scale-110 border-leaf bg-sun text-ink" : done ? "border-leaf bg-leaf text-white" : "border-field bg-white text-ink group-hover:border-leaf"}`}
                   >
                     {index + 1}
+                    {count(item.name) > 0 && (
+                      <span className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-ink text-xs text-white">
+                        {count(item.name)}
+                        <span className="sr-only"> ticked</span>
+                      </span>
+                    )}
                   </span>
                   <span
                     className={`text-center leading-tight ${active === index ? "text-leaf" : "text-muted group-hover:text-ink"}`}
@@ -93,7 +101,7 @@ export function Stages() {
             aria-labelledby={`stage-tab-${active}`}
             className="mt-6 grid overflow-hidden rounded-lg border border-line bg-white md:grid-cols-2"
           >
-            <div className="relative aspect-[560/400] bg-[#dcebf0] md:aspect-auto md:min-h-96">
+            <div className="relative aspect-[560/330] bg-[#dcebf0] md:aspect-auto md:min-h-96">
               {cropStages.map((item, index) => (
                 <Image
                   key={item.name}
@@ -109,28 +117,28 @@ export function Stages() {
             <div className="flex flex-col p-5 sm:p-9">
               <h3 className="text-2xl font-bold sm:text-3xl">{stage.title}</h3>
               <p className="mt-2 text-lg text-muted">{stage.text}</p>
-              <p className="mt-6 font-semibold">You can ask us about</p>
-              <ul className="mt-3 space-y-3 md:min-h-32">
-                {stage.topics.map((topic) => (
-                  <li key={topic} className="flex gap-3">
-                    <svg
-                      viewBox="0 0 20 20"
-                      aria-hidden="true"
-                      className="mt-1 size-4 shrink-0 fill-none stroke-leaf stroke-[2.5]"
+              <fieldset className="mt-5">
+                <legend className="font-semibold">What do you want to ask?</legend>
+                <div className="mt-3 grid gap-2.5 md:min-h-41 md:content-start">
+                  {stage.topics.map((topic) => (
+                    <Tick
+                      key={`${stage.name}-${topic}`}
+                      checked={topics[stage.name]?.includes(topic) ?? false}
+                      onChange={() => toggleTopic(stage.name, topic)}
                     >
-                      <path d="m3 10.5 4.5 4.5L17 5" />
-                    </svg>
-                    {topic}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-7 flex flex-wrap items-center gap-3 md:mt-auto">
+                      {topic}
+                    </Tick>
+                  ))}
+                </div>
+              </fieldset>
+              <div className="mt-auto flex flex-wrap items-center gap-3 pt-7">
                 <a
                   href="#ask"
-                  onClick={() => askAbout(stage.name, active === 0)}
+                  // Ticking a question has already set the stage.
+                  onClick={() => all === 0 && setStage(stage.name)}
                   className="inline-flex min-h-12 items-center rounded-md bg-leaf px-6 font-semibold text-white transition-colors hover:bg-leaf-dark"
                 >
-                  Ask about this
+                  {all > 0 ? `Continue with ${all} ${all === 1 ? "question" : "questions"}` : "Ask about this stage"}
                 </a>
                 <button
                   type="button"
