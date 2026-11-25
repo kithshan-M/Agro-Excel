@@ -3,8 +3,13 @@
 import { useEffect, useState } from "react";
 import { copyText } from "@/lib/copy";
 
+const tones = {
+  water: { main: "bg-water text-white hover:bg-ink", other: "border-water text-water hover:bg-white" },
+  leaf: { main: "bg-leaf text-white hover:bg-leaf-dark", other: "border-leaf text-leaf hover:bg-white" },
+};
+
 /** Sends a list to any of the visitor's own WhatsApp contacts, or copies it. */
-export function SendList({ text }: { text: string }) {
+export function SendList({ text, tone }: { text: string; tone: keyof typeof tones }) {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
@@ -20,7 +25,7 @@ export function SendList({ text }: { text: string }) {
           href={`https://wa.me/?text=${encodeURIComponent(text)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-12 items-center rounded-md bg-water px-6 font-semibold text-white transition-colors hover:bg-ink"
+          className={`inline-flex min-h-12 items-center rounded-md px-6 font-semibold transition-colors ${tones[tone].main}`}
         >
           Send by WhatsApp
         </a>
@@ -31,7 +36,7 @@ export function SendList({ text }: { text: string }) {
               (await copyText(text)) ? "List copied" : "Copying did not work. Select the text below.",
             )
           }
-          className="min-h-12 cursor-pointer rounded-md border border-water px-6 font-semibold text-water transition-colors hover:bg-white"
+          className={`min-h-12 cursor-pointer rounded-md border px-6 font-semibold transition-colors ${tones[tone].other}`}
         >
           Copy the list
         </button>

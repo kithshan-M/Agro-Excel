@@ -1,10 +1,10 @@
+import { SendList } from "@/components/sections/send-list";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { siteConfig } from "@/config/site";
 import { careSchedule } from "@/data/irrigation";
 import { step } from "@/lib/motion";
-import { SendList } from "./send-list";
 
 const list = [
   "Irrigation checks",
@@ -21,7 +21,7 @@ export function CareSchedule() {
             title="Keep it working"
             text="Simple checks you can do yourself. Send the list to whoever looks after your field, and ask us for the rest."
           />
-          <SendList text={list} />
+          <SendList text={list} tone="water" />
         </div>
         <Reveal as="ul" className="mt-9 grid gap-5 md:grid-cols-3">
           {careSchedule.map((group, index) => (

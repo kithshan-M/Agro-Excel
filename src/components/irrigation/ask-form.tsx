@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { FormPart } from "@/components/sections/form-part";
 import { MessagePanel, useMessage } from "@/components/sections/message-panel";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Choices, fieldClass } from "@/components/ui/choices";
@@ -247,19 +248,5 @@ export function IrrigationForm() {
         </Reveal>
       </Container>
     </section>
-  );
-}
-
-function FormPart({ number, title }: { number: number; title: string }) {
-  return (
-    <h3 className="flex items-center gap-3 border-t border-line pt-7 text-xl font-semibold first:border-t-0 first:pt-0">
-      <span
-        aria-hidden="true"
-        className="flex size-8 shrink-0 items-center justify-center rounded-full bg-water text-base font-bold text-white"
-      >
-        {number}
-      </span>
-      {title}
-    </h3>
   );
 }

@@ -3,12 +3,15 @@
 import Image from "next/image";
 import { useState } from "react";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { SignSummary } from "@/components/sections/sign-summary";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { greenhouseParts } from "@/data/greenhouses";
 import { step } from "@/lib/motion";
+import { useQuote } from "./quote-context";
 
 const total = greenhouseParts.length;
+const summary = greenhouseParts.map(({ name }) => ({ key: name, name }));
 
 /** Keeps the name clear of the drawing: below the low numbers, beside the others. */
 function labelPlace([left, top]: number[]) {
@@ -24,14 +27,16 @@ function labelPlace([left, top]: number[]) {
 export function PartList() {
   const [active, setActive] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
+  const { wishes, toggleWish } = useQuote();
   const part = greenhouseParts[active];
+  const wished = (index: number) => (wishes[greenhouseParts[index].name]?.length ?? 0) > 0;
 
   return (
     <section id="parts" className="scroll-mt-13 bg-film py-16 md:py-24">
       <Container>
         <SectionHeading
           title="What goes into it"
-          text="Choose a number to see what it is. We agree on each part with you before building."
+          text="Choose a number to see what it is, and tick what you would like. We agree on each part with you before building."
         />
         <div className="mt-10 grid items-start lg:grid-cols-[1.35fr_1fr] lg:gap-12">
           <Reveal className="relative lg:sticky lg:top-20">
@@ -69,9 +74,15 @@ export function PartList() {
                     onClick={() => setActive(index)}
                     onMouseEnter={() => setHovered(index)}
                     onMouseLeave={() => setHovered(null)}
-                    className={`flex size-8 cursor-pointer items-center justify-center rounded-full text-sm font-bold transition duration-200 before:absolute before:-inset-2 active:scale-95 motion-reduce:transition-none sm:size-10 sm:text-lg ${active === index ? "scale-120 bg-sun text-ink ring-4 ring-white" : hovered === index ? "scale-110 bg-leaf text-white" : "bg-ink text-white"}`}
+                    className={`relative flex size-8 cursor-pointer items-center justify-center rounded-full text-sm font-bold transition duration-200 before:absolute before:-inset-2 active:scale-95 motion-reduce:transition-none sm:size-10 sm:text-lg ${active === index ? "scale-120 bg-sun text-ink ring-4 ring-white" : hovered === index ? "scale-110 bg-leaf text-white" : "bg-ink text-white"}`}
                   >
                     {index + 1}
+                    {wished(index) && (
+                      <span
+                        aria-hidden="true"
+                        className="absolute -top-1 -right-1 size-3.5 rounded-full border-2 border-white bg-leaf"
+                      />
+                    )}
                   </button>
                 </div>
                 <span
@@ -85,12 +96,13 @@ export function PartList() {
           </Reveal>
 
           <div className="rounded-b-lg border border-t-0 border-line bg-white p-5 lg:hidden">
-            <div aria-live="polite" className="min-h-[6.5rem] sm:min-h-20">
+            <div aria-live="polite" className="min-h-21 sm:min-h-14">
               <h3 className="text-xl font-semibold">
                 {active + 1}. {part.name}
               </h3>
               <p className="mt-1 leading-relaxed text-muted">{part.text}</p>
             </div>
+            <Options part={part} />
             <div className="mt-3 flex items-center justify-between">
               <StepButton
                 label="Previous"
@@ -104,6 +116,13 @@ export function PartList() {
                 onClick={() => setActive((active + 1) % total)}
               />
             </div>
+            <SignSummary
+              parts={summary}
+              signs={wishes}
+              toggleSign={toggleWish}
+              href="#quotation"
+              noun="wish"
+            />
           </div>
 
           <Reveal as="ol" className="hidden border-t border-line lg:block">
@@ -136,12 +155,48 @@ export function PartList() {
                     </span>
                   </span>
                 </button>
+                {active === index && item.options && (
+                  <div className="enter bg-white pr-4 pb-5 pl-16">
+                    <Options part={item} />
+                  </div>
+                )}
               </li>
             ))}
+            <li className="mt-6 rounded-lg bg-white p-5 [&>div]:mt-0 [&>div]:border-t-0 [&>div]:pt-0">
+              <SignSummary
+                parts={summary}
+                signs={wishes}
+                toggleSign={toggleWish}
+                href="#quotation"
+                noun="wish"
+              />
+            </li>
           </Reveal>
         </div>
       </Container>
     </section>
+  );
+}
+
+/** Wishes for one part. They go into the quotation message. */
+function Options({ part }: { part: (typeof greenhouseParts)[number] }) {
+  const { wishes, toggleWish } = useQuote();
+  if (!part.options) return null;
+
+  return (
+    <div role="group" aria-label={`${part.name}: what would you like?`} className="flex flex-wrap gap-2.5 max-lg:mt-3">
+      {part.options.map((option) => (
+        <button
+          key={option}
+          type="button"
+          aria-pressed={wishes[part.name]?.includes(option) ?? false}
+          onClick={() => toggleWish(part.name, option)}
+          className="min-h-11 cursor-pointer rounded-md border border-field bg-white px-4 font-medium transition-colors hover:border-leaf aria-pressed:border-leaf aria-pressed:bg-leaf aria-pressed:text-white"
+        >
+          {option}
+        </button>
+      ))}
+    </div>
   );
 }
 

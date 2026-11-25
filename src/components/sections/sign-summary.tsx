@@ -11,7 +11,7 @@ export function SignSummary({
   signs: Readonly<Record<string, string[]>>;
   toggleSign: (part: string, sign: string) => void;
   href: string;
-  /** "sign" or "fault". */
+  /** "sign", "fault" or "wish". */
   noun: string;
   /** Something else already in the message, such as a symptom. */
   note?: string;
@@ -25,7 +25,7 @@ export function SignSummary({
           ? note
             ? `In your message: ${note.toLowerCase()}`
             : "Nothing ticked yet"
-          : `${total} ${noun}${total === 1 ? "" : "s"} in your message`}
+          : `${total} ${total === 1 ? noun : noun.endsWith("sh") ? `${noun}es` : `${noun}s`} in your message`}
       </h3>
       <ul className="mt-2 flex flex-wrap gap-2">
         {parts.flatMap((item) =>

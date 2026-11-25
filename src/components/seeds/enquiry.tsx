@@ -52,7 +52,7 @@ export function Enquiry() {
         ) : (
           <form
             onSubmit={message.send}
-            className="mt-10 grid overflow-hidden rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
+            className="mt-10 grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid content-start gap-7 p-5 sm:p-9">
               <ul className="border-t border-line">

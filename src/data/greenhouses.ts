@@ -79,7 +79,13 @@ export const greenhouseTypes: {
 
 // Keep this order: it matches the pointer lines in cutaway.svg.
 // badge is where the number sits on the picture: [left %, top %].
-export const greenhouseParts = [
+// options are wishes a customer can tick for the quotation.
+export const greenhouseParts: {
+  name: string;
+  text: string;
+  badge: [number, number];
+  options?: string[];
+}[] = [
   {
     name: "Frame",
     text: "The posts, hoops and joints that carry the structure.",
@@ -89,6 +95,7 @@ export const greenhouseParts = [
     name: "Cover",
     text: "Clear film or net, chosen to suit the crop and the weather.",
     badge: [84.4, 23.6],
+    options: ["Clear film", "Net"],
   },
   {
     name: "Insect net and doors",
@@ -99,17 +106,39 @@ export const greenhouseParts = [
     name: "Ventilation",
     text: "Roof or side openings that let hot air escape.",
     badge: [52.2, 9.7],
+    options: ["Roof openings", "Side openings"],
   },
   {
     name: "Watering",
     text: "Drip lines or misting, matched to your water source.",
     badge: [44.4, 93.1],
+    options: ["Drip lines", "Misting"],
   },
   {
     name: "Growing area",
     text: "Soil beds, grow bags or benches, set out with walking space.",
     badge: [8.9, 83.3],
+    options: ["Soil beds", "Grow bags", "Benches"],
   },
+];
+
+/** The size planner, in feet: [length, width] to try, and the example layout. */
+export const planner = {
+  sizes: [
+    [30, 20],
+    [60, 30],
+    [100, 50],
+  ],
+  layout: { bed: 3, path: 1.5, end: 2 },
+};
+
+export const siteChecks = [
+  "Measure the length and width of the land",
+  "Note where the water comes from",
+  "Look for trees or buildings that shade it",
+  "See where rain water collects",
+  "Check how a vehicle can reach it",
+  "Take a photo from each corner",
 ];
 
 /**

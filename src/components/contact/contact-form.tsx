@@ -102,7 +102,7 @@ export function ContactForm() {
         <Reveal className="reveal-up mt-4">
           <form
             onSubmit={message.send}
-            className="grid overflow-hidden rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
+            className="grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid content-start gap-7 p-5 sm:p-9">
               <div>

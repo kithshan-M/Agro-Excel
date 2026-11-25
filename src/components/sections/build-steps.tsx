@@ -7,13 +7,15 @@ import { SectionHeading } from "./section-heading";
 export function BuildSteps({
   id,
   steps,
+  className = "py-16 md:py-24",
 }: {
   /** Different on every page. */
   id: string;
   steps: Service["points"];
+  className?: string;
 }) {
   return (
-    <section id={id} className="scroll-mt-13 py-16 md:py-24">
+    <section id={id} className={`scroll-mt-13 ${className}`}>
       <Container>
         <SectionHeading title="How it works" />
         <Reveal as="ol" className="mt-12 lg:grid lg:grid-cols-5">
