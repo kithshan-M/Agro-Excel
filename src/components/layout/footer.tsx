@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/container";
 import { SectionLink } from "@/components/ui/section-link";
 import { siteConfig } from "@/config/site";
 import { quickLinks, serviceNav } from "@/data/navigation";
+import { hasProjects } from "@/lib/projects";
 import { BackToTop } from "./back-to-top";
 import { FooterSkyline } from "./footer-skyline";
 import { Logo } from "./logo";
@@ -50,6 +51,7 @@ export function Footer() {
             <FooterColumn
               title={siteConfig.name}
               links={[
+                ...(hasProjects ? [{ href: "/projects", label: "Projects" }] : []),
                 { href: "/about", label: "About us" },
                 { href: "/contact", label: "Contact" },
               ]}
@@ -63,6 +65,11 @@ export function Footer() {
           <ul className="flex flex-wrap items-center gap-x-6">
             {hasDetails && (
               <>
+                {hasProjects && (
+                  <li>
+                    <FooterLink href="/projects">Projects</FooterLink>
+                  </li>
+                )}
                 <li>
                   <FooterLink href="/about">About us</FooterLink>
                 </li>

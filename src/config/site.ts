@@ -23,6 +23,7 @@ export const navLinks = [
   { href: "/irrigation", label: "Irrigation" },
   { href: "/seeds", label: "Seeds" },
   { href: "/consulting", label: "Crop consulting" },
+  { href: "/projects", label: "Projects" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

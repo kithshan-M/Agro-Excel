@@ -5,6 +5,7 @@ import { PhotoGrid } from "@/components/greenhouses/photo-grid";
 import { QuoteProvider } from "@/components/greenhouses/quote-context";
 import { QuoteForm } from "@/components/greenhouses/quote-form";
 import { TypeList } from "@/components/greenhouses/type-list";
+import { ProjectPreview } from "@/components/projects/project-preview";
 import { ActionBar } from "@/components/sections/action-bar";
 import { BuildSteps } from "@/components/sections/build-steps";
 import { NextSteps } from "@/components/sections/next-steps";
@@ -36,6 +37,7 @@ export default function GreenhousesPage() {
       <PartList />
       <BuildSteps id="process" steps={service.points} />
       <PhotoGrid />
+      <ProjectPreview title="Greenhouse projects" kinds={["Greenhouse"]} />
       <QuestionList
         id="greenhouse-questions"
         questions={greenhouseQuestions}

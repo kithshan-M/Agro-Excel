@@ -11,7 +11,7 @@ import { whatsappLink } from "@/lib/whatsapp";
 import { Logo } from "./logo";
 
 /** Panel for phones and tablets. The dialog element keeps focus inside and closes on Escape. */
-export function MobileMenu() {
+export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
   const pathname = usePathname();
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
@@ -123,6 +123,13 @@ export function MobileMenu() {
                   Home
                 </Link>
               </li>
+              {hasProjects && (
+                <li>
+                  <Link href="/projects" onClick={close} aria-current={pathname === "/projects" ? "page" : undefined} className={row(pathname.startsWith("/projects"))}>
+                    Projects
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link href="/about" onClick={close} aria-current={pathname === "/about" ? "page" : undefined} className={row(pathname === "/about")}>
                   About

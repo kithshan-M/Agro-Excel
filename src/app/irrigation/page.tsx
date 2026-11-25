@@ -6,6 +6,7 @@ import { IrrigationProvider } from "@/components/irrigation/irrigation-context";
 import { Paths } from "@/components/irrigation/paths";
 import { SystemPicker } from "@/components/irrigation/system-picker";
 import { IrrigationTypes } from "@/components/irrigation/types";
+import { ProjectPreview } from "@/components/projects/project-preview";
 import { ActionBar } from "@/components/sections/action-bar";
 import { BuildSteps } from "@/components/sections/build-steps";
 import { NextSteps } from "@/components/sections/next-steps";
@@ -41,6 +42,7 @@ export default function IrrigationPage() {
       <SystemPicker />
       <CareSchedule />
       <BuildSteps id="irrigation-process" steps={service.points} />
+      <ProjectPreview title="Irrigation projects" kinds={["Irrigation", "Irrigation repair"]} />
       <IrrigationForm />
       <QuestionList
         id="irrigation-questions"

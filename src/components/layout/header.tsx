@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/container";
+import { hasProjects, shownLinks } from "@/lib/projects";
 import { HeaderShell } from "./header-shell";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
@@ -11,9 +12,9 @@ export function Header() {
       <Container className="flex min-h-16 items-center justify-between gap-4">
         <Logo />
         <div className="flex items-center gap-1 lg:gap-5">
-          <Nav />
+          <Nav links={shownLinks} />
           <SeedListLink />
-          <MobileMenu />
+          <MobileMenu hasProjects={hasProjects} />
         </div>
       </Container>
     </HeaderShell>

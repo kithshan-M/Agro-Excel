@@ -37,6 +37,7 @@ src/
     greenhouses/       Sections for the greenhouse page
     home/              Sections for the home page
     irrigation/        Sections for the irrigation page
+    projects/          Sections for the projects pages
     seeds/             Sections for the seeds page
     sections/          Shared page sections
     ui/                Small reusable pieces
@@ -56,6 +57,7 @@ src/
 - Home page steps and seeds: `src/data/home.ts`
 - About page, story, team and photos: `src/data/about.ts`
 - Contact page topics: `src/data/contact.ts`
+- Completed projects: `src/data/projects.ts`, with photos in `public/images/projects`. While the list is empty, `npm run dev` shows samples and the live site hides the page
 - Menu pictures and footer shortcuts: `src/data/navigation.ts`
 - Colours: `src/app/globals.css`
 - Fonts: `src/app/layout.tsx`, and `src/assets/fonts` for link pictures
