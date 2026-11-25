@@ -1,18 +1,23 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
-import { getService } from "@/data/services";
+import { getService, type Service } from "@/data/services";
 import { SectionHeading } from "./section-heading";
 
-const next = [getService("seeds"), getService("consulting")];
-
-export function NextSteps() {
+/** Links on to other services at the end of a page. */
+export function NextSteps({
+  title,
+  slugs,
+}: {
+  title: string;
+  slugs: Service["slug"][];
+}) {
   return (
     <section className="py-16 md:py-24">
       <Container>
-        <SectionHeading title="Once it is built" />
+        <SectionHeading title={title} />
         <ul className="mt-8 grid gap-5 md:grid-cols-2">
-          {next.map((service, index) => (
+          {slugs.map(getService).map((service, index) => (
             <Reveal as="li" key={service.slug} index={index} className="reveal-up">
               <Link
                 href={`/${service.slug}`}

@@ -21,7 +21,7 @@ Open http://localhost:3000.
 | `npm run build` | Build for production |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Check the code with ESLint |
-| `npm run draw` | Redraw the greenhouse illustrations |
+| `npm run draw` | Redraw the greenhouse and vegetable illustrations |
 
 ## Structure
 
@@ -32,6 +32,7 @@ src/
   components/
     layout/            Header, navigation, footer
     greenhouses/       Sections for the greenhouse page
+    seeds/             Sections for the seeds page
     sections/          Shared page sections
     ui/                Small reusable pieces
   config/site.ts       Business name, contact details, menu

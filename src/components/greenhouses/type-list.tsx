@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { greenhouseGoals, greenhouseTypes } from "@/data/greenhouses";
 import { useQuote } from "./quote-context";
-import { SectionHeading } from "./section-heading";
 import { TypeTable } from "./type-table";
 
 export function TypeList() {

@@ -1,8 +1,8 @@
+import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { greenhouseQuestions } from "@/data/greenhouses";
 import { whatsappLink } from "@/lib/whatsapp";
-import { SectionHeading } from "./section-heading";
 
 export function QuestionList() {
   const link = whatsappLink("greenhouse construction");

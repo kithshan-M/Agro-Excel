@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { greenhouseParts } from "@/data/greenhouses";
 import { step } from "@/lib/motion";
-import { SectionHeading } from "./section-heading";
 
 const total = greenhouseParts.length;
 

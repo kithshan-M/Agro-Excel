@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "draw": "node scripts/draw-greenhouses.mjs"
+    "draw": "node scripts/draw-greenhouses.mjs && node scripts/draw-seeds.mjs"
   },
   "dependencies": {
     "next": "16.4.6",

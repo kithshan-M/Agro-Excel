@@ -1,8 +1,8 @@
 import Image from "next/image";
+import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { greenhousePhotos } from "@/data/greenhouses";
-import { SectionHeading } from "./section-heading";
 
 /** Hidden until photos are listed in src/data/greenhouses.ts. */
 export function PhotoGrid() {

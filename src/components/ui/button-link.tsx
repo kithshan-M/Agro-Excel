@@ -2,6 +2,7 @@ import Link from "next/link";
 
 const variants = {
   primary: "bg-sun text-ink hover:bg-white",
+  dark: "bg-ink text-white hover:bg-leaf-dark",
   outline: "border border-current hover:bg-white/10",
 };
 

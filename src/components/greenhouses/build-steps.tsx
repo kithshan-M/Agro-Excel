@@ -1,8 +1,8 @@
+import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import type { Service } from "@/data/services";
 import { step as delay } from "@/lib/motion";
-import { SectionHeading } from "./section-heading";
 
 export function BuildSteps({ steps }: { steps: Service["points"] }) {
   return (

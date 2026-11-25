@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { BuildSteps } from "@/components/greenhouses/build-steps";
 import { GreenhouseHero } from "@/components/greenhouses/hero";
-import { NextSteps } from "@/components/greenhouses/next-steps";
 import { PageNav } from "@/components/greenhouses/page-nav";
 import { PartList } from "@/components/greenhouses/part-list";
 import { PhotoGrid } from "@/components/greenhouses/photo-grid";
@@ -10,6 +9,7 @@ import { QuoteBar } from "@/components/greenhouses/quote-bar";
 import { QuoteProvider } from "@/components/greenhouses/quote-context";
 import { QuoteForm } from "@/components/greenhouses/quote-form";
 import { TypeList } from "@/components/greenhouses/type-list";
+import { NextSteps } from "@/components/sections/next-steps";
 import { getService } from "@/data/services";
 
 const service = getService("greenhouses");
@@ -30,7 +30,7 @@ export default function GreenhousesPage() {
       <PhotoGrid />
       <QuestionList />
       <QuoteForm />
-      <NextSteps />
+      <NextSteps title="Once it is built" slugs={["seeds", "consulting"]} />
       <QuoteBar />
     </QuoteProvider>
   );

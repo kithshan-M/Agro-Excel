@@ -38,19 +38,19 @@ export const services: Service[] = [
   {
     slug: "seeds",
     title: "Vegetable seeds",
-    summary: "Vegetable seeds for open fields, greenhouses and home gardens.",
+    summary: "Seeds for Sri Lankan vegetables, for open fields, greenhouses and home gardens.",
     points: [
       {
-        title: "Choose a crop",
-        text: "Tell us what you want to grow and where you will grow it.",
+        title: "Add seeds to your list",
+        text: "Pick the vegetables you want to grow.",
       },
       {
-        title: "Get a variety suggestion",
-        text: "We help you match a variety to your conditions.",
+        title: "Send it to us",
+        text: "Your list becomes one WhatsApp message.",
       },
       {
-        title: "Order",
-        text: "Message us on WhatsApp for prices and stock.",
+        title: "Get a reply",
+        text: "We answer with varieties, prices and stock.",
       },
     ],
   },

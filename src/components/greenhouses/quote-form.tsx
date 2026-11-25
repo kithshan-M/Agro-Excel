@@ -1,22 +1,19 @@
 "use client";
 
 import { useId, useState } from "react";
-import { ButtonLink } from "@/components/ui/button-link";
+import { MessagePanel, useMessage } from "@/components/sections/message-panel";
+import { SectionHeading } from "@/components/sections/section-heading";
+import { Choices, fieldClass } from "@/components/ui/choices";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { siteConfig } from "@/config/site";
 import { greenhouseTypes, waterSources } from "@/data/greenhouses";
-import { whatsappMessageLink } from "@/lib/whatsapp";
 import { useQuote } from "./quote-context";
-import { SectionHeading } from "./section-heading";
 
 const NOT_SURE = "Not sure yet";
 const crops = [
   ...new Set(greenhouseTypes.flatMap((type) => type.crops)),
 ];
-
-const field =
-  "mt-2 block min-h-12 w-full rounded-md border border-field bg-white px-3.5 text-ink";
 
 /** Builds a WhatsApp message from the answers. Nothing is stored or sent by this site. */
 export function QuoteForm() {
@@ -27,7 +24,6 @@ export function QuoteForm() {
   const [unit, setUnit] = useState("feet");
   const [location, setLocation] = useState("");
   const [water, setWater] = useState("");
-  const [status, setStatus] = useState("");
   const id = useId();
 
   const plot =
@@ -45,26 +41,10 @@ export function QuoteForm() {
     ["Location", location.trim()],
     ["Water", water],
   ].filter(([, value]) => value);
-  const message = [
+  const message = useMessage([
     `Hello ${siteConfig.name}, I would like a quotation for a greenhouse.`,
     ...details.map(([label, value]) => `${label}: ${value}`),
-  ].join("\n");
-  const link = whatsappMessageLink(message);
-
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(message);
-      setStatus("Message copied. Paste it into a chat or email to us.");
-    } catch {
-      setStatus("Copying did not work. Select the message text and copy it.");
-    }
-  }
-
-  function submit(event: React.FormEvent) {
-    event.preventDefault();
-    if (link) window.open(link, "_blank", "noopener");
-    else copy();
-  }
+  ].join("\n"));
 
   return (
     <section id="quotation" className="scroll-mt-13 bg-film py-16 md:py-24">
@@ -75,7 +55,7 @@ export function QuoteForm() {
         />
         <Reveal className="reveal-up mt-10">
           <form
-            onSubmit={submit}
+            onSubmit={message.send}
             className="grid overflow-hidden rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid gap-7 p-5 sm:p-9">
@@ -96,7 +76,7 @@ export function QuoteForm() {
                   autoComplete="off"
                   value={crop}
                   onChange={(event) => setCrop(event.target.value)}
-                  className={field}
+                  className={fieldClass}
                 />
                 <datalist id={`${id}-crops`}>
                   {crops.map((item) => (
@@ -116,7 +96,7 @@ export function QuoteForm() {
                       inputMode="decimal"
                       value={length}
                       onChange={(event) => setLength(event.target.value)}
-                      className={field}
+                      className={fieldClass}
                     />
                   </label>
                   <label className="mt-2 text-muted">
@@ -128,7 +108,7 @@ export function QuoteForm() {
                       inputMode="decimal"
                       value={width}
                       onChange={(event) => setWidth(event.target.value)}
-                      className={field}
+                      className={fieldClass}
                     />
                   </label>
                   <label className="mt-2 text-muted">
@@ -136,7 +116,7 @@ export function QuoteForm() {
                     <select
                       value={unit}
                       onChange={(event) => setUnit(event.target.value)}
-                      className={field}
+                      className={fieldClass}
                     >
                       <option>feet</option>
                       <option>metres</option>
@@ -154,7 +134,7 @@ export function QuoteForm() {
                   placeholder="Village, town or district"
                   value={location}
                   onChange={(event) => setLocation(event.target.value)}
-                  className={`${field} placeholder:text-muted`}
+                  className={fieldClass}
                 />
               </div>
               <Choices
@@ -165,82 +145,17 @@ export function QuoteForm() {
                 onChange={setWater}
               />
             </div>
-            <div className="flex flex-col bg-leaf-dark p-5 text-white sm:p-9">
-              <h3 className="text-xl font-semibold">Your message</h3>
-              <p className="mt-4 rounded-lg rounded-tl-none bg-white p-4 leading-relaxed break-words whitespace-pre-line text-ink">
-                {message}
-              </p>
-              <p className="mt-4 text-white/85">
-                {link
-                  ? "You can change the message and add photos of your site in WhatsApp before you send it."
-                  : "Copy this message, then send it to us with a few photos of your site."}
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <button
-                  type="submit"
-                  className="min-h-12 cursor-pointer rounded-md bg-sun px-6 font-semibold text-ink transition-colors hover:bg-white"
-                >
-                  {link ? "Continue in WhatsApp" : "Copy message"}
-                </button>
-                {link ? (
-                  <button
-                    type="button"
-                    onClick={copy}
-                    className="min-h-12 cursor-pointer rounded-md border border-current px-6 font-semibold transition-colors hover:bg-white/10"
-                  >
-                    Copy message
-                  </button>
-                ) : (
-                  <ButtonLink href="/contact" variant="outline">
-                    Contact details
-                  </ButtonLink>
-                )}
-              </div>
-              <p role="status" className="mt-4 min-h-6 font-medium">
-                {status}
-              </p>
-            </div>
+            <MessagePanel
+              {...message}
+              hint={{
+                whatsapp:
+                  "You can change the message and add photos of your site in WhatsApp before you send it.",
+                copy: "Copy this message, then send it to us with a few photos of your site.",
+              }}
+            />
           </form>
         </Reveal>
       </Container>
     </section>
-  );
-}
-
-function Choices({
-  legend,
-  name,
-  options,
-  value,
-  onChange,
-}: {
-  legend: string;
-  name: string;
-  options: string[];
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <fieldset>
-      <legend className="font-semibold">{legend}</legend>
-      <div className="mt-2 flex flex-wrap gap-2.5">
-        {options.map((option) => (
-          <label
-            key={option}
-            className="flex min-h-11 cursor-pointer items-center rounded-md border border-field bg-white px-4 transition-colors hover:border-leaf has-checked:border-leaf has-checked:bg-leaf has-checked:text-white has-focus-visible:ring-3 has-focus-visible:ring-ink has-focus-visible:ring-offset-2"
-          >
-            <input
-              type="radio"
-              name={name}
-              value={option}
-              checked={value === option}
-              onChange={() => onChange(option)}
-              className="sr-only"
-            />
-            {option}
-          </label>
-        ))}
-      </div>
-    </fieldset>
   );
 }
