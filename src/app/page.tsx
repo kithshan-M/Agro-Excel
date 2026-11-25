@@ -1,6 +1,8 @@
 import { HomeHero } from "@/components/home/hero";
 import { Journey } from "@/components/home/journey";
+import { Promises } from "@/components/home/promises";
 import { SeedPreview } from "@/components/home/seed-preview";
+import { Tasks } from "@/components/home/tasks";
 import { ProjectPreview } from "@/components/projects/project-preview";
 import { BusinessDetails } from "@/components/sections/business-details";
 import { ContactCta } from "@/components/sections/contact-cta";
@@ -12,10 +14,12 @@ export default function HomePage() {
     <>
       <BusinessDetails />
       <HomeHero />
+      <Tasks />
       <ServicePanels id="services" />
       <Journey />
-      <ProjectPreview className="border-b border-line" />
       <SeedPreview />
+      <ProjectPreview className="border-t border-line" />
+      <Promises />
       <ContactCta />
       <ListBar />
     </>

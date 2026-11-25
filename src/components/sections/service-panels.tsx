@@ -36,19 +36,19 @@ export function ServicePanels({ id }: { id?: string }) {
                   <ButtonLink href="/greenhouses#quotation">
                     Get a quotation
                   </ButtonLink>
-                  <Link href="/greenhouses" className={more}>
-                    See greenhouses
+                  <Link href="/greenhouses#types" className={more}>
+                    Find your type
                   </Link>
                 </div>
               </div>
-              <div className="mt-auto overflow-hidden pl-4 sm:pl-8">
+              <div className="mt-auto overflow-hidden pl-4 max-sm:-mt-6 sm:pl-8">
                 <Image
                   src="/images/greenhouses/hero-still.svg"
                   alt=""
                   width={1100}
                   height={640}
                   unoptimized
-                  className="block w-[132%] max-w-none transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
+                  className="block w-[132%] max-w-none max-sm:w-[112%] transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
                 />
               </div>
             </div>
@@ -68,11 +68,11 @@ export function ServicePanels({ id }: { id?: string }) {
                     Get a quotation
                   </ButtonLink>
                   <Link href="/irrigation#irrigation-parts" className={more}>
-                    Report a fault
+                    Find a fault
                   </Link>
                 </div>
               </div>
-              <div className="relative min-h-60 overflow-hidden md:min-h-80">
+              <div className="relative min-h-44 overflow-hidden md:min-h-80">
                 <Image
                   src="/images/irrigation/panel.svg"
                   alt=""
@@ -108,7 +108,7 @@ export function ServicePanels({ id }: { id?: string }) {
                 height={360}
                 unoptimized
                 loading="eager"
-                className="mx-auto -mb-16 block w-56 transition-transform duration-700 ease-out group-hover:-translate-y-2 sm:absolute sm:right-2 sm:-bottom-10 sm:mx-0 sm:mb-0 sm:w-[42%] motion-reduce:transform-none motion-reduce:transition-none"
+                className="-mt-7 mr-3 -mb-7 ml-auto block w-32 transition-transform duration-700 ease-out group-hover:-translate-y-2 sm:absolute sm:right-2 sm:-bottom-10 sm:m-0 sm:w-[42%] motion-reduce:transform-none motion-reduce:transition-none"
               />
             </div>
           </Reveal>
@@ -135,7 +135,7 @@ export function ServicePanels({ id }: { id?: string }) {
                 width={340}
                 height={360}
                 unoptimized
-                className="mx-auto block w-56 origin-bottom transition-transform duration-700 ease-out group-hover:scale-105 sm:absolute sm:right-0 sm:bottom-0 sm:mx-0 sm:w-[42%] motion-reduce:transform-none motion-reduce:transition-none"
+                className="absolute right-0 bottom-0 block w-32 origin-bottom max-[359px]:w-24 transition-transform duration-700 ease-out group-hover:scale-105 sm:w-[42%] motion-reduce:transform-none motion-reduce:transition-none"
               />
             </div>
           </Reveal>

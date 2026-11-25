@@ -11,12 +11,15 @@ export function SeedCard({
   seed,
   index,
   grouped = false,
+  inRow = grouped,
   onOpen,
 }: {
   seed: Seed;
   index: number;
   /** Under a heading for its kind, so the name of the kind is left out. */
   grouped?: boolean;
+  /** In a row that phones swipe sideways. */
+  inRow?: boolean;
   /** Makes the picture and name open the details. */
   onOpen?: () => void;
 }) {
@@ -28,7 +31,7 @@ export function SeedCard({
     <Reveal
       as="li"
       index={index}
-      className={`reveal-up group ${grouped ? "max-sm:transform-none! max-sm:opacity-100!" : ""}`}
+      className={`reveal-up group ${inRow ? "max-sm:transform-none! max-sm:opacity-100!" : ""}`}
     >
       <div
         className={`relative flex h-full flex-col overflow-hidden rounded-lg border bg-white transition duration-200 motion-reduce:transition-none ${count > 0 ? "border-leaf ring-2 ring-leaf" : "border-line"}`}
