@@ -8,7 +8,7 @@ import { Choices, fieldClass } from "@/components/ui/choices";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/config/site";
 import { growingPlaces, seedImage, seeds } from "@/data/seeds";
-import { setPacks, useSeedList } from "@/lib/seed-list";
+import { clearList, setPacks, useSeedList } from "@/lib/seed-list";
 
 const packs = (count: number) => `${count} ${count === 1 ? "pack" : "packs"}`;
 
@@ -106,6 +106,16 @@ export function Enquiry() {
                   );
                 })}
               </ul>
+              <div className="-mt-3 flex flex-wrap items-center justify-between gap-x-4 text-muted">
+                <p>Your list is saved on this device.</p>
+                <button
+                  type="button"
+                  onClick={clearList}
+                  className="min-h-11 cursor-pointer px-1 font-semibold underline underline-offset-4 hover:text-ink"
+                >
+                  Clear list
+                </button>
+              </div>
               <div>
                 <label htmlFor={`${id}-location`} className="font-semibold">
                   Where is your land?

@@ -42,7 +42,7 @@ src/
     ui/                Small reusable pieces
   config/site.ts       Business name, contact details, menu
   data/                Services and seed list
-  lib/whatsapp.ts      Builds the WhatsApp links
+  lib/                 WhatsApp links, seed list, link pictures
 ```
 
 ## Where to change things
@@ -58,5 +58,7 @@ src/
 - Contact page topics: `src/data/contact.ts`
 - Menu pictures and footer shortcuts: `src/data/navigation.ts`
 - Colours: `src/app/globals.css`
-- Fonts: `src/app/layout.tsx`
+- Fonts: `src/app/layout.tsx`, and `src/assets/fonts` for link pictures
+- Picture shown when a page is shared: `opengraph-image.tsx` beside each page in `src/app`
+- Details for Google: `src/components/sections/business-details.tsx`
 - Live web address: `NEXT_PUBLIC_SITE_URL`, set before building
