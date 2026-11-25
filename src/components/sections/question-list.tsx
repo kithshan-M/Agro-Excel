@@ -5,14 +5,19 @@ import { SectionHeading } from "./section-heading";
 
 export function QuestionList({
   id,
+  title = "Common questions",
+  contactLink = true,
   questions,
   topic,
 }: {
   /** Different on every page: earlier pages can stay in the document. */
   id: string;
+  title?: string;
+  /** Whether to offer a way to ask something else. */
+  contactLink?: boolean;
   questions: { question: string; answer: string }[];
   /** Used in the WhatsApp message, e.g. "crop consulting". */
-  topic: string;
+  topic?: string;
 }) {
   const link = whatsappLink(topic);
   return (
@@ -22,16 +27,18 @@ export function QuestionList({
     >
       <Container className="grid gap-8 lg:grid-cols-[1fr_1.7fr]">
         <div>
-          <SectionHeading title="Common questions" />
-          <p className="mt-3 text-lg text-muted">
-            Something else on your mind?{" "}
-            <a
-              href={link ?? "/contact"}
-              className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
-            >
-              {link ? "Ask us on WhatsApp" : "Contact us"}
-            </a>
-          </p>
+          <SectionHeading title={title} />
+          {contactLink && (
+            <p className="mt-3 text-lg text-muted">
+              Something else on your mind?{" "}
+              <a
+                href={link ?? "/contact"}
+                className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
+              >
+                {link ? "Ask us on WhatsApp" : "Contact us"}
+              </a>
+            </p>
+          )}
         </div>
         <Reveal className="reveal-up rounded-lg border border-line bg-white">
           {questions.map((item, index) => (

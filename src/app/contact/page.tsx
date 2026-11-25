@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { ContactDetails } from "@/components/sections/contact-details";
-import { PageIntro } from "@/components/sections/page-intro";
-import { Container } from "@/components/ui/container";
-import { WhatsAppButton } from "@/components/ui/whatsapp-button";
+import { ContactCards } from "@/components/contact/contact-cards";
+import { ContactForm } from "@/components/contact/contact-form";
+import { HelpfulDetails } from "@/components/contact/helpful-details";
+import { ContactHero } from "@/components/contact/hero";
+import { QuestionList } from "@/components/sections/question-list";
 import { siteConfig } from "@/config/site";
+import { contactQuestions } from "@/data/contact";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -15,22 +17,20 @@ const hasDetails = Object.values(siteConfig.contact).some(Boolean);
 export default function ContactPage() {
   return (
     <>
-      <PageIntro
-        title="Contact us"
-        text="Ask about a greenhouse or irrigation, order seeds or get advice on a crop."
+      <ContactHero />
+      {/* Direct details come first once there are any. */}
+      {hasDetails && <ContactCards />}
+      <div className={hasDetails ? "border-t border-line" : ""}>
+        <ContactForm />
+      </div>
+      <HelpfulDetails />
+      {!hasDetails && <ContactCards />}
+      <QuestionList
+        id="contact-questions"
+        title="Quick answers"
+        questions={contactQuestions}
+        contactLink={false}
       />
-      <section className="py-16 text-lg">
-        <Container>
-          {hasDetails ? (
-            <div className="flex flex-col items-start gap-8">
-              {siteConfig.contact.whatsapp && <WhatsAppButton />}
-              <ContactDetails />
-            </div>
-          ) : (
-            <p>Our contact details will be added here soon.</p>
-          )}
-        </Container>
-      </section>
     </>
   );
 }

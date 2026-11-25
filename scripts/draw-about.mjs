@@ -1,9 +1,9 @@
 // Draws the About page pictures in public/images/about.
 // Run from the project root: npm run draw
 import { mkdirSync, writeFileSync } from "node:fs";
-import { at, frill, leaf, line, n, oval, path } from "./draw-helpers.mjs";
+import { at, frill, line, n, oval, path } from "./draw-helpers.mjs";
 import { crate, greens, stages } from "./draw-plants.mjs";
-import { embed, newPicture, palm, person } from "./draw-scene.mjs";
+import { adviser, embed, grower, newPicture, palm, woman } from "./draw-scene.mjs";
 
 const OUT = "public/images/about";
 mkdirSync(OUT, { recursive: true });
@@ -14,23 +14,6 @@ const save = (name, w, h, content) =>
 const plant = (stage) => stages[stage]().replace(/^<path[^>]*\/>/, "");
 const bush = (x, y, r, color) =>
   oval(x, y + r * 0.56, r * 1.1, r * 0.2, "#13251d", 'fill-opacity="0.18"') + path(frill(x, y, r, r * 0.7, 9, 0.22), color);
-const arms = {
-  rest: (skin) => line("M30 -140Q50 -118 44 -90", skin, 12) + line("M-26 -140Q-42 -116 -36 -90", skin, 12),
-  wave: (skin) => line("M30 -140Q58 -146 66 -182", skin, 12) + line("M-26 -140Q-42 -116 -36 -90", skin, 12),
-  point: (skin) => line("M-26 -140Q-58 -130 -84 -126", skin, 12) + line("M28 -140Q46 -116 38 -92", skin, 12),
-  tablet: (skin) =>
-    line("M-26 -140Q-46 -122 -36 -108", skin, 12) +
-    '<rect x="-62" y="-136" width="34" height="46" rx="4" fill="#13251d" transform="rotate(-8 -45 -113)"/><rect x="-58" y="-131" width="26" height="36" rx="2" fill="#dcebf0" transform="rotate(-8 -45 -113)"/>' +
-    leaf(-52, -106, 18, 7, -40, "#4f9a3f") + line("M28 -140Q44 -116 22 -104", skin, 12),
-  basket: (skin) =>
-    line("M30 -140Q48 -116 24 -96", skin, 12) + line("M-26 -140Q-46 -116 -20 -96", skin, 12) +
-    path("M-36 -112H40L32 -76H-28Z", "#b98a45") + line("M-34 -100H38M-31 -88H35", "#8f6628", 3.5) +
-    [[-20, -116, "#dd4630"], [2, -120, "#e2702f"], [22, -116, "#6ab34c"]].map(([x, y, c]) => oval(x, y, 13, 12, c)).join("") + line("M-36 -112H40", "#8f6628", 4),
-};
-const grower = (arm) => person({ shirt: "#f2f0e4", cloth: "#b5533c", hat: "#d9b465", skin: "#8a5a3c", arm: arms[arm]("#8a5a3c") });
-const adviser = (arm) => person({ shirt: "#f6b92b", cloth: "#2c3f52", hat: "#f1dfae", skin: "#9a6a48", arm: arms[arm]("#9a6a48") });
-const woman = (arm) => person({ shirt: "#a8476b", cloth: "#3d5a80", hat: "#e2c27a", skin: "#7d4f34", arm: arms[arm]("#7d4f34") });
-
 // ---------- Hero, on the green page colour ----------
 function hero(animate) {
   const move = (i, content) => (animate ? `<g class="rise" style="animation-delay:${0.1 + i * 0.16}s">${content}</g>` : content);

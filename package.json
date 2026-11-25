@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "draw": "node scripts/draw-greenhouses.mjs && node scripts/draw-seeds.mjs && node scripts/draw-consulting.mjs && node scripts/draw-irrigation.mjs && node scripts/draw-home.mjs && node scripts/draw-about.mjs"
+    "draw": "node scripts/draw-greenhouses.mjs && node scripts/draw-seeds.mjs && node scripts/draw-consulting.mjs && node scripts/draw-irrigation.mjs && node scripts/draw-home.mjs && node scripts/draw-about.mjs && node scripts/draw-contact.mjs"
   },
   "dependencies": {
     "next": "16.4.6",

@@ -33,6 +33,7 @@ src/
     layout/            Header, navigation, footer
     about/             Sections for the About page
     consulting/        Sections for the crop consulting page
+    contact/           Sections for the contact page
     greenhouses/       Sections for the greenhouse page
     home/              Sections for the home page
     irrigation/        Sections for the irrigation page
@@ -54,6 +55,7 @@ src/
 - Crop consulting text: `src/data/consulting.ts`
 - Home page steps and seeds: `src/data/home.ts`
 - About page, story, team and photos: `src/data/about.ts`
+- Contact page topics: `src/data/contact.ts`
 - Colours: `src/app/globals.css`
 - Fonts: `src/app/layout.tsx`
 - Live web address: `NEXT_PUBLIC_SITE_URL`, set before building
