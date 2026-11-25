@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import { ContactCta } from "@/components/sections/contact-cta";
+import { BuildSteps } from "@/components/greenhouses/build-steps";
+import { PartList } from "@/components/greenhouses/part-list";
+import { PhotoGrid } from "@/components/greenhouses/photo-grid";
+import { QuestionList } from "@/components/greenhouses/question-list";
+import { TypeList } from "@/components/greenhouses/type-list";
+import { WhatToSend } from "@/components/greenhouses/what-to-send";
 import { PageIntro } from "@/components/sections/page-intro";
 import { ServicePoints } from "@/components/sections/service-points";
+import { benefits } from "@/data/greenhouses";
 import { getService } from "@/data/services";
 
 const service = getService("greenhouses");
@@ -15,8 +21,13 @@ export default function GreenhousesPage() {
   return (
     <>
       <PageIntro title={service.title} text={service.summary} />
-      <ServicePoints points={service.points} />
-      <ContactCta topic={service.title.toLowerCase()} />
+      <ServicePoints title="Why grow under cover" points={benefits} />
+      <TypeList />
+      <PartList />
+      <BuildSteps steps={service.points} />
+      <PhotoGrid />
+      <QuestionList />
+      <WhatToSend topic={service.title.toLowerCase()} />
     </>
   );
 }

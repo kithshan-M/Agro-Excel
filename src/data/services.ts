@@ -14,8 +14,16 @@ export const services: Service[] = [
     summary: "Greenhouses planned and built around your land and your crop.",
     points: [
       {
-        title: "Site and design",
-        text: "We look at your land, water and crop, then agree on a size and layout.",
+        title: "Tell us your plan",
+        text: "Message us with your location, plot size and the crop you want to grow.",
+      },
+      {
+        title: "Site check",
+        text: "We look at the land, water, sun and access.",
+      },
+      {
+        title: "Design and quotation",
+        text: "We suggest a type, size and layout, and give you a price.",
       },
       {
         title: "Construction",

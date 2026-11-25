@@ -30,7 +30,8 @@ src/
   app/                 Pages (each folder is a URL)
   components/
     layout/            Header, navigation, footer
-    sections/          Page sections
+    greenhouses/       Sections for the greenhouse page
+    sections/          Shared page sections
     ui/                Small reusable pieces
   config/site.ts       Business name, contact details, menu
   data/                Services and seed list
@@ -41,6 +42,7 @@ src/
 
 - WhatsApp, phone, email, address: `src/config/site.ts`
 - Service text: `src/data/services.ts`
+- Greenhouse page text and photos: `src/data/greenhouses.ts`
 - Seed list: `src/data/seeds.ts`
 - Colours: `src/app/globals.css`
 - Fonts: `src/app/layout.tsx`
