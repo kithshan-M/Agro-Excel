@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -11,6 +12,7 @@ const looks = [
   { panel: "bg-sun text-ink", tick: "stroke-water", text: "", button: "bg-ink text-white hover:bg-leaf-dark" },
 ];
 
+/** Each half leads to its own next step, and fills in the first answer of the form. */
 export function Paths() {
   const { setNeed } = useIrrigation();
 
@@ -23,32 +25,55 @@ export function Paths() {
             const look = looks[index];
             return (
               <Reveal as="li" key={path.need} index={index} className="reveal-up">
-                <div className={`flex h-full flex-col rounded-lg p-6 sm:p-9 ${look.panel}`}>
-                  <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                    {path.title}
-                  </h3>
-                  <p className={`mt-2 text-lg ${look.text}`}>{path.text}</p>
-                  <ul className="mt-6 mb-8 space-y-3.5">
-                    {path.points.map((point) => (
-                      <li key={point} className="flex gap-3.5">
-                        <svg
-                          viewBox="0 0 20 20"
-                          aria-hidden="true"
-                          className={`mt-1 size-4 shrink-0 fill-none stroke-[3] ${look.tick}`}
-                        >
-                          <path d="m3 10.5 4.5 4.5L17 5" />
-                        </svg>
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href="#irrigation-ask"
-                    onClick={() => setNeed(path.need)}
-                    className={`mt-auto inline-flex min-h-12 items-center self-start rounded-md px-6 font-semibold transition-colors ${look.button}`}
-                  >
-                    {path.action}
-                  </a>
+                <div className={`flex h-full flex-col overflow-hidden rounded-lg ${look.panel}`}>
+                  <picture>
+                    <source
+                      media="(prefers-reduced-motion: reduce)"
+                      srcSet={`/images/irrigation/${path.picture}-still.svg`}
+                    />
+                    <Image
+                      src={`/images/irrigation/${path.picture}.svg`}
+                      alt=""
+                      width={720}
+                      height={300}
+                      unoptimized
+                      className="block w-full"
+                    />
+                  </picture>
+                  <div className="flex flex-1 flex-col p-6 sm:p-9">
+                    <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">{path.title}</h3>
+                    <p className={`mt-2 text-lg ${look.text}`}>{path.text}</p>
+                    <ul className="mt-6 mb-8 space-y-3.5">
+                      {path.points.map((point) => (
+                        <li key={point} className="flex gap-3.5">
+                          <svg
+                            viewBox="0 0 20 20"
+                            aria-hidden="true"
+                            className={`mt-1 size-4 shrink-0 fill-none stroke-[3] ${look.tick}`}
+                          >
+                            <path d="m3 10.5 4.5 4.5L17 5" />
+                          </svg>
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3">
+                      <a
+                        href={path.href}
+                        onClick={() => setNeed(path.need)}
+                        className={`inline-flex min-h-12 items-center rounded-md px-6 font-semibold transition-colors ${look.button}`}
+                      >
+                        {path.action}
+                      </a>
+                      <a
+                        href="#irrigation-ask"
+                        onClick={() => setNeed(path.need)}
+                        className="inline-flex min-h-11 items-center font-semibold underline underline-offset-4"
+                      >
+                        Go to the form
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </Reveal>
             );

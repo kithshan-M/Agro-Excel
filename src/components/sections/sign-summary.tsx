@@ -5,6 +5,7 @@ export function SignSummary({
   toggleSign,
   href,
   noun,
+  note,
 }: {
   parts: { key: string; name: string }[];
   signs: Readonly<Record<string, string[]>>;
@@ -12,6 +13,8 @@ export function SignSummary({
   href: string;
   /** "sign" or "fault". */
   noun: string;
+  /** Something else already in the message, such as a symptom. */
+  note?: string;
 }) {
   const total = parts.reduce((sum, item) => sum + (signs[item.name]?.length ?? 0), 0);
 
@@ -19,7 +22,9 @@ export function SignSummary({
     <div className="mt-7 border-t border-line pt-6 lg:mt-auto">
       <h3 className="text-lg font-semibold">
         {total === 0
-          ? "Nothing ticked yet"
+          ? note
+            ? `In your message: ${note.toLowerCase()}`
+            : "Nothing ticked yet"
           : `${total} ${noun}${total === 1 ? "" : "s"} in your message`}
       </h3>
       <ul className="mt-2 flex flex-wrap gap-2">
@@ -47,9 +52,9 @@ export function SignSummary({
       </ul>
       <a
         href={href}
-        className={`mt-5 inline-flex min-h-12 items-center rounded-md px-6 font-semibold transition-colors ${total > 0 ? "bg-leaf text-white hover:bg-leaf-dark" : "border border-field text-leaf hover:border-leaf"}`}
+        className={`mt-5 inline-flex min-h-12 items-center rounded-md px-6 font-semibold transition-colors ${total > 0 || note ? "bg-leaf text-white hover:bg-leaf-dark" : "border border-field text-leaf hover:border-leaf"}`}
       >
-        {total > 0 ? "Continue" : "Skip to the form"}
+        {total > 0 || note ? "Continue" : "Skip to the form"}
       </a>
     </div>
   );

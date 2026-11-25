@@ -3,7 +3,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { at, frill, line, n, oval, path } from "./draw-helpers.mjs";
 import { greens, stages } from "./draw-plants.mjs";
-import { palm, person } from "./draw-scene.mjs";
+import { adviser, grower, palm, person } from "./draw-scene.mjs";
 import { tank } from "./draw-water.mjs";
 
 const OUT = "public/images/irrigation";
@@ -107,6 +107,30 @@ function hero(animate) {
 }
 save("hero", 960, 660, hero(true));
 save("hero-still", 960, 660, hero(false));
+
+// ---------- The two halves of the service ----------
+{
+  const w = 720, h = 300;
+  const scene = (content) => `<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe6ee"/><stop offset="1" stop-color="#f6f3de"/></linearGradient></defs><rect width="${w}" height="${h}" fill="url(#sky)"/>` + path("M0 190Q170 96 340 152T720 132V240H0Z", "#c3dcd0") + path("M0 214Q200 160 400 192T720 182V250H0Z", "#a9cbb2") + `<rect y="206" width="${w}" height="${h - 206}" fill="#93be74"/>` + content;
+  const save2 = (name, content) => {
+    for (const [suffix, css] of [["", style], ["-still", ""]]) save(name + suffix, w, h, css + scene(content));
+  };
+  const beds = (rows) => rows.map(([y, r], d) => `<rect x="-10" y="${y}" width="740" height="${r}" rx="${r / 2}" fill="#7a5836"/>` + Array.from({ length: 13 - d }, (_, i) => bush(n(24 + i * (58 + d * 6)), y - 3, r + 2, greens[(i + d) % 3])).join("") + pipe(`M-10 ${y + r * 0.7}H730`, 6)).join("");
+  const spade = at(196, 270, 8, 1, line("M0 -10V-96", "#8a6a42", 7) + line("M-14 -98H14", "#8a6a42", 7) + path("M-16 -14H16V10Q0 30 -16 10Z", "#8a9a92"));
+  const coil = (x, y, r) => [1, 0.74, 0.48].map((s) => `<ellipse cx="${x}" cy="${y}" rx="${r * s}" ry="${r * 0.36 * s}" fill="none" stroke="${PIPE}" stroke-width="8"/>`).join("");
+  // New: a trench with pipe going in, a tank and a plan in hand.
+  save2("build", tank(618, 228, 0.6) + pipe("M586 148H540V262", 9) + beds([[222, 10]]) +
+    path("M-10 262H540L560 292H-10Z", "#6b4c2b") + pipe("M-10 276H540", 11) + [80, 200, 320, 440].map((x) => oval(x, 276, 7, 6, "#e2702f")).join("") +
+    spade + coil(318, 244, 40) + at(420, 258, 0, 0.94, adviser("tablet")) + at(96, 258, 0, 0.9, grower("rest")));
+  // Repair: a leaking joint, the person fixing it and the tools.
+  const wrench = at(330, 158, -38, 1, line("M0 0V46", "#8a9a92", 9) + path("M-13 -8Q-13 -24 0 -24T13 -8L7 -8V-16H-7V-8Z", "#8a9a92"));
+  const fixer = person({ shirt: "#1f6fa3", cloth: "#2c3f52", hat: "#f6b92b", skin: "#8a5a3c", arm: line("M-26 -140Q-52 -130 -70 -116", "#8a5a3c", 12) + line("M28 -140Q46 -116 38 -92", "#8a5a3c", 12) });
+  save2("repair", beds([[222, 10]]) + oval(250, 280, 120, 15, WATER, 'fill-opacity="0.65"') + pipe("M-10 262H730", 17) +
+    '<rect x="232" y="249" width="36" height="26" rx="5" fill="#e2702f"/>' +
+    spray("M250 250Q228 150 168 226M250 250Q240 176 206 236M250 250Q250 160 250 160M250 250Q262 176 296 236M250 250Q274 150 330 226", 4) + drops([[180, 244], [316, 244], [214, 252], [286, 252]], 6) +
+    at(408, 272, 0, 0.98, fixer) + wrench +
+    at(520, 284, 0, 1, '<rect x="-46" y="-42" width="92" height="44" rx="6" fill="#c63a27"/><rect x="-46" y="-26" width="92" height="7" fill="#8f2617"/>' + line("M-22 -42V-58H22V-42", "#8f2617", 7) + '<rect x="-9" y="-30" width="18" height="14" rx="3" fill="#f6b92b"/>') + filter(630, 272, 1.1) + valve(90, 264, 1));
+}
 
 // Still scene for panels and cards
 save("panel", 720, 460, sky + `<rect y="286" width="${W}" height="${H - 286}" fill="#93be74"/>` + tank(588, 300, 0.76) +

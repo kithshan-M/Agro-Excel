@@ -11,6 +11,11 @@ const IrrigationContext = createContext<{
   setNeed: (need: string) => void;
   type: string;
   setType: (type: string) => void;
+  crop: string;
+  setCrop: (crop: string) => void;
+  /** What the grower notices, such as "Weak at the far end". */
+  symptom: string;
+  setSymptom: (symptom: string) => void;
   signs: Signs;
   toggleSign: (part: string, sign: string) => void;
 } | null>(null);
@@ -18,7 +23,14 @@ const IrrigationContext = createContext<{
 export function IrrigationProvider({ children }: { children: React.ReactNode }) {
   const [need, setNeed] = useState("");
   const [type, setType] = useState("");
+  const [crop, setCrop] = useState("");
+  const [symptom, chooseSymptom] = useState("");
   const [signs, setSigns] = useState<Signs>({});
+
+  function setSymptom(name: string) {
+    chooseSymptom(name);
+    if (name) setNeed(irrigationNeeds.maintain);
+  }
 
   function toggleSign(part: string, sign: string) {
     const now = signs[part] ?? [];
@@ -31,7 +43,20 @@ export function IrrigationProvider({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <IrrigationContext value={{ need, setNeed, type, setType, signs, toggleSign }}>
+    <IrrigationContext
+      value={{
+        need,
+        setNeed,
+        type,
+        setType,
+        crop,
+        setCrop,
+        symptom,
+        setSymptom,
+        signs,
+        toggleSign,
+      }}
+    >
       {children}
     </IrrigationContext>
   );

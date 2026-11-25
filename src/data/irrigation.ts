@@ -5,7 +5,7 @@ export const irrigationNeeds = {
   maintain: "Repair or service a system",
 } as const;
 
-/** The two halves of the service. */
+/** The two halves of the service. Pictures: public/images/irrigation/<picture>.svg and -still.svg. */
 export const irrigationPaths = [
   {
     need: irrigationNeeds.build,
@@ -17,7 +17,9 @@ export const irrigationPaths = [
       "Laying the lines and fitting the drippers or sprinklers",
       "Testing it and showing you how to run it",
     ],
-    action: "Plan a new system",
+    picture: "build",
+    action: "Choose a type",
+    href: "#irrigation-types",
   },
   {
     need: irrigationNeeds.maintain,
@@ -29,35 +31,65 @@ export const irrigationPaths = [
       "Checking the pump, pressure and valves",
       "Replacing worn or broken parts",
     ],
-    action: "Get it serviced",
+    picture: "repair",
+    action: "Find the fault",
+    href: "#irrigation-parts",
   },
 ];
 
-/** Pictures: public/images/irrigation/<key>.svg and <key>-still.svg. */
-export const irrigationTypes = [
+/**
+ * Pictures: public/images/irrigation/<key>.svg and <key>-still.svg. crops and
+ * places are what the type often suits, and become the buttons above the types.
+ */
+export const irrigationTypes: {
+  key: string;
+  name: string;
+  text: string;
+  crops: string[];
+  places: string[];
+  water: string;
+  leaves: string;
+  watch: string;
+}[] = [
   {
     key: "drip",
     name: "Drip",
     text: "Water drops slowly beside each plant, so less is lost between the rows.",
-    suits: "Tomato, brinjal, chilli, cucumber",
+    crops: ["Tomato", "Brinjal", "Chilli", "Cucumber"],
+    places: [],
+    water: "Beside each plant",
+    leaves: "Stay dry",
+    watch: "Blocked drippers, so keep the filter clean",
   },
   {
     key: "sprinkler",
     name: "Sprinkler",
     text: "Water falls over the whole bed like rain. Good for crops planted close together.",
-    suits: "Leafy vegetables, carrot, beetroot",
+    crops: ["Leafy vegetables", "Carrot", "Beetroot"],
+    places: [],
+    water: "Over the whole bed, like rain",
+    leaves: "Get wet",
+    watch: "Wind, which carries the water away",
   },
   {
     key: "micro",
     name: "Micro sprinkler",
     text: "Small, low sprinklers wet the soil around plants with a gentle spray.",
-    suits: "Vegetable beds, nurseries, young trees",
+    crops: [],
+    places: ["Vegetable beds", "Nurseries", "Young trees"],
+    water: "In a circle close to the ground",
+    leaves: "Lower leaves may get wet",
+    watch: "Nozzles that block or get knocked over",
   },
   {
     key: "mist",
     name: "Misting",
     text: "A fine mist keeps seedlings moist and helps cool the air under cover.",
-    suits: "Greenhouses, seedling trays",
+    crops: [],
+    places: ["Greenhouses", "Seedling trays"],
+    water: "Into the air, as very fine drops",
+    leaves: "Get damp",
+    watch: "Weak pressure and dirty water, which spoil the mist",
   },
 ];
 
@@ -114,6 +146,78 @@ export const systemParts = [
     badge: [24, 91.5],
     text: "Give the water to the plants.",
     signs: ["Blocked", "Uneven watering", "Broken", "Drips when off"],
+  },
+];
+
+/**
+ * What a grower notices, and where to look in order. part is a key from
+ * systemParts. caution is shown when a check can be dangerous.
+ */
+export const symptoms: {
+  name: string;
+  places: { part: string; check: string }[];
+  caution?: string;
+}[] = [
+  {
+    name: "No water at all",
+    places: [
+      { part: "source", check: "Is there water in the well, tank or stream?" },
+      { part: "pump", check: "Is the power on, and is the pump running?" },
+      { part: "control", check: "Is the valve open and the timer set?" },
+      { part: "filter", check: "Is it blocked?" },
+    ],
+    caution: "Turn the power off before you touch the pump or its wires.",
+  },
+  {
+    name: "Weak flow everywhere",
+    places: [
+      { part: "filter", check: "Clean it, then run the system again." },
+      { part: "source", check: "Is the water level lower than usual?" },
+      { part: "pump", check: "Is it louder or weaker than before?" },
+      { part: "pipes", check: "Is there a leak before the rows?" },
+    ],
+    caution: "Turn the power off before you touch the pump or its wires.",
+  },
+  {
+    name: "Weak at the far end",
+    places: [
+      { part: "control", check: "Are too many rows open at once?" },
+      { part: "pipes", check: "Is there a leak or a bend along the line?" },
+      { part: "emitters", check: "Open the line end. Does dirt come out?" },
+    ],
+  },
+  {
+    name: "Some plants stay dry",
+    places: [
+      { part: "emitters", check: "Clean one blocked dripper and compare." },
+      { part: "pipes", check: "Is the line bent or pressed flat there?" },
+      { part: "filter", check: "Is it torn or full of dirt?" },
+    ],
+  },
+  {
+    name: "Wet patches on the ground",
+    places: [
+      { part: "pipes", check: "Look for a crack or a loose joint." },
+      { part: "emitters", check: "Is a dripper broken or missing?" },
+      { part: "control", check: "Does the valve close fully?" },
+    ],
+  },
+  {
+    name: "Pump is noisy or will not start",
+    places: [
+      { part: "pump", check: "Is the power reaching it?" },
+      { part: "source", check: "Is there enough water for it to draw?" },
+      { part: "filter", check: "Is it blocked, so the pump works too hard?" },
+    ],
+    caution: "Turn the power off before you touch the pump or its wires.",
+  },
+  {
+    name: "Dirty water",
+    places: [
+      { part: "source", check: "Is it muddy after rain, or very low?" },
+      { part: "tank", check: "Is there dirt at the bottom?" },
+      { part: "filter", check: "Is it missing, torn or full?" },
+    ],
   },
 ];
 

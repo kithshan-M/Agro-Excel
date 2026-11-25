@@ -19,9 +19,9 @@ export function IrrigationHero({ service }: { service: Service }) {
             {service.summary}
           </p>
           <div className="enter mt-8 flex flex-wrap gap-3" style={step(2)}>
-            <ButtonLink href="#irrigation-ask">Get a quotation</ButtonLink>
+            <ButtonLink href="#irrigation-types">Plan a new system</ButtonLink>
             <ButtonLink href="#irrigation-parts" variant="outline">
-              Report a fault
+              Find a fault
             </ButtonLink>
           </div>
         </div>

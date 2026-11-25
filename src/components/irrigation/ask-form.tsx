@@ -12,6 +12,7 @@ import {
   irrigationNeeds,
   irrigationTypes,
   powerSources,
+  symptoms,
   systemParts,
 } from "@/data/irrigation";
 import { seeds } from "@/data/seeds";
@@ -21,8 +22,8 @@ const typeOptions = [...irrigationTypes.map((item) => item.name), "Not sure yet"
 
 /** Builds a WhatsApp message from the answers. Nothing is stored or sent by this site. */
 export function IrrigationForm() {
-  const { need, setNeed, type, setType, signs } = useIrrigation();
-  const [crop, setCrop] = useState("");
+  const { need, setNeed, type, setType, crop, setCrop, symptom, setSymptom, signs } =
+    useIrrigation();
   const [length, setLength] = useState("");
   const [width, setWidth] = useState("");
   const [unit, setUnit] = useState("feet");
@@ -61,6 +62,7 @@ export function IrrigationForm() {
             : "I would like to ask about irrigation."
       }`,
       ...details.map(([label, value]) => `${label}: ${value}`),
+      ...(maintaining && symptom ? [`What I notice: ${symptom.toLowerCase()}`] : []),
       ...(maintaining && faults.length
         ? [
             "What is wrong:",
@@ -84,9 +86,10 @@ export function IrrigationForm() {
         <Reveal className="reveal-up mt-10">
           <form
             onSubmit={message.send}
-            className="grid overflow-hidden rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
+            className="grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid content-start gap-7 p-5 sm:p-9">
+              <FormPart number={1} title={maintaining ? "Your system" : "Your plan"} />
               <Choices
                 legend="What do you need?"
                 name={`${id}-need`}
@@ -95,10 +98,19 @@ export function IrrigationForm() {
                 onChange={setNeed}
               />
               {maintaining && (
+                <Choices
+                  legend="What do you notice?"
+                  name={`${id}-symptom`}
+                  options={symptoms.map((item) => item.name)}
+                  value={symptom}
+                  onChange={setSymptom}
+                />
+              )}
+              {maintaining && (
                 <p className="rounded-md bg-film p-4 sm:p-5">
                   {faults.length > 0
                     ? `You ticked faults on: ${faults.map((part) => part.name.toLowerCase()).join(", ")}. `
-                    : "You can tick what is wrong on the picture. "}
+                    : "You can also tick what is wrong on the picture. "}
                   <a
                     href="#irrigation-parts"
                     className="font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark"
@@ -114,6 +126,7 @@ export function IrrigationForm() {
                 value={type}
                 onChange={setType}
               />
+              <FormPart number={2} title="Your land and crop" />
               <div className="grid gap-7 sm:grid-cols-2 sm:gap-5">
                 <div>
                   <label htmlFor={`${id}-crop`} className="font-semibold">
@@ -190,6 +203,7 @@ export function IrrigationForm() {
                   </label>
                 </div>
               </fieldset>
+              <FormPart number={3} title="Your water and power" />
               <Choices
                 legend="Water source"
                 name={`${id}-water`}
@@ -233,5 +247,19 @@ export function IrrigationForm() {
         </Reveal>
       </Container>
     </section>
+  );
+}
+
+function FormPart({ number, title }: { number: number; title: string }) {
+  return (
+    <h3 className="flex items-center gap-3 border-t border-line pt-7 text-xl font-semibold first:border-t-0 first:pt-0">
+      <span
+        aria-hidden="true"
+        className="flex size-8 shrink-0 items-center justify-center rounded-full bg-water text-base font-bold text-white"
+      >
+        {number}
+      </span>
+      {title}
+    </h3>
   );
 }

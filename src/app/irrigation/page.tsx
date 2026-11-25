@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 const links = [
   { id: "irrigation-services", label: "Services" },
   { id: "irrigation-types", label: "Types" },
-  { id: "irrigation-parts", label: "Parts" },
+  { id: "irrigation-parts", label: "Faults" },
   { id: "irrigation-care", label: "Care" },
 ];
 
