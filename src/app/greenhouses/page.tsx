@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { BuildSteps } from "@/components/greenhouses/build-steps";
 import { GreenhouseHero } from "@/components/greenhouses/hero";
-import { PageNav } from "@/components/greenhouses/page-nav";
 import { PartList } from "@/components/greenhouses/part-list";
 import { PhotoGrid } from "@/components/greenhouses/photo-grid";
-import { QuestionList } from "@/components/greenhouses/question-list";
-import { QuoteBar } from "@/components/greenhouses/quote-bar";
 import { QuoteProvider } from "@/components/greenhouses/quote-context";
 import { QuoteForm } from "@/components/greenhouses/quote-form";
 import { TypeList } from "@/components/greenhouses/type-list";
+import { ActionBar } from "@/components/sections/action-bar";
 import { NextSteps } from "@/components/sections/next-steps";
+import { PageNav } from "@/components/sections/page-nav";
+import { QuestionList } from "@/components/sections/question-list";
+import { greenhouseQuestions } from "@/data/greenhouses";
 import { getService } from "@/data/services";
 
 const service = getService("greenhouses");
@@ -19,19 +20,29 @@ export const metadata: Metadata = {
   description: service.summary,
 };
 
+const links = [
+  { id: "types", label: "Types" },
+  { id: "parts", label: "Parts" },
+  { id: "process", label: "Process" },
+  { id: "questions", label: "Questions" },
+];
+
 export default function GreenhousesPage() {
   return (
     <QuoteProvider>
       <GreenhouseHero service={service} />
-      <PageNav />
+      <PageNav links={links} action={{ id: "quotation", label: "Get a quotation" }} />
       <TypeList />
       <PartList />
       <BuildSteps steps={service.points} />
       <PhotoGrid />
-      <QuestionList />
+      <QuestionList
+        questions={greenhouseQuestions}
+        topic={service.title.toLowerCase()}
+      />
       <QuoteForm />
       <NextSteps title="Once it is built" slugs={["seeds", "consulting"]} />
-      <QuoteBar />
+      <ActionBar from="types" to="quotation" label="Get a quotation" />
     </QuoteProvider>
   );
 }

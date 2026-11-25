@@ -1,11 +1,17 @@
-import { SectionHeading } from "@/components/sections/section-heading";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
-import { greenhouseQuestions } from "@/data/greenhouses";
 import { whatsappLink } from "@/lib/whatsapp";
+import { SectionHeading } from "./section-heading";
 
-export function QuestionList() {
-  const link = whatsappLink("greenhouse construction");
+export function QuestionList({
+  questions,
+  topic,
+}: {
+  questions: { question: string; answer: string }[];
+  /** Used in the WhatsApp message, e.g. "crop consulting". */
+  topic: string;
+}) {
+  const link = whatsappLink(topic);
   return (
     <section
       id="questions"
@@ -25,7 +31,7 @@ export function QuestionList() {
           </p>
         </div>
         <Reveal className="reveal-up rounded-lg border border-line bg-white">
-          {greenhouseQuestions.map((item, index) => (
+          {questions.map((item, index) => (
             <details
               key={item.question}
               open={index === 0}

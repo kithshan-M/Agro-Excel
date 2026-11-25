@@ -21,7 +21,7 @@ Open http://localhost:3000.
 | `npm run build` | Build for production |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Check the code with ESLint |
-| `npm run draw` | Redraw the greenhouse and vegetable illustrations |
+| `npm run draw` | Redraw the illustrations |
 
 ## Structure
 
@@ -31,6 +31,7 @@ src/
   app/                 Pages (each folder is a URL)
   components/
     layout/            Header, navigation, footer
+    consulting/        Sections for the crop consulting page
     greenhouses/       Sections for the greenhouse page
     seeds/             Sections for the seeds page
     sections/          Shared page sections
@@ -46,6 +47,7 @@ src/
 - Service text: `src/data/services.ts`
 - Greenhouse page text and photos: `src/data/greenhouses.ts`
 - Seed list: `src/data/seeds.ts`
+- Crop consulting text: `src/data/consulting.ts`
 - Colours: `src/app/globals.css`
 - Fonts: `src/app/layout.tsx`
 - Live web address: `NEXT_PUBLIC_SITE_URL`, set before building

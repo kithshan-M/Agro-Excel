@@ -60,16 +60,16 @@ export const services: Service[] = [
     summary: "Practical advice from planting through to harvest.",
     points: [
       {
-        title: "Crop planning",
-        text: "What to plant, when to plant it and how much.",
+        title: "Tell us about your crop",
+        text: "Say what you grow and what you need.",
       },
       {
-        title: "Growing advice",
-        text: "Guidance on watering, feeding and crop care.",
+        title: "Send photos",
+        text: "A few clear pictures tell us a lot.",
       },
       {
-        title: "Problem solving",
-        text: "Help identifying pests, diseases and poor growth.",
+        title: "Get advice",
+        text: "We reply with practical next steps.",
       },
     ],
   },

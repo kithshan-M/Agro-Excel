@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
-import { ContactCta } from "@/components/sections/contact-cta";
-import { PageIntro } from "@/components/sections/page-intro";
-import { ServicePoints } from "@/components/sections/service-points";
+import { AskForm } from "@/components/consulting/ask-form";
+import { ConsultProvider } from "@/components/consulting/consult-context";
+import { ConsultingHero } from "@/components/consulting/hero";
+import { PhotoGuide } from "@/components/consulting/photo-guide";
+import { ProblemPicker } from "@/components/consulting/problem-picker";
+import { Stages } from "@/components/consulting/stages";
+import { ActionBar } from "@/components/sections/action-bar";
+import { NextSteps } from "@/components/sections/next-steps";
+import { PageNav } from "@/components/sections/page-nav";
+import { QuestionList } from "@/components/sections/question-list";
+import { consultingQuestions } from "@/data/consulting";
 import { getService } from "@/data/services";
 
 const service = getService("consulting");
@@ -11,12 +19,30 @@ export const metadata: Metadata = {
   description: service.summary,
 };
 
+const links = [
+  { id: "stages", label: "Stages" },
+  { id: "problem", label: "Problems" },
+  { id: "photos", label: "Photos" },
+  { id: "questions", label: "Questions" },
+];
+
 export default function ConsultingPage() {
   return (
-    <>
-      <PageIntro title={service.title} text={service.summary} />
-      <ServicePoints points={service.points} />
-      <ContactCta topic={service.title.toLowerCase()} />
-    </>
+    <ConsultProvider>
+      <ConsultingHero service={service} />
+      <PageNav links={links} action={{ id: "ask", label: "Ask for advice" }} />
+      <Stages />
+      <ProblemPicker />
+      <PhotoGuide />
+      <AskForm />
+      <QuestionList
+        questions={consultingQuestions}
+        topic={service.title.toLowerCase()}
+      />
+      <div className="border-t border-line">
+        <NextSteps title="More from us" slugs={["greenhouses", "seeds"]} />
+      </div>
+      <ActionBar from="stages" to="ask" label="Ask for advice" />
+    </ConsultProvider>
   );
 }

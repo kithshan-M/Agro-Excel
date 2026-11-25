@@ -3,15 +3,10 @@
 import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/container";
 
-const links = [
-  { id: "types", label: "Types" },
-  { id: "parts", label: "Parts" },
-  { id: "process", label: "Process" },
-  { id: "questions", label: "Questions" },
-];
+type Link = { id: string; label: string };
 
 /** Stays at the top of the screen and marks the section being read. */
-export function PageNav() {
+export function PageNav({ links, action }: { links: Link[]; action: Link }) {
   const [active, setActive] = useState("");
 
   useEffect(() => {
@@ -30,7 +25,7 @@ export function PageNav() {
       if (section) observer.observe(section);
     }
     return () => observer.disconnect();
-  }, []);
+  }, [links]);
 
   return (
     <nav
@@ -55,10 +50,10 @@ export function PageNav() {
           })}
         </ul>
         <a
-          href="#quotation"
+          href={`#${action.id}`}
           className="hidden min-h-9 items-center rounded-md bg-leaf px-4 font-semibold text-white transition-colors hover:bg-leaf-dark md:flex"
         >
-          Get a quotation
+          {action.label}
         </a>
       </Container>
     </nav>
