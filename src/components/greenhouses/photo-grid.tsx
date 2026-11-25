@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 import { greenhousePhotos } from "@/data/greenhouses";
 import { SectionHeading } from "./section-heading";
 
@@ -12,8 +13,13 @@ export function PhotoGrid() {
       <Container>
         <SectionHeading title="Our greenhouses" />
         <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {greenhousePhotos.map((photo) => (
-            <li key={photo.file} className="relative aspect-[4/3]">
+          {greenhousePhotos.map((photo, index) => (
+            <Reveal
+              as="li"
+              key={photo.file}
+              index={index % 3}
+              className="reveal-up relative aspect-[4/3]"
+            >
               <Image
                 src={`/images/greenhouses/${photo.file}`}
                 alt={photo.alt}
@@ -21,7 +27,7 @@ export function PhotoGrid() {
                 sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
                 className="rounded-lg bg-film object-cover"
               />
-            </li>
+            </Reveal>
           ))}
         </ul>
       </Container>

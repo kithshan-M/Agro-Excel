@@ -41,6 +41,16 @@ function makeCamera({ eye, target, bounds, size, pad }) {
   return { project, sizeAt };
 }
 
+const motionStyle = `<style>
+.draw{stroke-dasharray:1 2;animation:draw .9s cubic-bezier(.4,0,.2,1) both}
+.fade{animation:fade .9s ease both}
+.grow{transform-box:fill-box;transform-origin:50% 100%;animation:grow .8s cubic-bezier(.2,.8,.3,1) both}
+.glow{animation:fade 1.4s ease 2.1s both,breathe 5s ease-in-out 3.5s infinite alternate}
+@keyframes draw{from{stroke-dashoffset:1.02}}
+@keyframes fade{from{opacity:0}}
+@keyframes grow{from{transform:scale(.9,0)}}
+@keyframes breathe{to{opacity:.65}}</style>`;
+
 function random(seed) {
   let s = seed;
   return () => (s = (s * 16807) % 2147483647) / 2147483647;
@@ -68,7 +78,7 @@ function draw(options) {
     file, size, theme: themeName, pad, eye, target,
     bays = 1, width = 8, length = 24, hoopGap = 3, gutter = 2.6, rise = 2.6,
     profile = "arch", sides = "film", rowsPerBay = 3, plantGap = 1.6,
-    cutaway = false, sky = true, callouts,
+    cutaway = false, sky = true, callouts, animate = false,
   } = options;
   const t = themes[themeName];
   const total = bays * width;
@@ -97,10 +107,15 @@ function draw(options) {
     "M" + pts.map((p) => project(p).map(n).join(" ")).join("L") + (close ? "Z" : "");
   const out = [];
   const add = (d, attrs) => out.push(`<path d="${d}" ${attrs}/>`);
+  // With animate on, each shape carries a class and a start time in seconds.
+  let delay = 0;
+  let fades = false;
+  const motion = (name) =>
+    animate ? `class="${name}" style="animation-delay:${Math.round(delay * 100) / 100}s" ` : "";
   const line = (pts, stroke, w, extra = "") =>
-    add(path(pts), `fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round" ${extra}`);
+    add(path(pts), `${animate ? 'pathLength="1" ' : ""}${motion("draw")}fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round" ${extra}`);
   const poly = (pts, fill, opacity = 1, extra = "") =>
-    add(path(pts, true), `fill="${fill}" fill-opacity="${n(opacity * 100) / 100}" ${extra}`);
+    add(path(pts, true), `${fades ? motion("fade") : ""}fill="${fill}" fill-opacity="${n(opacity * 100) / 100}" ${extra}`);
 
   // Ground apron and soft shadow
   poly([[-0.7, 0, -0.7], [total + 0.7, 0, -0.7], [total + 0.7, 0, length + 0.7], [-0.7, 0, length + 0.7]], t.ground, sky ? 1 : 0.75);
@@ -108,10 +123,12 @@ function draw(options) {
   // Light inside the greenhouse
   if (themeName === "dusk") {
     const [cx, cy] = project([total * 0.5, 2, length * 0.3]);
-    out.push(`<ellipse cx="${n(cx)}" cy="${n(cy)}" rx="${n(W * 0.5)}" ry="${n(H * 0.34)}" fill="url(#glow)"/>`);
+    out.push(`<ellipse cx="${n(cx)}" cy="${n(cy)}" rx="${n(W * 0.5)}" ry="${n(H * 0.34)}" fill="url(#glow)"${animate ? ' class="glow"' : ""}/>`);
   }
 
   // Far end wall
+  fades = true;
+  delay = 1.2;
   const gable = (b, z) => [
     [b * width, 0, z],
     ...profilePoints.map(([x, y]) => [b * width + x, y, z]),
@@ -127,6 +144,7 @@ function draw(options) {
   }
 
   // Beds, with watering lines on the cutaway
+  fades = false;
   const rows = [];
   for (let b = 0; b < bays; b++) {
     for (let r = 0; r < rowsPerBay; r++) {
@@ -182,8 +200,15 @@ function draw(options) {
         }
       }
     }
+    delay = 1.3 + (1 - z / length) * 0.8;
+    if (animate) out.push(`<g ${motion("grow")}>`);
     layers.forEach((d, i) => d && add(d, `fill="${i === 3 ? t.fruit : t.plants[i]}"`));
+    if (animate) out.push("</g>");
   }
+
+  // Film goes on after the frame
+  fades = true;
+  delay = 1.2;
 
   // Roof panels. Panels facing the light are brighter.
   const roofFar = length;
@@ -208,6 +233,7 @@ function draw(options) {
   const hoops = [];
   for (let z = length; z > 0.01; z -= hoopGap) hoops.push(z);
   for (const z of hoops) {
+    delay = 0.3 + (z / length) * 0.8;
     const w = n(Math.max(0.8, sizeAt([total, 2, z]) * 0.085));
     for (let b = 0; b < bays; b++) {
       line(profilePoints.map(([x, y]) => [b * width + x, y, z]), t.frameSoft, w, 'stroke-opacity="0.75"');
@@ -217,6 +243,7 @@ function draw(options) {
     }
   }
   for (let b = 0; b < bays; b++) {
+    delay = 0.5;
     const mid = Math.floor(profilePoints.length / 2);
     const purlins = profile === "arch" ? [0, 4, 7, 10, 14] : profile === "pitch" ? [0, mid, 2] : [0, 1];
     for (const i of purlins) {
@@ -226,6 +253,7 @@ function draw(options) {
   }
 
   // Side wall nearest the viewer: film above, insect net below
+  delay = 1.2;
   const wallX = eye[0] > total / 2 ? total : 0;
   const wallNear = cutaway ? hoopGap : 0;
   if (!open) {
@@ -240,6 +268,7 @@ function draw(options) {
 
   // Near end wall
   for (let b = 0; b < bays; b++) {
+    delay = 1;
     const bx = b * width;
     if (!open && !cutaway) {
       poly(gable(b, 0), netted ? "url(#mesh)" : t.film, netted ? 1 : t.wall);
@@ -254,6 +283,7 @@ function draw(options) {
       line([[bx + width * 0.36, doorTop, 0], [bx + width * 0.64, doorTop, 0]], t.frame, 1.6);
       line([[bx + width * 0.5, 0, 0], [bx + width * 0.5, doorTop, 0]], t.frame, 1.4);
     }
+    delay = 0.1;
     const ends = profile === "pitch" ? profilePoints : gable(b, 0).map(([x, y]) => [x - bx, y]);
     line(ends.map(([x, y]) => [bx + x, y, 0]), t.frame, 4);
     if (profile === "pitch") {
@@ -276,15 +306,13 @@ function draw(options) {
     }
   }
 
-  // Numbered callouts
-  (callouts ?? []).forEach(({ at, badge }, i) => {
+  // Pointer lines. The numbers are added by part-list.tsx at the same spots.
+  (callouts ?? []).forEach(({ at, badge }) => {
     const [x, y] = project(at).map(n);
     const [bx, by] = badge;
     out.push(
       `<path d="M${x} ${y}L${bx} ${by}" stroke="#13251d" stroke-width="2"/>`,
       `<circle cx="${x}" cy="${y}" r="5" fill="#f6b92b" stroke="#13251d" stroke-width="2"/>`,
-      `<circle cx="${bx}" cy="${by}" r="21" fill="#13251d"/>`,
-      `<text x="${bx}" y="${by + 8}" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="23" fill="#fff">${i + 1}</text>`,
     );
   });
 
@@ -294,7 +322,7 @@ function draw(options) {
 <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfdfd2"/><stop offset="1" stop-color="#a9c5b0"/></linearGradient>
 <radialGradient id="glow"><stop offset="0" stop-color="#ffd566" stop-opacity="0.6"/><stop offset="0.5" stop-color="#f6b92b" stop-opacity="0.18"/><stop offset="1" stop-color="#f6b92b" stop-opacity="0"/></radialGradient>
 <pattern id="mesh" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="${t.film}" fill-opacity="${themeName === "dusk" ? 0.06 : 0.22}"/><path d="M0 0H5M0 0V5" stroke="${t.net}" stroke-width="0.7" stroke-opacity="${themeName === "dusk" ? 0.3 : 0.38}"/></pattern>
-</defs>`;
+</defs>${animate ? motionStyle : ""}`;
   const backdrop = sky
     ? `<rect width="${W}" height="${H}" fill="url(#sky)"/><path d="M0 ${n(horizon)}h${W}V${H}H0Z" fill="url(#ground)"/><path d="M0 ${n(horizon + 1)}V${n(horizon - 16)}Q${W * 0.2} ${n(horizon - 52)} ${W * 0.42} ${n(horizon - 18)}T${W * 0.8} ${n(horizon - 26)}T${W} ${n(horizon - 14)}V${n(horizon + 1)}Z" fill="#b5cfc3"/>`
     : "";
@@ -306,11 +334,14 @@ function draw(options) {
 
 mkdirSync(OUT, { recursive: true });
 
-draw({
-  file: "hero.svg", size: [1100, 640], theme: "dusk", sky: false, pad: [60, 20, 70, 20],
+const hero = {
+  size: [1100, 640], theme: "dusk", sky: false, pad: [60, 20, 70, 20],
   eye: [33, 3.6, -17], target: [12, 3.2, 10], bays: 2, width: 9, length: 40, hoopGap: 4,
   gutter: 3.6, rise: 3, rowsPerBay: 3, plantGap: 1.7, plantHeight: 2.3, fruit: true,
-});
+};
+draw({ ...hero, file: "hero.svg", animate: true });
+// Shown instead to visitors who prefer reduced motion.
+draw({ ...hero, file: "hero-still.svg" });
 
 const card = { size: [800, 460], theme: "day", pad: [70, 45, 45, 45] };
 draw({

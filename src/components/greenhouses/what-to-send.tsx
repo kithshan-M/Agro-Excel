@@ -1,13 +1,15 @@
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { whatToSend } from "@/data/greenhouses";
+import { step } from "@/lib/motion";
 
 /** Closing call to action for the greenhouse page. */
 export function WhatToSend({ topic }: { topic: string }) {
   return (
     <section id="quotation" className="scroll-mt-20 pb-20 md:pb-28">
       <Container>
-        <div className="grid overflow-hidden rounded-lg bg-leaf text-white lg:grid-cols-[1.1fr_1fr]">
+        <Reveal className="reveal-up grid overflow-hidden rounded-lg bg-leaf text-white lg:grid-cols-[1.1fr_1fr]">
           <div className="p-8 sm:p-12 lg:p-14">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Ask for a quotation
@@ -21,21 +23,27 @@ export function WhatToSend({ topic }: { topic: string }) {
           <div className="bg-leaf-dark p-8 sm:p-12 lg:p-14">
             <h3 className="text-xl font-semibold">What to send us</h3>
             <ul className="mt-5 space-y-4 text-lg">
-              {whatToSend.map((item) => (
+              {whatToSend.map((item, index) => (
                 <li key={item} className="flex gap-4">
                   <svg
                     viewBox="0 0 20 20"
                     aria-hidden="true"
                     className="mt-1 size-5 shrink-0 fill-none stroke-sun stroke-[2.5]"
                   >
-                    <path d="m3 10.5 4.5 4.5L17 5" />
+                    <path
+                      d="m3 10.5 4.5 4.5L17 5"
+                      pathLength="1"
+                      strokeDasharray="1 2"
+                      className="reveal-draw"
+                      style={step(index * 2 + 4)}
+                    />
                   </svg>
                   {item}
                 </li>
               ))}
             </ul>
           </div>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

@@ -63,14 +63,39 @@ export const greenhouseTypes: {
   },
 ];
 
-// Keep this order: it matches the numbers in cutaway.svg.
+// Keep this order: it matches the pointer lines in cutaway.svg.
+// badge is where the number sits on the picture: [left %, top %].
 export const greenhouseParts = [
-  { name: "Frame", text: "The posts, hoops and joints that carry the structure." },
-  { name: "Cover", text: "Clear film or net, chosen to suit the crop and the weather." },
-  { name: "Insect net and doors", text: "Netted sides and a closed entrance to help keep pests out." },
-  { name: "Ventilation", text: "Roof or side openings that let hot air escape." },
-  { name: "Watering", text: "Drip lines or misting, matched to your water source." },
-  { name: "Growing area", text: "Soil beds, grow bags or benches, set out with walking space." },
+  {
+    name: "Frame",
+    text: "The posts, hoops and joints that carry the structure.",
+    badge: [8.9, 18.1],
+  },
+  {
+    name: "Cover",
+    text: "Clear film or net, chosen to suit the crop and the weather.",
+    badge: [84.4, 23.6],
+  },
+  {
+    name: "Insect net and doors",
+    text: "Netted sides and a closed entrance to help keep pests out.",
+    badge: [92.2, 77.8],
+  },
+  {
+    name: "Ventilation",
+    text: "Roof or side openings that let hot air escape.",
+    badge: [52.2, 9.7],
+  },
+  {
+    name: "Watering",
+    text: "Drip lines or misting, matched to your water source.",
+    badge: [44.4, 93.1],
+  },
+  {
+    name: "Growing area",
+    text: "Soil beds, grow bags or benches, set out with walking space.",
+    badge: [8.9, 83.3],
+  },
 ];
 
 /**

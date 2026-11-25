@@ -1,15 +1,38 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/container";
 
 const links = [
-  { href: "#types", label: "Types" },
-  { href: "#parts", label: "Parts" },
-  { href: "#process", label: "Process" },
-  { href: "#questions", label: "Questions" },
-  { href: "#quotation", label: "Quotation" },
+  { id: "types", label: "Types" },
+  { id: "parts", label: "Parts" },
+  { id: "process", label: "Process" },
+  { id: "questions", label: "Questions" },
+  { id: "quotation", label: "Quotation" },
 ];
 
-/** Stays at the top of the screen while reading the long greenhouse page. */
+/** Stays at the top of the screen and marks the section being read. */
 export function PageNav() {
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+          else setActive((now) => (now === entry.target.id ? "" : now));
+        }
+      },
+      // Watches a thin strip about a third of the way down the screen.
+      { rootMargin: "-30% 0px -69% 0px" },
+    );
+    for (const { id } of links) {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <nav
       aria-label="On this page"
@@ -17,16 +40,20 @@ export function PageNav() {
     >
       <Container className="overflow-x-auto">
         <ul className="flex gap-7">
-          {links.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="flex min-h-13 items-center font-medium whitespace-nowrap text-muted hover:text-leaf"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {links.map(({ id, label }) => {
+            const current = active === id;
+            return (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  aria-current={current ? "location" : undefined}
+                  className={`relative flex min-h-13 items-center font-medium whitespace-nowrap transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:bg-leaf after:transition-transform after:duration-300 motion-reduce:after:transition-none hover:text-leaf ${current ? "text-leaf after:scale-x-100" : "text-muted after:scale-x-0"}`}
+                >
+                  {label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </Container>
     </nav>

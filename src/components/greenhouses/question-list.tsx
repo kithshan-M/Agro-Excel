@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 import { greenhouseQuestions } from "@/data/greenhouses";
 import { SectionHeading } from "./section-heading";
 
@@ -10,19 +11,19 @@ export function QuestionList() {
     >
       <Container className="grid gap-8 lg:grid-cols-[1fr_1.7fr]">
         <SectionHeading title="Common questions" />
-        <div className="rounded-lg border border-line bg-white">
+        <Reveal className="reveal-up rounded-lg border border-line bg-white">
           {greenhouseQuestions.map((item, index) => (
             <details
               key={item.question}
               open={index === 0}
-              className="group border-b border-line last:border-b-0"
+              className="smooth-details group border-b border-line last:border-b-0"
             >
               <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
                 {item.question}
                 <svg
                   viewBox="0 0 20 20"
                   aria-hidden="true"
-                  className="size-5 shrink-0 fill-none stroke-leaf stroke-2 group-open:rotate-180"
+                  className="size-5 shrink-0 fill-none stroke-leaf stroke-2 transition-transform duration-300 group-open:rotate-180 motion-reduce:transition-none"
                 >
                   <path d="m4 7 6 6 6-6" />
                 </svg>
@@ -30,7 +31,7 @@ export function QuestionList() {
               <p className="px-6 pb-6 leading-relaxed text-muted">{item.answer}</p>
             </details>
           ))}
-        </div>
+        </Reveal>
       </Container>
     </section>
   );
