@@ -6,7 +6,7 @@ import { SectionHeading } from "./section-heading";
 
 export function BuildSteps({ steps }: { steps: Service["points"] }) {
   return (
-    <section id="process" className="scroll-mt-13 py-20 md:py-28">
+    <section id="process" className="scroll-mt-13 py-16 md:py-24">
       <Container>
         <SectionHeading title="How it works" />
         <Reveal as="ol" className="mt-12 lg:grid lg:grid-cols-5">

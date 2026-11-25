@@ -8,7 +8,6 @@ const links = [
   { id: "parts", label: "Parts" },
   { id: "process", label: "Process" },
   { id: "questions", label: "Questions" },
-  { id: "quotation", label: "Quotation" },
 ];
 
 /** Stays at the top of the screen and marks the section being read. */
@@ -38,8 +37,8 @@ export function PageNav() {
       aria-label="On this page"
       className="sticky top-0 z-[5] border-b border-line bg-paper"
     >
-      <Container className="overflow-x-auto">
-        <ul className="flex gap-7">
+      <Container className="flex items-center justify-between">
+        <ul className="flex gap-5 sm:gap-7">
           {links.map(({ id, label }) => {
             const current = active === id;
             return (
@@ -55,6 +54,12 @@ export function PageNav() {
             );
           })}
         </ul>
+        <a
+          href="#quotation"
+          className="hidden min-h-9 items-center rounded-md bg-leaf px-4 font-semibold text-white transition-colors hover:bg-leaf-dark md:flex"
+        >
+          Get a quotation
+        </a>
       </Container>
     </nav>
   );

@@ -15,10 +15,20 @@ export const benefits = [
   },
 ];
 
+export const greenhouseGoals = [
+  "Keep rain off",
+  "Keep insects out",
+  "Most air movement",
+  "Small plot",
+  "Large area",
+];
+
 export const greenhouseTypes: {
   name: string;
   text: string;
-  suits: string;
+  crops: string[];
+  /** Which of greenhouseGoals this type suits. */
+  goals: string[];
   /** Swap for a photo, e.g. "/images/greenhouses/my-tunnel.jpg". */
   image: string;
   rain: string;
@@ -28,7 +38,8 @@ export const greenhouseTypes: {
   {
     name: "Tunnel greenhouse",
     text: "A single row of curved hoops under a clear cover. A simple shape that fits small plots.",
-    suits: "Tomato, cucumber, bell pepper",
+    crops: ["Tomato", "Cucumber", "Bell pepper"],
+    goals: ["Keep rain off", "Keep insects out", "Small plot"],
     image: "/images/greenhouses/tunnel.svg",
     rain: "Yes",
     insects: "With netted sides",
@@ -37,7 +48,8 @@ export const greenhouseTypes: {
   {
     name: "Multi-span greenhouse",
     text: "Several bays joined side by side, giving one large growing area under a shared roof.",
-    suits: "Larger commercial crops",
+    crops: ["Tomato", "Cucumber", "Bell pepper"],
+    goals: ["Keep rain off", "Keep insects out", "Large area"],
     image: "/images/greenhouses/multi-span.svg",
     rain: "Yes",
     insects: "With netted openings",
@@ -46,7 +58,8 @@ export const greenhouseTypes: {
   {
     name: "Net house",
     text: "A frame covered in net instead of clear film. It gives shade and lets air move through.",
-    suits: "Leafy vegetables, nurseries",
+    crops: ["Leafy vegetables", "Seedlings"],
+    goals: ["Keep insects out", "Most air movement"],
     image: "/images/greenhouses/net-house.svg",
     rain: "No",
     insects: "Yes, with fine net",
@@ -55,7 +68,8 @@ export const greenhouseTypes: {
   {
     name: "Rain shelter",
     text: "A covered roof with open sides. It keeps rain off the crop while staying airy.",
-    suits: "Chilli, tomato, seedlings",
+    crops: ["Chilli", "Tomato", "Seedlings"],
+    goals: ["Keep rain off", "Most air movement"],
     image: "/images/greenhouses/rain-shelter.svg",
     rain: "Yes",
     insects: "No, the sides are open",
@@ -129,10 +143,10 @@ export const greenhouseQuestions = [
   },
 ];
 
-export const whatToSend = [
-  "Where your land is",
-  "The length and width of the plot",
-  "The crop you want to grow",
-  "Where your water comes from",
-  "A few photos of the site",
+export const waterSources = [
+  "Well",
+  "Piped water",
+  "River or stream",
+  "Tank or pond",
+  "Not sure yet",
 ];

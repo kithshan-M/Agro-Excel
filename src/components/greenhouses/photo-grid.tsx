@@ -9,7 +9,7 @@ export function PhotoGrid() {
   if (greenhousePhotos.length === 0) return null;
 
   return (
-    <section className="pb-20 md:pb-28">
+    <section className="pb-16 md:pb-24">
       <Container>
         <SectionHeading title="Our greenhouses" />
         <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

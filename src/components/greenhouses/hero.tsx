@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
-import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { benefits } from "@/data/greenhouses";
 import type { Service } from "@/data/services";
 import { step } from "@/lib/motion";
@@ -21,7 +20,7 @@ export function GreenhouseHero({ service }: { service: Service }) {
             {service.summary}
           </p>
           <div className="enter mt-8 flex flex-wrap gap-3" style={step(2)}>
-            <WhatsAppButton topic={service.title.toLowerCase()} />
+            <ButtonLink href="#quotation">Get a quotation</ButtonLink>
             <ButtonLink href="#types" variant="outline">
               Compare types
             </ButtonLink>
