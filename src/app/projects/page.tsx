@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { ProjectsHero } from "@/components/projects/hero";
-import { ProjectList } from "@/components/projects/project-list";
+import { FilteredProjects, ProjectList } from "@/components/projects/project-list";
 import { SampleNote } from "@/components/projects/sample-note";
 import { ContactCta } from "@/components/sections/contact-cta";
 import { projectsIntro } from "@/data/projects-intro";
@@ -19,7 +20,9 @@ export default function ProjectsPage() {
     <>
       <SampleNote />
       <ProjectsHero />
-      <ProjectList projects={projects} />
+      <Suspense fallback={<ProjectList projects={projects} />}>
+        <FilteredProjects projects={projects} />
+      </Suspense>
       <ContactCta topic="a project" />
     </>
   );

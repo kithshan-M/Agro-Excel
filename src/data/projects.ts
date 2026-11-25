@@ -4,6 +4,36 @@
 export const projectKinds = ["Greenhouse", "Irrigation", "Irrigation repair"] as const;
 export type ProjectKind = (typeof projectKinds)[number];
 
+/** The 25 districts, as they appear on the map of the projects page. */
+export const districts = [
+  "Ampara",
+  "Anuradhapura",
+  "Badulla",
+  "Batticaloa",
+  "Colombo",
+  "Galle",
+  "Gampaha",
+  "Hambantota",
+  "Jaffna",
+  "Kalutara",
+  "Kandy",
+  "Kegalle",
+  "Kilinochchi",
+  "Kurunegala",
+  "Mannar",
+  "Matale",
+  "Matara",
+  "Monaragala",
+  "Mullaitivu",
+  "Nuwara Eliya",
+  "Polonnaruwa",
+  "Puttalam",
+  "Ratnapura",
+  "Trincomalee",
+  "Vavuniya",
+] as const;
+export type District = (typeof districts)[number];
+
 /** Photo in public/images/projects, such as "kandy-tunnel/front.jpg". */
 export type ProjectPhoto = {
   file: string;
@@ -18,7 +48,7 @@ export type Project = {
   title: string;
   /** One or more kinds. */
   kinds: ProjectKind[];
-  district: string;
+  district: District;
   /** Town or village, if the customer agrees. */
   town?: string;
   year?: string;

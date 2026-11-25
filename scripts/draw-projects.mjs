@@ -8,7 +8,7 @@ import { adviser, grower, newPicture, palm, woman } from "./draw-scene.mjs";
 const OUT = "public/images/projects";
 mkdirSync(OUT, { recursive: true });
 
-const W = 1500, H = 440, Y = 330;
+const W = 1500, H = 390, Y = 300;
 const STEEL = "#f3e2cf";
 
 /** Outline of one end of the house. Its base is centred on 0,0. */
@@ -57,9 +57,9 @@ function hero(animate) {
     ? "<style>.rise{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}@keyframes rise{from{opacity:0;transform:translateY(46px)}}</style>"
     : "";
   const rows = Array.from({ length: 4 }, (_, i) => line(`M0 ${Y + 34 + i * 24}Q${W / 2} ${Y + 18 + i * 25} ${W} ${Y + 34 + i * 24}`, "#4a2312", 5 + i * 1.5, 'stroke-opacity="0.45"')).join("");
-  return svg(W, H, style + oval(1250, 96, 56, 56, "#f6b92b") +
-    path(`M0 ${Y}V232Q190 150 400 226T820 206T1180 220T${W} 190V${Y}Z`, "#96492a") +
-    path(`M0 ${Y}V276Q260 226 560 270T1080 262T${W} 270V${Y}Z`, "#a7562f") +
+  return svg(W, H, style + oval(1010, 176, 60, 60, "#f6b92b") +
+    path(`M0 ${Y}V202Q190 120 400 196T820 176T1180 190T${W} 160V${Y}Z`, "#96492a") +
+    path(`M0 ${Y}V246Q260 196 560 240T1080 232T${W} 240V${Y}Z`, "#a7562f") +
     at(60, Y, 0, 0.85, palm(0, 0, 1, 18)) + at(1462, Y, 0, 0.95, palm(0, 0, 1, -22)) +
     `<rect y="${Y - 2}" width="${W}" height="${H - Y + 2}" fill="#653018"/>` + rows + groups);
 }

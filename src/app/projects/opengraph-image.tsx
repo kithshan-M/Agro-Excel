@@ -11,7 +11,7 @@ export default function Image() {
     title: projectsIntro.title,
     text: projectsIntro.text,
     picture: "projects/hero-still",
-    at: { width: 1200, height: 352, left: 0, top: 278 },
+    at: { width: 1200, height: 312, left: 0, top: 318 },
     background: "#7c3a20",
     light: true,
     textWidth: 860,

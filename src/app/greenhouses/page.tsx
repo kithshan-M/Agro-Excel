@@ -37,7 +37,7 @@ export default function GreenhousesPage() {
       <PartList />
       <BuildSteps id="process" steps={service.points} />
       <PhotoGrid />
-      <ProjectPreview title="Greenhouse projects" kinds={["Greenhouse"]} />
+      <ProjectPreview title="Greenhouse projects" kinds={["Greenhouse"]} href="/projects?kind=greenhouse" />
       <QuestionList
         id="greenhouse-questions"
         questions={greenhouseQuestions}
