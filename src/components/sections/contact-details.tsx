@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { whatsappLink } from "@/lib/whatsapp";
 
 /** Lists the contact fields filled in src/config/site.ts. Renders nothing if all are empty. */
 export function ContactDetails() {
@@ -8,8 +9,8 @@ export function ContactDetails() {
     { label: "Phone", value: phone, href: `tel:${phone.replaceAll(" ", "")}` },
     {
       label: "WhatsApp",
-      value: whatsapp && `+${whatsapp}`,
-      href: `https://wa.me/${whatsapp}`,
+      value: whatsapp,
+      href: whatsappLink() ?? undefined,
     },
     { label: "Email", value: email, href: `mailto:${email}` },
     { label: "Address", value: address },

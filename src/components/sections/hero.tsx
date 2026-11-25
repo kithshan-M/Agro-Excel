@@ -1,5 +1,6 @@
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { GreenhouseArt } from "./greenhouse-art";
 
 export function Hero() {
@@ -15,7 +16,7 @@ export function Hero() {
             their crops.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href="/contact">Contact us</ButtonLink>
+            <WhatsAppButton />
             <ButtonLink href="/seeds" variant="outline">
               See our seeds
             </ButtonLink>

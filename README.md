@@ -34,11 +34,12 @@ src/
     ui/                Small reusable pieces
   config/site.ts       Business name, contact details, menu
   data/                Services and seed list
+  lib/whatsapp.ts      Builds the WhatsApp links
 ```
 
 ## Where to change things
 
-- Phone, email, address: `src/config/site.ts`
+- WhatsApp, phone, email, address: `src/config/site.ts`
 - Service text: `src/data/services.ts`
 - Seed list: `src/data/seeds.ts`
 - Colours: `src/app/globals.css`

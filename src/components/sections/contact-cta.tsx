@@ -1,7 +1,8 @@
-import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 
-export function ContactCta() {
+/** topic is added to the WhatsApp message, e.g. "greenhouse construction". */
+export function ContactCta({ topic }: { topic?: string }) {
   return (
     <section className="border-t border-line bg-film py-14">
       <Container className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
@@ -14,7 +15,7 @@ export function ContactCta() {
           </p>
         </div>
         <div className="shrink-0">
-          <ButtonLink href="/contact">Contact us</ButtonLink>
+          <WhatsAppButton topic={topic} />
         </div>
       </Container>
     </section>

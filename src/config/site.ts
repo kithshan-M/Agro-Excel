@@ -10,7 +10,7 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   contact: {
     phone: "",
-    /** International format, digits only (country code first). */
+    /** With country code, e.g. "+1 555 000 1234". Turns on every WhatsApp link. */
     whatsapp: "",
     email: "",
     address: "",

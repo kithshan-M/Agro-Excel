@@ -16,7 +16,7 @@ export default function GreenhousesPage() {
     <>
       <PageIntro title={service.title} text={service.summary} />
       <ServicePoints points={service.points} />
-      <ContactCta />
+      <ContactCta topic={service.title.toLowerCase()} />
     </>
   );
 }

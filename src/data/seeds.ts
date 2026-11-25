@@ -8,5 +8,5 @@ export const seedGroups: SeedGroup[] = [
   { name: "Fruiting vegetables", crops: ["Tomato", "Bell pepper", "Chilli", "Brinjal"] },
   { name: "Gourds and cucumbers", crops: ["Cucumber", "Bitter gourd", "Pumpkin"] },
   { name: "Leafy vegetables", crops: ["Lettuce", "Cabbage", "Spinach"] },
-  { name: "Roots and beans", crops: ["Carrot", "Radish", "Beans"] },
+  { name: "Roots and beans", crops: ["Carrot", "Radish", "Bean"] },
 ];

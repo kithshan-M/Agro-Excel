@@ -42,7 +42,7 @@ export const services: Service[] = [
       },
       {
         title: "Order",
-        text: "Contact us for prices and what is in stock.",
+        text: "Message us on WhatsApp for prices and stock.",
       },
     ],
   },
