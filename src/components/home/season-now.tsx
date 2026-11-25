@@ -1,17 +1,11 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { seasons } from "@/data/seeds";
-
-const never = () => () => {};
+import { useMonth } from "@/lib/month";
 
 /** Names the season in the visitor's month. Empty until the page is in the browser. */
 export function SeasonNow() {
-  const month = useSyncExternalStore(
-    never,
-    () => new Date().getMonth() + 1,
-    () => 0,
-  );
+  const month = useMonth();
   const season = seasons.find((item) => item.months.includes(month));
   return (
     <p className="mt-4 min-h-7 font-semibold">

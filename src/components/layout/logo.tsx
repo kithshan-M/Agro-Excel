@@ -7,7 +7,7 @@ export function Logo({ light = false, onClick }: { light?: boolean; onClick?: ()
     <Link
       href="/"
       onClick={onClick}
-      className={`group flex min-h-11 items-center gap-2.5 font-display text-xl font-bold tracking-tight ${light ? "text-white" : "text-leaf-dark"}`}
+      className={`group flex min-h-11 items-center gap-2.5 font-display text-xl font-bold tracking-tight whitespace-nowrap max-[350px]:gap-1.5 max-[350px]:text-lg ${light ? "text-white" : "text-leaf-dark"}`}
     >
       <svg viewBox="0 0 32 32" aria-hidden="true" className="size-9 shrink-0">
         <rect

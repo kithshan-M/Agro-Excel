@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { NextSteps } from "@/components/sections/next-steps";
-import { Catalogue } from "@/components/seeds/catalogue";
+import { Catalogue, FilteredCatalogue } from "@/components/seeds/catalogue";
 import { Enquiry } from "@/components/seeds/enquiry";
 import { SeedsHero } from "@/components/seeds/hero";
 import { ListBar } from "@/components/seeds/list-bar";
@@ -18,7 +19,9 @@ export default function SeedsPage() {
   return (
     <>
       <SeedsHero service={service} />
-      <Catalogue />
+      <Suspense fallback={<Catalogue />}>
+        <FilteredCatalogue />
+      </Suspense>
       <Enquiry />
       <SeasonCalendar />
       <div className="border-t border-line">

@@ -1,22 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { MessagePanel, useMessage } from "@/components/sections/message-panel";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Choices, fieldClass } from "@/components/ui/choices";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/config/site";
-import { growingPlaces, seedImage, seeds } from "@/data/seeds";
-import { clearList, setPacks, useSeedList } from "@/lib/seed-list";
-
-const packs = (count: number) => `${count} ${count === 1 ? "pack" : "packs"}`;
+import { growingPlaces, seedImage, seedKinds, seeds } from "@/data/seeds";
+import { setSeedFilter } from "@/lib/seed-filter";
+import { setList, setPacks, useSeedList, type List } from "@/lib/seed-list";
+import { PackStepper, packs } from "./pack-stepper";
 
 export function Enquiry() {
   const list = useSeedList();
   const [location, setLocation] = useState("");
+  const [plot, setPlot] = useState("");
   const [place, setPlace] = useState("");
+  const [undo, setUndo] = useState<{ text: string; list: List } | null>(null);
   const id = useId();
+
+  useEffect(() => {
+    if (!undo) return;
+    const timer = setTimeout(() => setUndo(null), 10000);
+    return () => clearTimeout(timer);
+  }, [undo]);
+
+  function remove(slug: string, name: string) {
+    setUndo({ text: `${name} removed`, list });
+    setPacks(slug, 0);
+  }
 
   const chosen = seeds.filter((seed) => list[seed.slug]);
   const message = useMessage(
@@ -27,6 +40,7 @@ export function Enquiry() {
           `- ${seed.name}${seed.localName ? ` (${seed.localName})` : ""}: ${packs(list[seed.slug])}`,
       ),
       ...(location.trim() ? [`Location: ${location.trim()}`] : []),
+      ...(plot.trim() ? [`Plot size: ${plot.trim()}`] : []),
       ...(place ? [`Growing in: ${place}`] : []),
     ].join("\n"),
   );
@@ -38,21 +52,65 @@ export function Enquiry() {
           title="Your seed list"
           text="Check your list, then send it to us for varieties, prices and stock."
         />
+        <div role="status" className="min-h-10 pt-4">
+          {undo && (
+            <p className="enter inline-flex flex-wrap items-center gap-x-4 rounded-md bg-ink px-4 text-white">
+              {undo.text}
+              <button
+                type="button"
+                onClick={() => {
+                  setList(undo.list);
+                  setUndo(null);
+                }}
+                className="min-h-11 cursor-pointer font-semibold text-sun underline underline-offset-4 hover:text-white"
+              >
+                Undo
+              </button>
+            </p>
+          )}
+        </div>
         {chosen.length === 0 ? (
-          <div className="mt-10 rounded-lg border border-line bg-white p-8 text-center sm:p-12">
-            <p className="font-display text-xl font-semibold">Your list is empty</p>
-            <p className="mt-2 mb-6 text-muted">Add the seeds you want to grow.</p>
-            <a
-              href="#catalogue"
-              className="inline-flex min-h-12 items-center rounded-md bg-leaf px-6 font-semibold text-white transition-colors hover:bg-leaf-dark"
-            >
-              Browse seeds
-            </a>
+          <div className="mt-4 rounded-lg border border-line bg-white p-6 sm:p-10">
+            <p className="font-display text-2xl font-semibold">Your list is empty</p>
+            <p className="mt-1 mb-6 text-lg text-muted">Choose a kind to start with.</p>
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+              {seedKinds.map((kind) => {
+                const example = seeds.find((seed) => seed.kind === kind.name);
+                return (
+                  <li key={kind.name}>
+                    <a
+                      href="#catalogue"
+                      onClick={(event) => {
+                        // The filter changes the address, so scroll by hand.
+                        event.preventDefault();
+                        setSeedFilter({ kind: kind.name, place: "" });
+                        document.getElementById("seed-results")?.scrollIntoView();
+                      }}
+                      className={`group block h-full overflow-hidden rounded-lg ${kind.tile}`}
+                    >
+                      {example && (
+                        <Image
+                          src={seedImage(example)}
+                          alt=""
+                          width={200}
+                          height={150}
+                          unoptimized={!example.photo}
+                          className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
+                        />
+                      )}
+                      <span className={`relative flex min-h-11 items-center px-3.5 font-semibold text-white ${kind.band}`}>
+                        {kind.name}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         ) : (
           <form
             onSubmit={message.send}
-            className="mt-10 grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
+            className="mt-4 grid overflow-clip rounded-lg border border-line bg-white lg:grid-cols-[1.5fr_1fr]"
           >
             <div className="grid content-start gap-7 p-5 sm:p-9">
               <ul className="border-t border-line">
@@ -75,29 +133,17 @@ export function Enquiry() {
                         <p className="font-semibold">{seed.name}</p>
                         <p className="text-muted">{seed.localName}</p>
                       </div>
-                      <div
-                        role="group"
-                        aria-label={`Packs of ${seed.name}`}
-                        className="flex items-center rounded-md border border-field"
-                      >
-                        <Step
-                          label={`One pack less of ${seed.name}`}
-                          d="M4 10h12"
-                          onClick={() => setPacks(seed.slug, count - 1)}
-                        />
-                        <span aria-live="polite" className="min-w-16 text-center">
-                          {packs(count)}
-                        </span>
-                        <Step
-                          label={`One pack more of ${seed.name}`}
-                          d="M10 4v12M4 10h12"
-                          onClick={() => setPacks(seed.slug, count + 1)}
-                        />
-                      </div>
+                      <PackStepper
+                        slug={seed.slug}
+                        name={seed.name}
+                        count={count}
+                        onRemove={() => remove(seed.slug, seed.name)}
+                        className="w-44 border border-field text-ink"
+                      />
                       <button
                         type="button"
                         aria-label={`Remove ${seed.name}`}
-                        onClick={() => setPacks(seed.slug, 0)}
+                        onClick={() => remove(seed.slug, seed.name)}
                         className="min-h-11 cursor-pointer px-1 font-semibold text-muted underline underline-offset-4 hover:text-ink"
                       >
                         Remove
@@ -110,24 +156,42 @@ export function Enquiry() {
                 <p>Your list is saved on this device.</p>
                 <button
                   type="button"
-                  onClick={clearList}
+                  onClick={() => {
+                    setUndo({ text: "List cleared", list });
+                    setList({});
+                  }}
                   className="min-h-11 cursor-pointer px-1 font-semibold underline underline-offset-4 hover:text-ink"
                 >
                   Clear list
                 </button>
               </div>
-              <div>
-                <label htmlFor={`${id}-location`} className="font-semibold">
-                  Where is your land?
-                </label>
-                <input
-                  id={`${id}-location`}
-                  autoComplete="address-level2"
-                  placeholder="Village, town or district"
-                  value={location}
-                  onChange={(event) => setLocation(event.target.value)}
-                  className={fieldClass}
-                />
+              <div className="grid gap-7 sm:grid-cols-2 sm:gap-5">
+                <div>
+                  <label htmlFor={`${id}-location`} className="font-semibold">
+                    Where is your land?
+                  </label>
+                  <input
+                    id={`${id}-location`}
+                    autoComplete="address-level2"
+                    placeholder="Village, town or district"
+                    value={location}
+                    onChange={(event) => setLocation(event.target.value)}
+                    className={fieldClass}
+                  />
+                </div>
+                <div>
+                  <label htmlFor={`${id}-plot`} className="font-semibold">
+                    How big is your plot?
+                  </label>
+                  <input
+                    id={`${id}-plot`}
+                    autoComplete="off"
+                    placeholder="20 perches, 60 x 30 feet"
+                    value={plot}
+                    onChange={(event) => setPlot(event.target.value)}
+                    className={fieldClass}
+                  />
+                </div>
               </div>
               <Choices
                 legend="Where will you grow them?"
@@ -148,32 +212,5 @@ export function Enquiry() {
         )}
       </Container>
     </section>
-  );
-}
-
-function Step({
-  label,
-  d,
-  onClick,
-}: {
-  label: string;
-  d: string;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      onClick={onClick}
-      className="flex size-11 cursor-pointer items-center justify-center rounded-md text-leaf hover:bg-film"
-    >
-      <svg
-        viewBox="0 0 20 20"
-        aria-hidden="true"
-        className="size-4 fill-none stroke-current stroke-[2.5]"
-      >
-        <path d={d} />
-      </svg>
-    </button>
   );
 }

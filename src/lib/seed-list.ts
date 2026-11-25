@@ -4,7 +4,7 @@ import { useSyncExternalStore } from "react";
 import { seeds } from "@/data/seeds";
 
 /** Packs wanted per seed. Kept in this browser, so it survives a refresh. */
-type List = Readonly<Record<string, number>>;
+export type List = Readonly<Record<string, number>>;
 
 const storageKey = "seed-list";
 const empty: List = {};
@@ -88,7 +88,8 @@ export function setPacks(slug: string, packs: number) {
   save();
 }
 
-export function clearList() {
-  show(empty);
+/** Replaces the whole list, for clearing and undo. */
+export function setList(next: List) {
+  show(next);
   save();
 }
