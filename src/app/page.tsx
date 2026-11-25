@@ -1,13 +1,19 @@
+import { HomeHero } from "@/components/home/hero";
+import { Journey } from "@/components/home/journey";
+import { SeedPreview } from "@/components/home/seed-preview";
 import { ContactCta } from "@/components/sections/contact-cta";
-import { Hero } from "@/components/sections/hero";
-import { ServiceList } from "@/components/sections/service-list";
+import { ServicePanels } from "@/components/sections/service-panels";
+import { ListBar } from "@/components/seeds/list-bar";
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <ServiceList />
+      <HomeHero />
+      <ServicePanels />
+      <Journey />
+      <SeedPreview />
       <ContactCta />
+      <ListBar href="/seeds#list" />
     </>
   );
 }

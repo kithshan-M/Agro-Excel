@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ContactCta } from "@/components/sections/contact-cta";
 import { PageIntro } from "@/components/sections/page-intro";
-import { ServiceList } from "@/components/sections/service-list";
+import { ServicePanels } from "@/components/sections/service-panels";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default function AboutPage() {
   return (
     <>
       <PageIntro title={`About ${siteConfig.name}`} text={siteConfig.description} />
-      <ServiceList />
+      <ServicePanels />
       <ContactCta />
     </>
   );

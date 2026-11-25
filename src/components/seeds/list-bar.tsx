@@ -1,16 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/container";
 import { useSeedList } from "@/lib/seed-list";
 
-/** Follows the visitor once a seed is added, until they reach the list. */
-export function ListBar() {
+/** Follows the visitor once a seed is added, until they reach the list or the footer. */
+export function ListBar({ href = "#list" }: { href?: string }) {
   const count = Object.keys(useSeedList()).length;
   const [atList, setAtList] = useState(false);
 
   useEffect(() => {
-    const section = document.getElementById("list");
+    const section = document.getElementById("list") ?? document.querySelector("footer");
     if (!section) return;
     const observer = new IntersectionObserver(
       ([entry]) =>
@@ -32,12 +33,12 @@ export function ListBar() {
         <p role="status" className="font-semibold">
           {count} {count === 1 ? "seed" : "seeds"} in your list
         </p>
-        <a
-          href="#list"
+        <Link
+          href={href}
           className="flex min-h-12 items-center rounded-md bg-sun px-6 font-semibold whitespace-nowrap text-ink transition-colors hover:bg-white"
         >
           View list
-        </a>
+        </Link>
       </Container>
     </div>
   );

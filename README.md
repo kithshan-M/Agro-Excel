@@ -33,6 +33,7 @@ src/
     layout/            Header, navigation, footer
     consulting/        Sections for the crop consulting page
     greenhouses/       Sections for the greenhouse page
+    home/              Sections for the home page
     seeds/             Sections for the seeds page
     sections/          Shared page sections
     ui/                Small reusable pieces
@@ -48,6 +49,7 @@ src/
 - Greenhouse page text and photos: `src/data/greenhouses.ts`
 - Seed list: `src/data/seeds.ts`
 - Crop consulting text: `src/data/consulting.ts`
+- Home page steps and seeds: `src/data/home.ts`
 - Colours: `src/app/globals.css`
 - Fonts: `src/app/layout.tsx`
 - Live web address: `NEXT_PUBLIC_SITE_URL`, set before building

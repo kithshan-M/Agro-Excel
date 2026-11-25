@@ -402,6 +402,13 @@ draw({
   width: 9, length: 24, hoopGap: 4, gutter: 2.9, rise: 2, profile: "pitch", sides: "open", rowsPerBay: 4, plantHeight: 1.5, fruit: true,
 });
 
+// No sky or hills: draw-home.mjs places it in the farm scene.
+draw({
+  file: "plain.svg", size: [800, 400], theme: "day", sky: false, pad: [16, 14, 20, 14],
+  eye: [30, 4, -16], target: [10, 2.6, 9], bays: 2, width: 8, length: 28, hoopGap: 4,
+  gutter: 3.2, rise: 2.6, rowsPerBay: 2, plantGap: 2.4, plantHeight: 2, fruit: true,
+});
+
 draw({
   file: "cutaway.svg", size: [900, 720], theme: "day", pad: [150, 90, 100, 60],
   eye: [19, 6, -13], target: [5, 2, 6], width: 9, length: 22, hoopGap: 2.75,

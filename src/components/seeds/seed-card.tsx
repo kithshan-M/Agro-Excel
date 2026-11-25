@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Reveal } from "@/components/ui/reveal";
 import { seedImage, seedKinds, type Seed } from "@/data/seeds";
