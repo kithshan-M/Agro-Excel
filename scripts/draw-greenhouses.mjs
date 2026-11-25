@@ -117,6 +117,11 @@ function draw(options) {
   const poly = (pts, fill, opacity = 1, extra = "") =>
     add(path(pts, true), `${fades ? motion("fade") : ""}fill="${fill}" fill-opacity="${n(opacity * 100) / 100}" ${extra}`);
 
+  // Shapes to spotlight in the cutaway, one list per numbered part.
+  const marks = { frame: [], cover: [], net: [], vent: [], water: [], beds: [] };
+  const markLine = (part, pts) => cutaway && marks[part].push({ d: path(pts) });
+  const markArea = (part, pts) => cutaway && marks[part].push({ d: path(pts, true), area: true });
+
   // Ground apron and soft shadow
   poly([[-0.7, 0, -0.7], [total + 0.7, 0, -0.7], [total + 0.7, 0, length + 0.7], [-0.7, 0, length + 0.7]], t.ground, sky ? 1 : 0.75);
 
@@ -154,12 +159,18 @@ function draw(options) {
   const bedHalf = Math.min(0.75, width / rowsPerBay / 3.4);
   for (const x of rows) {
     const z0 = 1.2, z1 = length - 1;
-    poly([[x - bedHalf, 0.35, z0], [x + bedHalf, 0.35, z0], [x + bedHalf, 0.35, z1], [x - bedHalf, 0.35, z1]], t.bedTop);
-    poly([[x - bedHalf, 0, z0], [x + bedHalf, 0, z0], [x + bedHalf, 0.35, z0], [x - bedHalf, 0.35, z0]], t.bed);
     const side = eye[0] > x ? bedHalf : -bedHalf;
-    poly([[x + side, 0, z0], [x + side, 0.35, z0], [x + side, 0.35, z1], [x + side, 0, z1]], t.bed, 0.85);
+    const bedTop = [[x - bedHalf, 0.35, z0], [x + bedHalf, 0.35, z0], [x + bedHalf, 0.35, z1], [x - bedHalf, 0.35, z1]];
+    const bedEnd = [[x - bedHalf, 0, z0], [x + bedHalf, 0, z0], [x + bedHalf, 0.35, z0], [x - bedHalf, 0.35, z0]];
+    const bedSide = [[x + side, 0, z0], [x + side, 0.35, z0], [x + side, 0.35, z1], [x + side, 0, z1]];
+    poly(bedTop, t.bedTop);
+    poly(bedEnd, t.bed);
+    poly(bedSide, t.bed, 0.85);
+    for (const face of [bedTop, bedEnd, bedSide]) markArea("beds", face);
     if (cutaway) {
-      line([[x + side * 0.75, 0.42, z0 - 0.4], [x + side * 0.75, 0.42, z1]], "#1b1f1d", 2.2);
+      const drip = [[x + side * 0.75, 0.42, z0 - 0.4], [x + side * 0.75, 0.42, z1]];
+      line(drip, "#1b1f1d", 2.2);
+      markLine("water", drip);
     }
   }
 
@@ -221,8 +232,10 @@ function draw(options) {
       const normal = unit([-(y1 - y0), x1 - x0, 0]);
       const shade = Math.max(0, dot(normal, lightDir));
       const bx = b * width;
+      const panel = [[bx + x0, y0, roofNear], [bx + x1, y1, roofNear], [bx + x1, y1, roofFar], [bx + x0, y0, roofFar]];
+      markArea("cover", panel);
       poly(
-        [[bx + x0, y0, roofNear], [bx + x1, y1, roofNear], [bx + x1, y1, roofFar], [bx + x0, y0, roofFar]],
+        panel,
         netted ? "url(#mesh)" : t.film,
         netted ? 1 : t.filmBase + t.filmShade * shade,
       );
@@ -236,7 +249,9 @@ function draw(options) {
     delay = 0.3 + (z / length) * 0.8;
     const w = n(Math.max(0.8, sizeAt([total, 2, z]) * 0.085));
     for (let b = 0; b < bays; b++) {
-      line(profilePoints.map(([x, y]) => [b * width + x, y, z]), t.frameSoft, w, 'stroke-opacity="0.75"');
+      const hoop = profilePoints.map(([x, y]) => [b * width + x, y, z]);
+      line(hoop, t.frameSoft, w, 'stroke-opacity="0.75"');
+      markLine("frame", [[b * width, 0, z], ...hoop, [(b + 1) * width, 0, z]]);
       for (const x of b === bays - 1 ? [0, width] : [0]) {
         line([[b * width + x, 0, z], [b * width + x, gutter, z]], t.frameSoft, w, 'stroke-opacity="0.75"');
       }
@@ -248,6 +263,7 @@ function draw(options) {
     const purlins = profile === "arch" ? [0, 4, 7, 10, 14] : profile === "pitch" ? [0, mid, 2] : [0, 1];
     for (const i of purlins) {
       const [x, y] = profilePoints[i];
+      markLine("frame", [[b * width + x, y, 0], [b * width + x, y, length]]);
       line([[b * width + x, y, 0], [b * width + x, y, length]], t.frame, i === 0 || i === profilePoints.length - 1 ? 2 : 1.3);
     }
   }
@@ -258,9 +274,13 @@ function draw(options) {
   const wallNear = cutaway ? hoopGap : 0;
   if (!open) {
     const split = netted ? gutter : gutter * 0.55;
-    poly([[wallX, 0, wallNear], [wallX, split, wallNear], [wallX, split, length], [wallX, 0, length]], "url(#mesh)", 1);
+    const netWall = [[wallX, 0, wallNear], [wallX, split, wallNear], [wallX, split, length], [wallX, 0, length]];
+    poly(netWall, "url(#mesh)", 1);
+    markArea("net", netWall);
     if (!netted) {
-      poly([[wallX, split, wallNear], [wallX, gutter, wallNear], [wallX, gutter, length], [wallX, split, length]], t.film, t.wall + 0.12);
+      const filmWall = [[wallX, split, wallNear], [wallX, gutter, wallNear], [wallX, gutter, length], [wallX, split, length]];
+      poly(filmWall, t.film, t.wall + 0.12);
+      markArea("cover", filmWall);
       line([[wallX, split, wallNear], [wallX, split, length]], t.frame, 1.2);
     }
     line([[wallX, 0.05, 0], [wallX, 0.05, length]], t.frame, 2);
@@ -286,6 +306,7 @@ function draw(options) {
     delay = 0.1;
     const ends = profile === "pitch" ? profilePoints : gable(b, 0).map(([x, y]) => [x - bx, y]);
     line(ends.map(([x, y]) => [bx + x, y, 0]), t.frame, 4);
+    markLine("frame", ends.map(([x, y]) => [bx + x, y, 0]));
     if (profile === "pitch") {
       for (const x of [0, width]) line([[bx + x, 0, 0], [bx + x, gutter, 0]], t.frame, 4);
       line([[bx, gutter, 0], [bx + width, gutter, 0]], t.frame, 2.4);
@@ -300,9 +321,13 @@ function draw(options) {
     const opening = [[ridge, top, z0], [ridge + 1.9, top - 0.3, z0], [ridge + 1.9, top - 0.3, z1], [ridge, top, z1]];
     poly(opening, "#24513d", 0.28);
     const flap = [[ridge, top, z0], [ridge + 1.8, top + 0.75, z0], [ridge + 1.8, top + 0.75, z1], [ridge, top, z1]];
+    markArea("vent", opening);
+    markArea("vent", flap);
     poly(flap, "#ffffff", 0.9, `stroke="${t.frame}" stroke-width="2.5" stroke-linejoin="round"`);
     for (let z = z0; z <= z1; z += 2.75) {
-      line([[ridge + 1.9, top - 0.3, z], [ridge + 1.8, top + 0.75, z]], t.frame, 1.8);
+      const strut = [[ridge + 1.9, top - 0.3, z], [ridge + 1.8, top + 0.75, z]];
+      line(strut, t.frame, 1.8);
+      markLine("vent", strut);
     }
   }
 
@@ -329,6 +354,22 @@ function draw(options) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${defs}${backdrop}${out.join("")}</svg>`;
   writeFileSync(`${OUT}/${file}`, svg);
   console.log(file, `${Math.round(svg.length / 1024)} KB`);
+
+  // One see-through picture per part: everything dims except that part.
+  Object.values(cutaway ? marks : {}).forEach((shapes, i) => {
+    const areas = shapes.filter((shape) => shape.area).map((shape) => `<path d="${shape.d}"/>`).join("");
+    const lines = shapes.filter((shape) => !shape.area).map((shape) => shape.d).join("");
+    const { at, badge } = callouts[i];
+    const [x, y] = project(at).map(n);
+    const stroke = 'fill="none" stroke-linejoin="round" stroke-linecap="round"';
+    const spot =
+      `<rect width="${W}" height="${H}" fill="#13251d" fill-opacity="0.4"/>` +
+      (areas && `<g opacity="0.78" fill="#f6b92b" stroke="#ffe9b5" stroke-width="1.2" stroke-linejoin="round">${areas}</g>`) +
+      (lines && `<path d="${lines}" ${stroke} stroke="#13251d" stroke-width="7"/><path d="${lines}" ${stroke} stroke="#f6b92b" stroke-width="4"/>`) +
+      `<path d="M${x} ${y}L${badge[0]} ${badge[1]}" stroke="#fff" stroke-width="2.5"/>` +
+      `<circle cx="${x}" cy="${y}" r="7" fill="#fff" stroke="#13251d" stroke-width="2.5"/>`;
+    writeFileSync(`${OUT}/cutaway-part-${i + 1}.svg`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${spot}</svg>`);
+  });
   return project;
 }
 
