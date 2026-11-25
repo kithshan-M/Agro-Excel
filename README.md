@@ -66,4 +66,5 @@ src/
 - Picture shown when a page is shared: `src/previews`
 - Details for Google: `src/components/sections/business-details.tsx`
 - Sinhala: `src/i18n/si`, where the left side is the English text. Change English text, then run `npm run check-sinhala` to see what needs translating
-- Live web address: `NEXT_PUBLIC_SITE_URL`, set before building
+- Live web address: `NEXT_PUBLIC_SITE_URL`, set before building. On Netlify it is filled in from the site address
+- Netlify: `netlify.toml`

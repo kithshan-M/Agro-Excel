@@ -1,0 +1,11 @@
+# Settings Netlify uses to build and publish this site.
+
+[build]
+  publish = ".next"
+  # Netlify provides $URL, the site's main address. Set NEXT_PUBLIC_SITE_URL in
+  # Netlify only if a different address should be used.
+  command = "NEXT_PUBLIC_SITE_URL=\"${NEXT_PUBLIC_SITE_URL:-$URL}\" npm run build"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
