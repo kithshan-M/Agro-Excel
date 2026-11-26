@@ -62,7 +62,7 @@ export function TypeTabs({
         role="tablist"
         aria-label={t(label)}
         onKeyDown={onKeyDown}
-        className="grid grid-cols-4 border-b border-line sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-4 lg:border-r lg:border-b-0"
+        className="grid grid-cols-4 border-b border-line max-[30rem]:[&:lang(ta)]:grid-cols-2 max-[22.5rem]:[&:lang(si)]:grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-4 lg:border-r lg:border-b-0"
       >
         {items.map((item, index) => {
           const chosen = active === index;
@@ -79,7 +79,7 @@ export function TypeTabs({
               aria-controls={`${id}-panel-${item.key}`}
               tabIndex={chosen ? 0 : -1}
               onClick={() => onChange(index)}
-              className={`flex cursor-pointer flex-col items-start gap-2 border-line p-2 text-left transition-colors -outline-offset-2 not-first:border-l sm:flex-row sm:items-center sm:gap-4 sm:border-l-0! sm:p-4 sm:even:border-l! sm:nth-[n+3]:border-t lg:p-5 lg:even:border-l-0! lg:not-first:border-t ${chosen ? tones[tone] : "hover:bg-paper"}`}
+              className={`flex cursor-pointer flex-col items-start gap-2 border-line p-2 text-left transition-colors -outline-offset-2 not-first:border-l max-[30rem]:[&:lang(ta)]:nth-3:border-l-0 max-[30rem]:[&:lang(ta)]:nth-[n+3]:border-t max-[22.5rem]:[&:lang(si)]:nth-3:border-l-0 max-[22.5rem]:[&:lang(si)]:nth-[n+3]:border-t sm:flex-row sm:items-center sm:gap-4 sm:border-l-0! sm:p-4 sm:even:border-l! sm:nth-[n+3]:border-t lg:p-5 lg:even:border-l-0! lg:not-first:border-t ${chosen ? tones[tone] : "hover:bg-paper"}`}
             >
               <Image
                 src={item.image}
@@ -147,7 +147,8 @@ export function ChipRow({
       <span aria-hidden="true" className="block shrink-0 text-muted sm:w-36">
         {t(title)}
       </span>
-      <div className="-mx-4 flex gap-2.5 overflow-x-auto px-4 py-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
+      {/* On phones the row scrolls sideways, and its right edge fades to show there is more. */}
+      <div className="-mx-4 flex gap-2.5 overflow-x-auto px-4 py-1 [scrollbar-width:none] max-sm:pr-10 max-sm:[mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)] sm:mx-0 sm:flex-wrap sm:px-0">
         {items.map((item) => (
           <button
             key={item}
