@@ -238,6 +238,9 @@ export const pages: Record<string, string> = {
   "We explain what to do and why, without jargon.": "කළ යුතු දේ සහ හේතුව සරලව පැහැදිලි කරමු.",
   "Easy to reach": "පහසුවෙන් අමතන්න",
   "Send one WhatsApp message and we take it from there.": "එක් WhatsApp පණිවිඩයක් එවන්න, ඉතිරිය අපි බලාගනිමු.",
+  "Your story and team go here": "ඔබේ කතාව සහ කණ්ඩායම මෙතැනට",
+  "Add how Agro Excel started, simple facts such as the year you began, the people customers will talk to and photos of your work in src/data/about.ts. Each part shows once it is filled in.":
+    "Agro Excel ආරම්භ වූ ආකාරය, ඔබ ආරම්භ කළ වර්ෂය වැනි සරල කරුණු, පාරිභෝගිකයින් කතා කරන පුද්ගලයින් සහ ඔබේ වැඩවල ඡායාරූප src/data/about.ts හි එක් කරන්න. එක් එක් කොටස පුරවූ පසු පෙන්වයි.",
   "Our story": "අපේ කතාව",
   "The people you will talk to": "ඔබ කතා කරන අය",
   "Our work": "අපේ වැඩ",

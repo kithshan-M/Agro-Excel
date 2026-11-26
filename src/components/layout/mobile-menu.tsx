@@ -10,15 +10,14 @@ import { getService } from "@/data/services";
 import { LanguageMenu } from "./language-switch";
 import { Logo } from "./logo";
 
-/** Where the full menu takes over, matching Nav. */
-const wideFrom = { en: "64rem", si: "80rem", ta: "100rem" };
-const hideFrom = { en: "lg:hidden", si: "xl:hidden", ta: "min-[100rem]:hidden" };
+/** Where the full menu takes over, matching Nav. The Tamil names never fit in one row, so Tamil keeps this menu on every screen. */
+const wideFrom = { en: "64rem", si: "80rem", ta: null };
+const hideFrom = { en: "lg:hidden", si: "xl:hidden", ta: "" };
 
 /** Panel for phones and tablets. The dialog element keeps focus inside and closes on Escape. */
 export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
   const t = useT();
   const pathname = usePath();
-  // Sinhala and Tamil names are longer, so smaller laptops keep the Menu button.
   const lang = useLang();
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
@@ -29,6 +28,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
 
   useEffect(() => {
     // The panel is only for narrow screens, so close it if the window grows.
+    if (!wideFrom[lang]) return;
     const wide = window.matchMedia(`(min-width: ${wideFrom[lang]})`);
     const onChange = () => wide.matches && dialog.current?.close();
     wide.addEventListener("change", onChange);
