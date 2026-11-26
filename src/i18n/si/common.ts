@@ -35,6 +35,7 @@ export const common: Record<string, string> = {
   WhatsApp: "WhatsApp",
   Call: "අමතන්න",
   "Call {phone}": "{phone} අමතන්න",
+  Language: "භාෂාව",
 
   // Page sections
   Crop: "බෝගය",

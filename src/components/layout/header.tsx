@@ -14,7 +14,7 @@ export function Header() {
         <Logo />
         <div className="flex items-center gap-1 lg:gap-5">
           <Nav links={shownLinks} />
-          <LanguageSwitch compact className="rounded-md px-2 text-leaf-dark hover:bg-film max-[430px]:px-1 max-[340px]:hidden max-[430px]:[&>svg]:hidden" />
+          <LanguageSwitch compact className="gap-0.5 text-leaf-dark max-[340px]:hidden" linkClassName="rounded-md px-2 hover:bg-film max-[30rem]:px-1.5" />
           <SeedListLink />
           <MobileMenu hasProjects={hasProjects} />
         </div>

@@ -155,7 +155,7 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
             groups.map((group) => (
               <div key={group.name || "results"} className={group.name ? "mt-7 first-of-type:mt-0 sm:mt-9" : "mt-2"}>
                 {group.name && (
-                  <div className="mb-3 flex min-h-11 items-center justify-between gap-4 sm:mb-4">
+                  <div className="mb-3 flex min-h-11 flex-wrap items-center justify-between gap-x-4 sm:mb-4">
                     <h3 className="flex items-center gap-3 text-2xl font-semibold">
                       <span
                         aria-hidden="true"

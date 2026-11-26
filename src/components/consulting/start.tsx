@@ -103,7 +103,7 @@ export function Start() {
           {helpCards.map((card, index) => {
             const chosen = help === helpTypes[index];
             return (
-              <Reveal as="li" key={card.href + card.title} index={index} className="reveal-up">
+              <Reveal as="li" key={card.href + card.title} index={index} className="reveal-up min-w-0">
                 <a
                   href={card.href}
                   aria-current={chosen ? "true" : undefined}
@@ -113,7 +113,7 @@ export function Start() {
                   }}
                   className={`group flex h-full overflow-hidden rounded-lg border bg-white transition-colors md:flex-col ${chosen ? "border-leaf ring-2 ring-leaf" : "border-line hover:border-leaf"}`}
                 >
-                  <span className="relative block w-28 shrink-0 overflow-hidden bg-[#dcebf0] sm:w-40 md:aspect-[2/1] md:w-full">
+                  <span className="relative block w-28 shrink-0 overflow-hidden bg-[#dcebf0] max-[25rem]:[&:lang(ta)]:w-20 sm:w-40 md:aspect-[2/1] md:w-full">
                     <Image
                       src={card.image}
                       alt=""
@@ -122,7 +122,7 @@ export function Start() {
                       className="object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
                     />
                   </span>
-                  <span className="flex flex-1 flex-col p-4 sm:p-6">
+                  <span className="flex min-w-0 flex-1 flex-col p-4 sm:p-6">
                     <span className="font-display text-xl font-semibold group-hover:text-leaf">
                       {t(card.title)}
                     </span>

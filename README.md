@@ -28,9 +28,9 @@ Open http://localhost:3000.
 ```
 public/images/         Photos, one folder per service
 src/
-  app/                 Addresses: (en) is English, si is Sinhala
+  app/                 Addresses: (en) is English, si is Sinhala, ta is Tamil
   views/               What each page shows, in both languages
-  i18n/                Languages, with the Sinhala text in i18n/si
+  i18n/                Languages, with the Sinhala text in i18n/si and the Tamil text in i18n/ta
   components/
     layout/            Header, navigation, footer
     about/             Sections for the About page
@@ -65,6 +65,6 @@ src/
 - Fonts: `src/lib/fonts.ts` and `src/lib/fonts-si.ts`, and `src/assets/fonts` for link pictures
 - Picture shown when a page is shared: `src/previews`
 - Details for Google: `src/components/sections/business-details.tsx`
-- Sinhala: `src/i18n/si`, where the left side is the English text. Change English text, then run `npm run check-sinhala` to see what needs translating
+- Sinhala: `src/i18n/si`. Tamil: `src/i18n/ta`. The left side is the English text. Change English text, then run `npm run check-translations` to see what needs translating (`check-sinhala` or `check-tamil` for one language)
 - Live web address: `NEXT_PUBLIC_SITE_URL`, set before building. On Netlify it is filled in from the site address
 - Netlify: `netlify.toml`

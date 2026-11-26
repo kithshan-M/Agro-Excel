@@ -83,7 +83,7 @@ export function Footer({ hasProjects }: { hasProjects: boolean }) {
               </>
             )}
             <li>
-              <LanguageSwitch className="text-white underline-offset-4 hover:underline" />
+              <LanguageSwitch className="gap-4 text-white" linkClassName="underline-offset-4 hover:underline" />
             </li>
             <li>
               <BackToTop />

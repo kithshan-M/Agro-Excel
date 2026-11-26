@@ -10,11 +10,16 @@ import { getService } from "@/data/services";
 import { LanguageSwitch } from "./language-switch";
 import { Logo } from "./logo";
 
+/** Where the full menu takes over, matching Nav. */
+const wideFrom = { en: "64rem", si: "80rem", ta: "100rem" };
+const hideFrom = { en: "lg:hidden", si: "xl:hidden", ta: "min-[100rem]:hidden" };
+
 /** Panel for phones and tablets. The dialog element keeps focus inside and closes on Escape. */
 export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
   const t = useT();
   const pathname = usePath();
-  const sinhala = useLang() === "si";
+  // Sinhala and Tamil names are longer, so smaller laptops keep the Menu button.
+  const lang = useLang();
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const { phone } = siteConfig.contact;
@@ -24,17 +29,17 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
 
   useEffect(() => {
     // The panel is only for narrow screens, so close it if the window grows.
-    const wide = window.matchMedia(sinhala ? "(min-width: 80rem)" : "(min-width: 64rem)");
+    const wide = window.matchMedia(`(min-width: ${wideFrom[lang]})`);
     const onChange = () => wide.matches && dialog.current?.close();
     wide.addEventListener("change", onChange);
     return () => wide.removeEventListener("change", onChange);
-  }, [sinhala]);
+  }, [lang]);
 
   const row = (active: boolean) =>
     `flex min-h-13 items-center rounded-md px-3 text-lg font-semibold transition-colors hover:bg-film ${active ? "bg-film text-leaf" : ""}`;
 
   return (
-    <div className={sinhala ? "xl:hidden" : "lg:hidden"}>
+    <div className={hideFrom[lang]}>
       <button
         type="button"
         aria-haspopup="dialog"
@@ -45,7 +50,8 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
         }}
         className="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2 font-semibold"
       >
-        {t("Menu")}
+        {/* The Sinhala word does not fit beside three language links on small phones, so only the icon shows there. */}
+        <span className={lang === "si" ? "max-[25rem]:sr-only" : undefined}>{t("Menu")}</span>
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -140,7 +146,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
             </ul>
           </nav>
 
-          <LanguageSwitch className="mx-3 rounded-md px-3 text-lg text-leaf hover:bg-film sm:mx-5" />
+          <LanguageSwitch className="mx-3 gap-1 pl-3 text-lg text-leaf sm:mx-5" linkClassName="rounded-md px-3 hover:bg-film" />
           <div className="mt-auto grid gap-3 border-t border-line p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6">
             <Link
               href="/contact"
