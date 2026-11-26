@@ -91,10 +91,9 @@ export function DistrictMap({
               {count > 1 && (
                 <span
                   aria-hidden="true"
-                  className="hidden min-w-4.5 rounded-full bg-ink px-1 text-xs leading-4.5 text-white lg:block"
-                >
-                  {count}
-                </span>
+                  data-count={count}
+                  className="hidden min-w-4.5 rounded-full bg-ink px-1 text-xs leading-4.5 text-white before:content-[attr(data-count)] lg:block"
+                />
               )}
             </button>
           );

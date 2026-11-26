@@ -77,7 +77,6 @@ export function AddOrCount({ slug, name, count }: { slug: string; name: string; 
   return (
     <button
       type="button"
-      aria-label={t("Add {name} to your list", { name: t(name) })}
       onClick={(event) => {
         const place = event.currentTarget.parentElement;
         setPacks(slug, 1);
@@ -98,6 +97,8 @@ export function AddOrCount({ slug, name, count }: { slug: string; name: string; 
         <path d="M10 3v14M3 10h14" />
       </svg>
       {t("Add")}
+      {/* Screen readers hear "Add Tomato": the visible word first, so voice control finds it too. */}
+      <span className="sr-only"> {t(name)}</span>
     </button>
   );
 }

@@ -64,7 +64,6 @@ export const pages: Record<string, string> = {
   "Roots and stems": "கிழங்கும் தண்டும்",
   Leafy: "இலைக்கறி",
   "Showing {count} of {total} seeds": "{total} விதைகளில் {count} காட்டப்படுகின்றன",
-  "See all {count} seeds: {kind}": "{kind}: {count} விதைகளையும் பாருங்கள்",
   "See all {count}": "அனைத்தும் ({count})",
   "No seeds match": "பொருந்தும் விதைகள் இல்லை",
   "Try another name or fewer filters. If you need a seed that is not here, ask us for it.":
@@ -90,7 +89,6 @@ export const pages: Record<string, string> = {
   "Remove {name} from your list": "{name} ஐப் பட்டியலிலிருந்து நீக்கு",
   "One pack less of {name}": "{name} ஒரு பொதி குறைவு",
   "One pack more of {name}": "{name} ஒரு பொதி அதிகம்",
-  "Add {name} to your list": "{name} ஐப் பட்டியலில் சேர்",
   "{count} seed in your list": "உங்கள் பட்டியலில் {count} விதை",
   "{count} seeds in your list": "உங்கள் பட்டியலில் {count} விதைகள்",
   "View list": "பட்டியலைப் பார்",

@@ -94,18 +94,19 @@ export function IrrigationTypes() {
                       ["watch", "Watch for", type.watch],
                     ] as const
                   ).map(([icon, title, text]) => (
-                    <div key={icon} className="flex gap-3.5 border-t border-line py-3.5 last:pb-0 xl:first:border-t-0 xl:first:pt-1.5">
-                      <svg
-                        viewBox="0 0 20 20"
-                        aria-hidden="true"
-                        className="mt-0.5 size-6 shrink-0 fill-none stroke-water stroke-[1.7] [stroke-linecap:round] [stroke-linejoin:round]"
-                      >
-                        <path d={icons[icon]} />
-                      </svg>
-                      <div>
-                        <dt className="text-sm text-muted">{t(title)}</dt>
-                        <dd className="font-medium">{t(text)}</dd>
-                      </div>
+                    // Only a dt and a dd in each group, so screen readers read them as a pair.
+                    <div key={icon} className="relative border-t border-line py-3.5 pl-[2.375rem] last:pb-0 xl:first:border-t-0 xl:first:pt-1.5">
+                      <dt className="text-sm text-muted">
+                        <svg
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                          className="absolute left-0 mt-0.5 size-6 fill-none stroke-water stroke-[1.7] [stroke-linecap:round] [stroke-linejoin:round]"
+                        >
+                          <path d={icons[icon]} />
+                        </svg>
+                        {t(title)}
+                      </dt>
+                      <dd className="font-medium">{t(text)}</dd>
                     </div>
                   ))}
                 </dl>

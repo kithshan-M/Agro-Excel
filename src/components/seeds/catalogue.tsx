@@ -167,11 +167,11 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
                     {group.seeds.length > 2 && (
                       <button
                         type="button"
-                        aria-label={t("See all {count} seeds: {kind}", { count: group.seeds.length, kind: t(group.name) })}
                         onClick={() => choose({ kind: group.name as SeedFilter["kind"] })}
                         className="min-h-11 cursor-pointer font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark sm:hidden"
                       >
                         {t("See all {count}", { count: group.seeds.length })}
+                        <span className="sr-only">: {t(group.name)}</span>
                       </button>
                     )}
                   </div>

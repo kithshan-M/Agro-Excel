@@ -63,7 +63,6 @@ export const pages: Record<string, string> = {
   "Roots and stems": "අල සහ කඳ එළවළු",
   Leafy: "පලා",
   "Showing {count} of {total} seeds": "බීජ {total}න් {count}ක් පෙන්වයි",
-  "See all {count} seeds: {kind}": "බීජ {count}ම බලන්න: {kind}",
   "See all {count}": "{count}ම බලන්න",
   "No seeds match": "ගැළපෙන බීජ නැත",
   "Try another name or fewer filters. If you need a seed that is not here, ask us for it.":
@@ -89,7 +88,6 @@ export const pages: Record<string, string> = {
   "Remove {name} from your list": "{name} ලැයිස්තුවෙන් ඉවත් කරන්න",
   "One pack less of {name}": "{name} පැකට් එකක් අඩු කරන්න",
   "One pack more of {name}": "{name} පැකට් එකක් වැඩි කරන්න",
-  "Add {name} to your list": "{name} ලැයිස්තුවට එක් කරන්න",
   "{count} seed in your list": "ලැයිස්තුවේ බීජ {count}යි",
   "{count} seeds in your list": "ලැයිස්තුවේ බීජ {count}යි",
   "View list": "ලැයිස්තුව බලන්න",
