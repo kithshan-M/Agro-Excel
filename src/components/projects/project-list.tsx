@@ -72,7 +72,8 @@ export function ProjectList({
       <div className="sticky top-[var(--header-offset,0px)] z-[5] border-b border-line bg-paper transition-[top] duration-300 motion-reduce:transition-none">
         <Container>
           {/* One sideways-scrolling row on phones. */}
-          <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:mx-0 lg:px-1 lg:-ml-1">
+          {/* The right edge fades, so it is clear more buttons are off to the side. */}
+          <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] max-sm:pr-10 sm:max-lg:pr-12 max-lg:[mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)] sm:-mx-6 sm:px-6 lg:mx-0 lg:px-1 lg:-ml-1">
             {kinds.length > 1 && (
               <div role="group" aria-label={t("Kind of work")} className="flex gap-2.5">
                 <button type="button" aria-pressed={kind === ""} onClick={() => choose({ kind: "" })} className={`${control} ${kind === "" ? on : off}`}>
