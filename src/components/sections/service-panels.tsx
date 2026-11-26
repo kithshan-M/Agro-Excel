@@ -45,7 +45,7 @@ export function ServicePanels({ id }: { id?: string }) {
                   </Link>
                 </div>
               </div>
-              <div className="mt-auto overflow-hidden pl-4 max-sm:-mt-6 sm:pl-8">
+              <div className="mt-auto overflow-hidden pl-4 max-sm:-mt-6 max-sm:flex max-sm:max-h-40 max-sm:flex-col max-sm:justify-end sm:pl-8">
                 <Image
                   src="/images/greenhouses/hero-still.svg"
                   alt=""
@@ -76,7 +76,7 @@ export function ServicePanels({ id }: { id?: string }) {
                   </Link>
                 </div>
               </div>
-              <div className="relative min-h-44 overflow-hidden md:min-h-80">
+              <div className="relative min-h-32 overflow-hidden sm:min-h-44 md:min-h-80">
                 <Image
                   src="/images/irrigation/panel.svg"
                   alt=""

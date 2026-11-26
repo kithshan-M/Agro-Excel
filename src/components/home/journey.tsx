@@ -18,14 +18,14 @@ export function Journey() {
           title={t("From empty land to harvest")}
           text={t("Start at whichever step you are at now.")}
         />
-        <Reveal as="ol" className="mt-10 grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-5">
+        <Reveal as="ol" className="mt-10 grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-5 lg:[&:lang(ta)]:grid-cols-3">
           {journey.map((item, index) => (
             <li key={item.title} className="relative min-w-0 md:last:col-span-2 lg:last:col-span-1">
               {index > 0 && (
                 <span
                   aria-hidden="true"
                   style={step(index * 2)}
-                  className="reveal-line absolute top-[4.5rem] -left-5 hidden h-0.5 w-5 origin-left bg-leaf [--line-from:0,1] lg:block"
+                  className="reveal-line absolute top-[4.5rem] -left-5 hidden h-0.5 w-5 origin-left bg-leaf [--line-from:0,1] lg:block lg:[&:lang(ta)]:hidden"
                 />
               )}
               <div

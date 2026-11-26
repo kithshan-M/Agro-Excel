@@ -206,7 +206,7 @@ export function SystemPicker() {
                     >
                       {index + 1}
                     </span>
-                    {t(item.name)}
+                    <span className="min-w-0">{t(item.name)}</span>
                   </button>
                 </li>
               ))}

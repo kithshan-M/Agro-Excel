@@ -34,25 +34,25 @@ export function Tasks() {
           <h2 id="tasks" className="text-2xl font-bold tracking-tight sm:text-3xl">
             {t("What do you want to do?")}
           </h2>
-          <ul className="mt-4 grid grid-cols-2 gap-2.5 sm:mt-5 sm:gap-3 lg:grid-cols-4">
+          <ul className="mt-4 grid grid-cols-2 gap-2.5 max-[25rem]:[&:lang(ta)]:grid-cols-1 sm:mt-5 sm:gap-3 lg:grid-cols-4 lg:[&:lang(ta)]:grid-cols-2 xl:[&:lang(ta)]:grid-cols-4">
             {tasks.map((task) => (
               <li key={task.href}>
                 <Link
                   href={task.href}
-                  className="group flex h-full flex-col items-start gap-2.5 rounded-md border border-line p-3 transition-colors hover:border-leaf hover:bg-paper sm:flex-row sm:items-center sm:gap-3.5"
+                  className="group flex h-full flex-col items-start gap-2 rounded-md border border-line p-2.5 transition-colors max-[25rem]:[&:lang(ta)]:flex-row max-[25rem]:[&:lang(ta)]:items-center sm:p-3 hover:border-leaf hover:bg-paper sm:flex-row sm:items-center sm:gap-3.5"
                 >
                   <span
-                    className={`flex size-12 shrink-0 items-center justify-center rounded-md transition-transform duration-300 group-hover:scale-105 motion-reduce:transition-none ${tones[task.service]}`}
+                    className={`flex size-10 shrink-0 items-center sm:size-12 justify-center rounded-md transition-transform duration-300 group-hover:scale-105 motion-reduce:transition-none ${tones[task.service]}`}
                   >
                     <svg
                       viewBox="0 0 32 32"
                       aria-hidden="true"
-                      className="size-7 fill-none stroke-current stroke-2 [stroke-linecap:round] [stroke-linejoin:round]"
+                      className="size-6 fill-none stroke-current stroke-2 sm:size-7 [stroke-linecap:round] [stroke-linejoin:round]"
                     >
                       <path d={icons[task.icon]} />
                     </svg>
                   </span>
-                  <span className="leading-tight font-semibold group-hover:text-leaf">{t(task.label)}</span>
+                  <span className="min-w-0 leading-tight font-semibold group-hover:text-leaf">{t(task.label)}</span>
                 </Link>
               </li>
             ))}
