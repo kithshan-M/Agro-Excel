@@ -123,7 +123,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   return (
     <SectionLink
       href={href}
-      className="inline-flex min-h-10 items-center text-white/85 underline-offset-4 transition-colors hover:text-white hover:underline"
+      className="inline-flex min-h-10 items-center text-white/85 underline-offset-4 max-[25rem]:[&:lang(ta)]:text-sm transition-colors hover:text-white hover:underline"
     >
       {children}
     </SectionLink>

@@ -79,7 +79,7 @@ export function DistrictMap({
                 if (!chosen) showProjectList();
               }}
               style={{ gridColumn: `${column} / span ${width}`, gridRow: row }}
-              className={`flex h-9 cursor-pointer items-center justify-center gap-1 rounded text-[0.8125rem] whitespace-nowrap transition-colors [&:lang(ta)]:text-xs ${
+              className={`flex h-9 cursor-pointer items-center justify-center gap-1 rounded text-[0.8125rem] whitespace-nowrap transition-colors [&:lang(ta)]:text-xs max-lg:[&:lang(ta)]:text-[0.65rem] ${
                 chosen
                   ? "bg-white font-bold text-ink"
                   : count > 0

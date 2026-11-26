@@ -34,7 +34,7 @@ export function SeasonCalendar() {
           text={t("Sri Lanka has two main growing seasons. The best weeks depend on your area and crop, so ask us before you sow.")}
         />
         <Reveal className="mt-10">
-          <ol aria-hidden="true" className="grid grid-cols-6 gap-1.5 max-[30rem]:[&:lang(ta)]:grid-cols-4 max-[25rem]:[&:lang(si)]:grid-cols-4 md:grid-cols-12">
+          <ol aria-hidden="true" className="grid grid-cols-6 gap-1.5 max-[30rem]:[&:lang(ta)]:grid-cols-4 max-[25rem]:[&:lang(si)]:grid-cols-4 md:grid-cols-12 md:[&:lang(ta)]:grid-cols-6 lg:[&:lang(ta)]:grid-cols-12">
             {year.map(({ month: item, season }, index) => (
               <li
                 key={item}
