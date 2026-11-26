@@ -275,6 +275,7 @@ export const pages: Record<string, string> = {
   "Your email": "உங்கள் மின்னஞ்சல்",
   "Your phone number": "உங்கள் தொலைபேசி இலக்கம்",
   "What helps us reply": "பதில் அளிக்க எமக்கு உதவுபவை",
+  "Add to your message": "உங்கள் செய்தியில் சேர்க்க",
   "Leave out anything you do not know. We will ask.": "தெரியாதவற்றை விட்டுவிடுங்கள். நாங்கள் கேட்போம்.",
   "Your village, town or district.": "உங்கள் கிராமம், நகரம் அல்லது மாவட்டம்.",
   "The length and width, if you know them.": "தெரிந்தால் நீளமும் அகலமும்.",

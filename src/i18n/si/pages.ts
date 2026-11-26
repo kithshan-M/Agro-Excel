@@ -271,6 +271,7 @@ export const pages: Record<string, string> = {
   "Your email": "ඔබේ ඊමේල්",
   "Your phone number": "ඔබේ දුරකථන අංකය",
   "What helps us reply": "පිළිතුරු දීමට අපට උදව් වන දේ",
+  "Add to your message": "ඔබේ පණිවිඩයට එක් කරන්න",
   "Leave out anything you do not know. We will ask.": "නොදන්නා දේ අත්හරින්න. අපි අසමු.",
   "Your village, town or district.": "ඔබේ ගම, නගරය හෝ දිස්ත්‍රික්කය.",
   "The length and width, if you know them.": "දන්නවා නම් දිග සහ පළල.",
