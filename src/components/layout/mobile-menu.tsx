@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { serviceNav } from "@/data/navigation";
 import { getService } from "@/data/services";
-import { LanguageSwitch } from "./language-switch";
+import { LanguageMenu } from "./language-switch";
 import { Logo } from "./logo";
 
 /** Where the full menu takes over, matching Nav. */
@@ -50,8 +50,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
         }}
         className="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2 font-semibold"
       >
-        {/* The Sinhala word does not fit beside three language links on small phones, so only the icon shows there. */}
-        <span className={lang === "si" ? "max-[25rem]:sr-only" : undefined}>{t("Menu")}</span>
+        {t("Menu")}
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -146,7 +145,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
             </ul>
           </nav>
 
-          <LanguageSwitch className="mx-3 gap-1 pl-3 text-lg text-leaf sm:mx-5" linkClassName="rounded-md px-3 hover:bg-film" />
+          <LanguageMenu place="menu" className="mx-3 self-start sm:mx-5" />
           <div className="mt-auto grid gap-3 border-t border-line p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6">
             <Link
               href="/contact"

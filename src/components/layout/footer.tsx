@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 import { SectionLink } from "@/components/ui/section-link";
 import { siteConfig } from "@/config/site";
 import { quickLinks, serviceNav } from "@/data/navigation";
-import { LanguageSwitch } from "./language-switch";
+import { LanguageMenu } from "./language-switch";
 import { BackToTop } from "./back-to-top";
 import { FooterSkyline } from "./footer-skyline";
 import { Logo } from "./logo";
@@ -83,7 +83,7 @@ export function Footer({ hasProjects }: { hasProjects: boolean }) {
               </>
             )}
             <li>
-              <LanguageSwitch className="gap-4 text-white" linkClassName="underline-offset-4 hover:underline" />
+              <LanguageMenu place="footer" />
             </li>
             <li>
               <BackToTop />
