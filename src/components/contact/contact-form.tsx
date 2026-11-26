@@ -100,7 +100,7 @@ export function ContactForm() {
                     className="absolute inset-0 size-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
                   />
                 </span>
-                <span className="flex min-h-12 items-center justify-between gap-2 px-3 py-2 font-semibold peer-checked:bg-leaf peer-checked:text-white sm:min-h-14 sm:px-4">
+                <span className="flex min-h-12 items-center justify-between gap-2 px-3 py-2 font-semibold max-[22.5rem]:[&:is(:lang(si),:lang(ta))]:text-sm peer-checked:bg-leaf peer-checked:text-white sm:min-h-14 sm:px-4">
                   {t(item.name)}
                   <svg
                     viewBox="0 0 20 20"

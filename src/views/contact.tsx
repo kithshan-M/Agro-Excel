@@ -16,7 +16,11 @@ export function ContactView() {
       <div className={hasDetails ? "border-t border-line" : ""}>
         <ContactForm />
       </div>
-      {!hasDetails && <ContactCards />}
+      {!hasDetails && (
+        <div className="border-t border-line">
+          <ContactCards />
+        </div>
+      )}
       <QuestionList
         id="contact-questions"
         title="Quick answers"
