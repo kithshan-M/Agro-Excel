@@ -163,10 +163,10 @@ export function ProjectDetail({
         <section className="py-16 md:py-24">
           <Container>
             <SectionHeading title="More projects" />
-            <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {others.map((other, index) => (
                 <Reveal as="li" key={other.slug} index={index} className="reveal-up">
-                  <ProjectCard project={other} />
+                  <ProjectCard project={other} rowOnPhones />
                 </Reveal>
               ))}
             </ul>
