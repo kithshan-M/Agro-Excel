@@ -76,7 +76,7 @@ export function Enquiry() {
           <div className="mt-4 rounded-lg border border-line bg-white p-6 sm:p-10">
             <p className="font-display text-2xl font-semibold">{t("Your list is empty")}</p>
             <p className="mt-1 mb-6 text-lg text-muted">{t("Choose a kind to start with.")}</p>
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            <ul className="grid grid-cols-2 gap-3 max-[30rem]:[&:lang(ta)]:grid-cols-1 sm:grid-cols-3 lg:grid-cols-5">
               {seedKinds.map((kind) => {
                 const example = seeds.find((seed) => seed.kind === kind.name);
                 return (
@@ -98,7 +98,7 @@ export function Enquiry() {
                           width={200}
                           height={150}
                           unoptimized={!example.photo}
-                          className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
+                          className="aspect-[4/3] w-full object-cover transition-transform duration-500 max-[30rem]:[&:lang(ta)]:aspect-[3/1] group-hover:scale-105 motion-reduce:transition-none"
                         />
                       )}
                       <span className={`relative flex min-h-11 items-center px-3.5 font-semibold text-white ${kind.band}`}>

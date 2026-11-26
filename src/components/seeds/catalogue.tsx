@@ -99,7 +99,8 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
         <div className="sticky top-[var(--header-offset,0px)] z-[5] border-y border-line bg-paper transition-[top] duration-300 motion-reduce:transition-none">
           <Container>
             {/* One sideways-scrolling row on phones. */}
-            <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:mx-0 lg:-ml-1 lg:px-1">
+            {/* The right edge fades, so it is clear more buttons are off to the side. */}
+            <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] max-sm:pr-10 sm:max-lg:pr-12 max-lg:[mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)] sm:-mx-6 sm:px-6 lg:mx-0 lg:-ml-1 lg:px-1">
               <select
                 aria-label={t("Where you grow")}
                 value={place}
