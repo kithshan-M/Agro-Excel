@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const noDict = {};
 
-/** For addresses that match no page in either language. */
+/** For addresses that match no page in any language. */
 export default function GlobalNotFound() {
   return (
     <html lang="en" className={`${latinFonts} h-full antialiased`}>
@@ -21,10 +21,16 @@ export default function GlobalNotFound() {
         <LangProvider lang="en" dict={noDict}>
           <Site>
             <NotFoundMessage />
-            <p lang="si" className="mx-auto max-w-6xl px-4 pb-24 text-lg sm:px-6">
+            <p lang="si" className="mx-auto max-w-6xl px-4 pb-6 text-lg sm:px-6">
               පිටුව හමු නොවීය.{" "}
               <a href="/si" className="font-semibold text-leaf underline underline-offset-4">
                 මුල් පිටුවට යන්න
+              </a>
+            </p>
+            <p lang="ta" className="mx-auto max-w-6xl px-4 pb-24 text-lg sm:px-6">
+              பக்கம் இல்லை.{" "}
+              <a href="/ta" className="font-semibold text-leaf underline underline-offset-4">
+                முகப்புப் பக்கத்துக்குச் செல்லவும்
               </a>
             </p>
           </Site>

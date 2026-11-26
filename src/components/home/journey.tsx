@@ -18,21 +18,21 @@ export function Journey() {
           title={t("From empty land to harvest")}
           text={t("Start at whichever step you are at now.")}
         />
-        <Reveal as="ol" className="mt-10 grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-5">
+        <Reveal as="ol" className="mt-10 grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-5 lg:[&:lang(ta)]:grid-cols-3">
           {journey.map((item, index) => (
-            <li key={item.title} className="relative md:last:col-span-2 lg:last:col-span-1">
+            <li key={item.title} className="relative min-w-0 md:last:col-span-2 lg:last:col-span-1">
               {index > 0 && (
                 <span
                   aria-hidden="true"
                   style={step(index * 2)}
-                  className="reveal-line absolute top-[4.5rem] -left-5 hidden h-0.5 w-5 origin-left bg-leaf [--line-from:0,1] lg:block"
+                  className="reveal-line absolute top-[4.5rem] -left-5 hidden h-0.5 w-5 origin-left bg-leaf [--line-from:0,1] lg:block lg:[&:lang(ta)]:hidden"
                 />
               )}
               <div
                 className="reveal-up group flex h-full overflow-hidden rounded-lg border border-line bg-white lg:flex-col"
                 style={step(index * 2)}
               >
-                <div className="relative w-28 shrink-0 overflow-hidden sm:w-44 md:w-32 lg:h-36 lg:w-full">
+                <div className="relative w-28 shrink-0 overflow-hidden max-[25rem]:[&:lang(ta)]:w-20 sm:w-44 md:w-32 lg:h-36 lg:w-full">
                   <Image
                     src={item.image}
                     alt=""
@@ -48,7 +48,7 @@ export function Journey() {
                     {index + 1}
                   </span>
                 </div>
-                <div className="flex flex-1 flex-col p-4 pb-2 lg:p-5 lg:pb-3">
+                <div className="flex min-w-0 flex-1 flex-col p-4 pb-2 lg:p-5 lg:pb-3">
                   <h3 className="text-xl font-semibold">{t(item.title)}</h3>
                   <p className="mt-1 mb-2 leading-relaxed text-muted">{t(item.text)}</p>
                   <ul className="mt-auto">

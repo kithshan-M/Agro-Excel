@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/container";
 import { hasProjects, shownLinks } from "@/lib/projects";
 import { HeaderShell } from "./header-shell";
-import { LanguageSwitch } from "./language-switch";
+import { LanguageMenu } from "./language-switch";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
 import { Nav } from "./nav";
@@ -14,7 +14,7 @@ export function Header() {
         <Logo />
         <div className="flex items-center gap-1 lg:gap-5">
           <Nav links={shownLinks} />
-          <LanguageSwitch compact className="rounded-md px-2 text-leaf-dark hover:bg-film max-[430px]:px-1 max-[340px]:hidden max-[430px]:[&>svg]:hidden" />
+          <LanguageMenu />
           <SeedListLink />
           <MobileMenu hasProjects={hasProjects} />
         </div>

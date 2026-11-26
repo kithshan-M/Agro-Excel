@@ -41,7 +41,7 @@ export function PartList() {
           text={t("Choose a number to see what it is, and tick what you would like. We agree on each part with you before building.")}
         />
         <div className="mt-10 grid items-start lg:grid-cols-[1.35fr_1fr] lg:gap-12">
-          <Reveal className="relative lg:sticky lg:top-20">
+          <Reveal className="relative min-w-0 lg:sticky lg:top-20">
             <Image
               src="/images/greenhouses/cutaway.svg"
               alt={t("Greenhouse with the front opened up and six numbered parts.")}
@@ -97,7 +97,7 @@ export function PartList() {
             ))}
           </Reveal>
 
-          <div className="rounded-b-lg border border-t-0 border-line bg-white p-5 lg:hidden">
+          <div className="min-w-0 rounded-b-lg border border-t-0 border-line bg-white p-5 lg:hidden">
             <div aria-live="polite" className="min-h-21 sm:min-h-14">
               <h3 className="text-xl font-semibold">
                 {active + 1}. {t(part.name)}

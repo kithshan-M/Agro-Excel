@@ -9,3 +9,11 @@
 [build.environment]
   NODE_VERSION = "22"
   NEXT_TELEMETRY_DISABLED = "1"
+
+# Pictures in public/images keep their names when they change, so they cannot be
+# kept forever. Browsers use them for a day without asking, then for up to a week
+# while they quietly fetch a fresh copy. A replaced picture shows within about a day.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"

@@ -58,7 +58,7 @@ export function CareSchedule() {
                       aria-hidden="true"
                       className="mt-2 size-2.5 shrink-0 rounded-full rounded-tl-none bg-water"
                     />
-                    {t(task)}
+                    <span className="min-w-0">{t(task)}</span>
                   </li>
                 ))}
               </ul>

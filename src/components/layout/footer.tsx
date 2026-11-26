@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 import { SectionLink } from "@/components/ui/section-link";
 import { siteConfig } from "@/config/site";
 import { quickLinks, serviceNav } from "@/data/navigation";
-import { LanguageSwitch } from "./language-switch";
+import { LanguageMenu } from "./language-switch";
 import { BackToTop } from "./back-to-top";
 import { FooterSkyline } from "./footer-skyline";
 import { Logo } from "./logo";
@@ -83,7 +83,7 @@ export function Footer({ hasProjects }: { hasProjects: boolean }) {
               </>
             )}
             <li>
-              <LanguageSwitch className="text-white underline-offset-4 hover:underline" />
+              <LanguageMenu place="footer" />
             </li>
             <li>
               <BackToTop />
@@ -123,7 +123,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   return (
     <SectionLink
       href={href}
-      className="inline-flex min-h-10 items-center text-white/85 underline-offset-4 transition-colors hover:text-white hover:underline"
+      className="inline-flex min-h-10 items-center text-white/85 underline-offset-4 max-[25rem]:[&:lang(ta)]:text-sm transition-colors hover:text-white hover:underline"
     >
       {children}
     </SectionLink>

@@ -1,5 +1,5 @@
-// Lists text on the site that has no Sinhala yet, and Sinhala that is no longer used.
-// Run from the project root: npm run check-sinhala
+// Lists text on the site that has no translation yet.
+// Run from the project root: npm run check-sinhala, npm run check-tamil, or both with npm run check-translations
 import { readdirSync, readFileSync } from "node:fs";
 import ts from "typescript";
 
@@ -19,15 +19,22 @@ const visit = (node, fn) => {
 };
 const text = (node) => ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node);
 
-// Sinhala on file
-const known = new Map();
-for (const file of walk("src/i18n/si")) {
-  visit(parse(file), (node) => {
-    if (!ts.isPropertyAssignment(node) || !text(node.initializer)) return;
-    const key = ts.isStringLiteral(node.name) || ts.isIdentifier(node.name) ? node.name.text : "";
-    if (known.has(key)) console.log(`Twice: ${JSON.stringify(key)} in ${known.get(key)} and ${file}`);
-    known.set(key, file);
-  });
+const names = { si: "Sinhala", ta: "Tamil" };
+const asked = process.argv.slice(2).filter((arg) => arg in names);
+const json = process.argv.includes("--json");
+
+// Translations on file
+function knownIn(lang) {
+  const known = new Map();
+  for (const file of walk(`src/i18n/${lang}`)) {
+    visit(parse(file), (node) => {
+      if (!ts.isPropertyAssignment(node) || !text(node.initializer)) return;
+      const key = ts.isStringLiteral(node.name) || ts.isIdentifier(node.name) ? node.name.text : "";
+      if (known.has(key)) console.log(`Twice: ${JSON.stringify(key)} in ${known.get(key)} and ${file}`);
+      known.set(key, file);
+    });
+  }
+  return known;
 }
 
 // English in use. Fields that hold addresses, pictures and other codes are left out.
@@ -64,10 +71,16 @@ for (const file of walk("src/data").filter((name) => name.endsWith("/projects.ts
   });
 }
 
-const missing = [...used].filter(([key]) => !known.has(key));
-if (process.argv.includes("--json")) {
-  console.log(JSON.stringify(missing.map(([key, file]) => [file.replace("src/", ""), key]), null, 0));
-} else {
-  for (const [key, file] of missing) console.log(`No Sinhala (${file}): ${key}`);
-  console.log(`${used.size - missing.length} of ${used.size} texts have Sinhala.`);
+let gaps = 0;
+for (const lang of asked.length ? asked : Object.keys(names)) {
+  const known = knownIn(lang);
+  const missing = [...used].filter(([key]) => !known.has(key));
+  gaps += missing.length;
+  if (json) {
+    console.log(JSON.stringify(missing.map(([key, file]) => [file.replace("src/", ""), key]), null, 0));
+  } else {
+    for (const [key, file] of missing) console.log(`No ${names[lang]} (${file}): ${key}`);
+    console.log(`${used.size - missing.length} of ${used.size} texts have ${names[lang]}.`);
+  }
 }
+process.exitCode = gaps ? 1 : 0;

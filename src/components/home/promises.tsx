@@ -40,7 +40,7 @@ export function Promises() {
               >
                 <path d={icons[index % icons.length]} />
               </svg>
-              <div className="lg:mt-4">
+              <div className="min-w-0 lg:mt-4">
                 <h3 className="text-xl font-semibold">{t(item.title)}</h3>
                 <p className="mt-1.5 leading-relaxed text-muted">{t(item.text)}</p>
               </div>

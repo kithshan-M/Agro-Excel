@@ -1,7 +1,7 @@
 "use client";
 
 import { useT } from "@/i18n/context";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/container";
 
 type Link = { id: string; label: string };
@@ -10,6 +10,7 @@ type Link = { id: string; label: string };
 export function PageNav({ links, action }: { links: Link[]; action: Link }) {
   const t = useT();
   const [active, setActive] = useState("");
+  const list = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -29,13 +30,27 @@ export function PageNav({ links, action }: { links: Link[]; action: Link }) {
     return () => observer.disconnect();
   }, [links]);
 
+  // On narrow screens the links scroll sideways, so keep the marked one in view.
+  useEffect(() => {
+    const row = list.current;
+    const link = row?.querySelector<HTMLElement>(`a[href="#${active}"]`);
+    if (!row || !link || row.scrollWidth <= row.clientWidth) return;
+    const left = link.offsetLeft - row.offsetLeft;
+    if (left < row.scrollLeft || left + link.offsetWidth > row.scrollLeft + row.clientWidth) {
+      row.scrollTo({ left: left - 16, behavior: "smooth" });
+    }
+  }, [active]);
+
   return (
     <nav
       aria-label={t("On this page")}
       className="sticky top-[var(--header-offset,0px)] z-[5] border-b border-line bg-paper transition-[top] duration-300 motion-reduce:transition-none"
     >
       <Container className="flex items-center justify-between">
-        <ul className="flex gap-5 sm:gap-7">
+        <ul
+          ref={list}
+          className="-mx-4 flex min-w-0 gap-5 overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:gap-7 sm:px-0 [&::-webkit-scrollbar]:hidden"
+        >
           {links.map(({ id, label }) => {
             const current = active === id;
             return (
@@ -53,7 +68,7 @@ export function PageNav({ links, action }: { links: Link[]; action: Link }) {
         </ul>
         <a
           href={`#${action.id}`}
-          className="hidden min-h-9 items-center rounded-md bg-leaf px-4 font-semibold text-white transition-colors hover:bg-leaf-dark md:flex"
+          className="ml-4 hidden min-h-9 shrink-0 items-center rounded-md bg-leaf px-4 font-semibold whitespace-nowrap text-white transition-colors hover:bg-leaf-dark md:flex"
         >
           {t(action.label)}
         </a>

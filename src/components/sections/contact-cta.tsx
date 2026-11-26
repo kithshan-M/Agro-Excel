@@ -22,7 +22,7 @@ export function ContactCta({ topic, vars }: { topic?: string; vars?: Vars }) {
               {t("Tell us about your land and what you want to grow.")}
             </p>
           </div>
-          <div className="flex shrink-0 flex-wrap gap-3">
+          <div className="flex shrink-0 flex-wrap gap-3 md:max-w-[55%] md:justify-end">
             <WhatsAppButton topic={topic} vars={vars} />
             <ButtonLink href="/consulting#ask" variant="outline">
               {t("Ask for advice")}

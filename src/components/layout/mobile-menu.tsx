@@ -7,14 +7,18 @@ import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { serviceNav } from "@/data/navigation";
 import { getService } from "@/data/services";
-import { LanguageSwitch } from "./language-switch";
+import { LanguageMenu } from "./language-switch";
 import { Logo } from "./logo";
+
+/** Where the full menu takes over, matching Nav. The Tamil names never fit in one row, so Tamil keeps this menu on every screen. */
+const wideFrom = { en: "64rem", si: "80rem", ta: null };
+const hideFrom = { en: "lg:hidden", si: "xl:hidden", ta: "" };
 
 /** Panel for phones and tablets. The dialog element keeps focus inside and closes on Escape. */
 export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
   const t = useT();
   const pathname = usePath();
-  const sinhala = useLang() === "si";
+  const lang = useLang();
   const dialog = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const { phone } = siteConfig.contact;
@@ -24,17 +28,18 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
 
   useEffect(() => {
     // The panel is only for narrow screens, so close it if the window grows.
-    const wide = window.matchMedia(sinhala ? "(min-width: 80rem)" : "(min-width: 64rem)");
+    if (!wideFrom[lang]) return;
+    const wide = window.matchMedia(`(min-width: ${wideFrom[lang]})`);
     const onChange = () => wide.matches && dialog.current?.close();
     wide.addEventListener("change", onChange);
     return () => wide.removeEventListener("change", onChange);
-  }, [sinhala]);
+  }, [lang]);
 
   const row = (active: boolean) =>
     `flex min-h-13 items-center rounded-md px-3 text-lg font-semibold transition-colors hover:bg-film ${active ? "bg-film text-leaf" : ""}`;
 
   return (
-    <div className={sinhala ? "xl:hidden" : "lg:hidden"}>
+    <div className={hideFrom[lang]}>
       <button
         type="button"
         aria-haspopup="dialog"
@@ -140,7 +145,7 @@ export function MobileMenu({ hasProjects }: { hasProjects: boolean }) {
             </ul>
           </nav>
 
-          <LanguageSwitch className="mx-3 rounded-md px-3 text-lg text-leaf hover:bg-film sm:mx-5" />
+          <LanguageMenu place="menu" className="mx-3 self-start sm:mx-5" />
           <div className="mt-auto grid gap-3 border-t border-line p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6">
             <Link
               href="/contact"

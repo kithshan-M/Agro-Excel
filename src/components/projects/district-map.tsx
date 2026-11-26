@@ -79,7 +79,7 @@ export function DistrictMap({
                 if (!chosen) showProjectList();
               }}
               style={{ gridColumn: `${column} / span ${width}`, gridRow: row }}
-              className={`flex h-9 cursor-pointer items-center justify-center gap-1 rounded text-[0.8125rem] whitespace-nowrap transition-colors ${
+              className={`flex h-9 cursor-pointer items-center justify-center gap-1 rounded text-[0.8125rem] whitespace-nowrap transition-colors [&:lang(ta)]:text-xs max-lg:[&:lang(ta)]:text-[0.65rem] ${
                 chosen
                   ? "bg-white font-bold text-ink"
                   : count > 0
@@ -91,10 +91,9 @@ export function DistrictMap({
               {count > 1 && (
                 <span
                   aria-hidden="true"
-                  className="hidden min-w-4.5 rounded-full bg-ink px-1 text-xs leading-4.5 text-white lg:block"
-                >
-                  {count}
-                </span>
+                  data-count={count}
+                  className="hidden min-w-4.5 rounded-full bg-ink px-1 text-xs leading-4.5 text-white before:content-[attr(data-count)] lg:block"
+                />
               )}
             </button>
           );

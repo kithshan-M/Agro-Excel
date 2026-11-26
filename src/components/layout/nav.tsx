@@ -8,8 +8,8 @@ import type { navLinks } from "@/config/site";
 export function Nav({ links: all }: { links: typeof navLinks }) {
   const t = useT();
   const pathname = usePath();
-  // Sinhala names are longer, so smaller laptops keep the Menu button.
-  const wide = useLang() === "si" ? "hidden xl:block" : "hidden lg:block";
+  // Sinhala names are longer, so smaller laptops keep the Menu button. Tamil ones never fit in one row.
+  const wide = { en: "hidden lg:block", si: "hidden xl:block", ta: "hidden" }[useLang()];
   const links = all.filter((link) => link.href !== "/contact");
 
   return (

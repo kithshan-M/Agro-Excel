@@ -32,13 +32,13 @@ export function PreviewRow({
             {t("See all projects")}
           </Link>
         </div>
-        {/* Phones swipe sideways through them, where a slide-up would make the row scroll up and down. */}
-        <ul className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
+        {/* Short rows on phones, so all of them show without swiping. */}
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {found.map((project, index) => {
             const wide = found.length === 1;
             return (
-              <Reveal as="li" key={project.slug} index={index} className={`reveal-up shrink-0 snap-center max-sm:transform-none! max-sm:opacity-100! ${wide ? "w-full sm:col-span-full" : "w-[86%] sm:w-auto"}`}>
-                <ProjectCard project={project} wide={wide} />
+              <Reveal as="li" key={project.slug} index={index} className={`reveal-up ${wide ? "sm:col-span-full" : ""}`}>
+                <ProjectCard project={project} wide={wide} rowOnPhones />
               </Reveal>
             );
           })}

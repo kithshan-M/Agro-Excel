@@ -44,7 +44,7 @@ export function SeedCard({
         >
           {!grouped && t(seed.kind)}
         </div>
-        <div className={`overflow-hidden ${kind.tile}`}>
+        <div className={`relative overflow-hidden ${kind.tile}`}>
           <Image
             src={seedImage(seed)}
             alt=""
@@ -53,6 +53,17 @@ export function SeedCard({
             unoptimized={!seed.photo}
             className="aspect-[320/235] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-rotate-1 motion-reduce:transform-none motion-reduce:transition-none sm:aspect-[320/260]"
           />
+          {/* Shows that the card opens the details. */}
+          {onOpen && (
+            <span
+              aria-hidden="true"
+              className="absolute top-2 right-2 flex size-8 items-center justify-center rounded-full bg-white/90 text-ink shadow-[0_1px_4px_rgb(19_37_29/0.2)] transition-colors group-hover:bg-leaf group-hover:text-white"
+            >
+              <svg viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-[2.5] [stroke-linecap:round]">
+                <path d="M10 9v6M10 5.5v.1" />
+              </svg>
+            </span>
+          )}
         </div>
         <div className="flex flex-1 flex-col p-3">
           <h3 className="text-lg leading-snug font-semibold">

@@ -63,7 +63,6 @@ export const pages: Record<string, string> = {
   "Roots and stems": "අල සහ කඳ එළවළු",
   Leafy: "පලා",
   "Showing {count} of {total} seeds": "බීජ {total}න් {count}ක් පෙන්වයි",
-  "See all {count} seeds: {kind}": "බීජ {count}ම බලන්න: {kind}",
   "See all {count}": "{count}ම බලන්න",
   "No seeds match": "ගැළපෙන බීජ නැත",
   "Try another name or fewer filters. If you need a seed that is not here, ask us for it.":
@@ -89,7 +88,6 @@ export const pages: Record<string, string> = {
   "Remove {name} from your list": "{name} ලැයිස්තුවෙන් ඉවත් කරන්න",
   "One pack less of {name}": "{name} පැකට් එකක් අඩු කරන්න",
   "One pack more of {name}": "{name} පැකට් එකක් වැඩි කරන්න",
-  "Add {name} to your list": "{name} ලැයිස්තුවට එක් කරන්න",
   "{count} seed in your list": "ලැයිස්තුවේ බීජ {count}යි",
   "{count} seeds in your list": "ලැයිස්තුවේ බීජ {count}යි",
   "View list": "ලැයිස්තුව බලන්න",
@@ -238,6 +236,9 @@ export const pages: Record<string, string> = {
   "We explain what to do and why, without jargon.": "කළ යුතු දේ සහ හේතුව සරලව පැහැදිලි කරමු.",
   "Easy to reach": "පහසුවෙන් අමතන්න",
   "Send one WhatsApp message and we take it from there.": "එක් WhatsApp පණිවිඩයක් එවන්න, ඉතිරිය අපි බලාගනිමු.",
+  "Your story and team go here": "ඔබේ කතාව සහ කණ්ඩායම මෙතැනට",
+  "Add how Agro Excel started, simple facts such as the year you began, the people customers will talk to and photos of your work in src/data/about.ts. Each part shows once it is filled in.":
+    "Agro Excel ආරම්භ වූ ආකාරය, ඔබ ආරම්භ කළ වර්ෂය වැනි සරල කරුණු, පාරිභෝගිකයින් කතා කරන පුද්ගලයින් සහ ඔබේ වැඩවල ඡායාරූප src/data/about.ts හි එක් කරන්න. එක් එක් කොටස පුරවූ පසු පෙන්වයි.",
   "Our story": "අපේ කතාව",
   "The people you will talk to": "ඔබ කතා කරන අය",
   "Our work": "අපේ වැඩ",
@@ -268,6 +269,7 @@ export const pages: Record<string, string> = {
   "Your email": "ඔබේ ඊමේල්",
   "Your phone number": "ඔබේ දුරකථන අංකය",
   "What helps us reply": "පිළිතුරු දීමට අපට උදව් වන දේ",
+  "Add to your message": "ඔබේ පණිවිඩයට එක් කරන්න",
   "Leave out anything you do not know. We will ask.": "නොදන්නා දේ අත්හරින්න. අපි අසමු.",
   "Your village, town or district.": "ඔබේ ගම, නගරය හෝ දිස්ත්‍රික්කය.",
   "The length and width, if you know them.": "දන්නවා නම් දිග සහ පළල.",

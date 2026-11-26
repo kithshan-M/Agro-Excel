@@ -69,14 +69,15 @@ export function ProjectDetail({
               <div className="rounded-lg border border-line bg-white p-6 lg:sticky lg:top-24">
                 <dl>
                   {projectFacts(project, t).map(([name, value]) => (
-                    <div key={name} className="flex gap-3 border-b border-line py-3 first:pt-0 max-md:last:border-0 max-md:last:pb-0">
-                      <span className="pt-0.5">
-                        <FactIcon name={name} />
-                      </span>
-                      <div>
-                        <dt className="text-sm text-muted">{t(name)}</dt>
-                        <dd className="font-semibold">{t(value)}</dd>
-                      </div>
+                    // Only a dt and a dd in each group, so screen readers read them as a pair.
+                    <div key={name} className="relative border-b border-line py-3 pl-8 first:pt-0 max-md:last:border-0 max-md:last:pb-0">
+                      <dt className="text-sm text-muted">
+                        <span className="absolute left-0 pt-0.5">
+                          <FactIcon name={name} />
+                        </span>
+                        {t(name)}
+                      </dt>
+                      <dd className="font-semibold">{t(value)}</dd>
                     </div>
                   ))}
                 </dl>
@@ -163,10 +164,10 @@ export function ProjectDetail({
         <section className="py-16 md:py-24">
           <Container>
             <SectionHeading title="More projects" />
-            <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {others.map((other, index) => (
                 <Reveal as="li" key={other.slug} index={index} className="reveal-up">
-                  <ProjectCard project={other} />
+                  <ProjectCard project={other} rowOnPhones />
                 </Reveal>
               ))}
             </ul>

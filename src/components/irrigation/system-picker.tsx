@@ -190,8 +190,9 @@ export function SystemPicker() {
                 </div>
               ))}
             </Reveal>
-            {/* The same parts by name, easier to tap than the numbers on a phone. */}
-            <ol className="grid flex-1 grid-cols-2 content-start gap-px border-t border-line bg-line sm:grid-cols-3 lg:content-stretch">
+            {/* The same parts by name, easier to tap than the numbers on a phone. Once a fault is
+                chosen, phones hide it: "Where to look" above has the parts that matter. */}
+            <ol className={`grid flex-1 grid-cols-2 content-start gap-px border-t border-line bg-line sm:grid-cols-3 lg:content-stretch ${chosen ? "max-lg:hidden" : ""}`}>
               {systemParts.map((item, index) => (
                 <li key={item.key} className="bg-white last:col-span-2 sm:last:col-span-3 lg:last:col-span-3">
                   <button
@@ -206,7 +207,7 @@ export function SystemPicker() {
                     >
                       {index + 1}
                     </span>
-                    {t(item.name)}
+                    <span className="min-w-0">{t(item.name)}</span>
                   </button>
                 </li>
               ))}

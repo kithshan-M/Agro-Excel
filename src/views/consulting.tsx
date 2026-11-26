@@ -1,11 +1,11 @@
 import { AskForm } from "@/components/consulting/ask-form";
+import { ConsultBar } from "@/components/consulting/consult-bar";
 import { ConsultProvider } from "@/components/consulting/consult-context";
 import { ConsultingHero } from "@/components/consulting/hero";
 import { PhotoGuide } from "@/components/consulting/photo-guide";
 import { ProblemPicker } from "@/components/consulting/problem-picker";
 import { Start } from "@/components/consulting/start";
 import { Stages } from "@/components/consulting/stages";
-import { ActionBar } from "@/components/sections/action-bar";
 import { NextSteps } from "@/components/sections/next-steps";
 import { PageNav } from "@/components/sections/page-nav";
 import { QuestionList } from "@/components/sections/question-list";
@@ -39,7 +39,7 @@ export function ConsultingView() {
       <div className="border-t border-line">
         <NextSteps title="More from us" slugs={["greenhouses", "irrigation", "seeds"]} />
       </div>
-      <ActionBar from="start" to="ask" label="Ask for advice" />
+      <ConsultBar />
     </ConsultProvider>
   );
 }

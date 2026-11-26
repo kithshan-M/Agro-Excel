@@ -35,7 +35,7 @@ export function SiteChecks() {
                   aria-hidden="true"
                   className="mt-0.5 size-5 shrink-0 rounded border-2 border-leaf bg-white"
                 />
-                {t(check)}
+                <span className="min-w-0">{t(check)}</span>
               </li>
             ))}
           </ul>

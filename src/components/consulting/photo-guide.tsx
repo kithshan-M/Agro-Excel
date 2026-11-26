@@ -32,7 +32,7 @@ export function PhotoGuide() {
             {t("{count} of {total} taken", { count: photos.length, total: photoGuide.length })}
           </p>
         </div>
-        <ol className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+        <ol className="mt-8 grid grid-cols-2 gap-3 max-[25rem]:[&:lang(ta)]:grid-cols-1 sm:gap-5 lg:grid-cols-4">
           {photoGuide.map((photo, index) => {
             const taken = photos.includes(photo.title);
             return (

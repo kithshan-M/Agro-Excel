@@ -99,7 +99,8 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
         <div className="sticky top-[var(--header-offset,0px)] z-[5] border-y border-line bg-paper transition-[top] duration-300 motion-reduce:transition-none">
           <Container>
             {/* One sideways-scrolling row on phones. */}
-            <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:mx-0 lg:-ml-1 lg:px-1">
+            {/* The right edge fades, so it is clear more buttons are off to the side. */}
+            <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] max-sm:pr-10 sm:max-lg:pr-12 max-lg:[mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)] sm:-mx-6 sm:px-6 lg:mx-0 lg:-ml-1 lg:px-1">
               <select
                 aria-label={t("Where you grow")}
                 value={place}
@@ -155,7 +156,7 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
             groups.map((group) => (
               <div key={group.name || "results"} className={group.name ? "mt-7 first-of-type:mt-0 sm:mt-9" : "mt-2"}>
                 {group.name && (
-                  <div className="mb-3 flex min-h-11 items-center justify-between gap-4 sm:mb-4">
+                  <div className="mb-3 flex min-h-11 flex-wrap items-center justify-between gap-x-4 sm:mb-4">
                     <h3 className="flex items-center gap-3 text-2xl font-semibold">
                       <span
                         aria-hidden="true"
@@ -166,11 +167,11 @@ export function Catalogue({ filter = noFilter }: { filter?: SeedFilter }) {
                     {group.seeds.length > 2 && (
                       <button
                         type="button"
-                        aria-label={t("See all {count} seeds: {kind}", { count: group.seeds.length, kind: t(group.name) })}
                         onClick={() => choose({ kind: group.name as SeedFilter["kind"] })}
                         className="min-h-11 cursor-pointer font-semibold text-leaf underline underline-offset-4 hover:text-leaf-dark sm:hidden"
                       >
                         {t("See all {count}", { count: group.seeds.length })}
+                        <span className="sr-only">: {t(group.name)}</span>
                       </button>
                     )}
                   </div>

@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { districts, projectKinds, type Project } from "@/data/projects";
 import { step } from "@/lib/motion";
 import { noFilter, setProjectFilter, useProjectFilter, type ProjectFilter } from "@/lib/project-filter";
+import { kindColours } from "./kind-tags";
 import { ProjectCard } from "./project-card";
 
 export const showProjectList = (behavior?: ScrollBehavior) =>
@@ -71,7 +72,8 @@ export function ProjectList({
       <div className="sticky top-[var(--header-offset,0px)] z-[5] border-b border-line bg-paper transition-[top] duration-300 motion-reduce:transition-none">
         <Container>
           {/* One sideways-scrolling row on phones. */}
-          <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:mx-0 lg:px-1 lg:-ml-1">
+          {/* The right edge fades, so it is clear more buttons are off to the side. */}
+          <div className="-mx-4 flex items-center gap-2.5 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] max-sm:pr-10 sm:max-lg:pr-12 max-lg:[mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)] sm:-mx-6 sm:px-6 lg:mx-0 lg:px-1 lg:-ml-1">
             {kinds.length > 1 && (
               <div role="group" aria-label={t("Kind of work")} className="flex gap-2.5">
                 <button type="button" aria-pressed={kind === ""} onClick={() => choose({ kind: "" })} className={`${control} ${kind === "" ? on : off}`}>
@@ -83,8 +85,10 @@ export function ProjectList({
                     type="button"
                     aria-pressed={kind === name}
                     onClick={() => choose({ kind: kind === name ? "" : name })}
-                    className={`${control} ${kind === name ? on : off}`}
+                    className={`${control} inline-flex items-center gap-2 ${kind === name ? on : off}`}
                   >
+                    {/* Same colour as the tag on the cards. */}
+                    <span aria-hidden="true" className={`size-2.5 shrink-0 rounded-full ${kindColours[name].dot} ${kind === name ? "ring-2 ring-white" : ""}`} />
                     {t(name)}{" "}
                     <span className="opacity-75">
                       ({inDistrict.filter((project) => project.kinds.includes(name)).length})
@@ -138,13 +142,13 @@ export function ProjectList({
           )}
         </div>
         {shown.length > 0 ? (
-          <ul key={title} className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul key={title} className="mt-5 grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {shown.map((project, index) => {
               // The newest project, or an only result, gets the whole row.
               const wide = shown.length === 1 || (!filtered && index === 0);
               return (
                 <li key={project.slug} style={step(index % 3)} className={`enter ${wide ? "sm:col-span-full" : ""}`}>
-                  <ProjectCard project={project} wide={wide} />
+                  <ProjectCard project={project} wide={wide} rowOnPhones />
                 </li>
               );
             })}

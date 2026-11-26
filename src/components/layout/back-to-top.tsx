@@ -34,7 +34,9 @@ export function BackToTop() {
 
 /**
  * Round button on the right, three quarters of the way down the screen. It shows
- * after some scrolling, and its ring fills up towards the end of the page.
+ * after some scrolling, and its ring fills up towards the end of the page. On
+ * phones and tablets it sits over the text, so it hides while the visitor scrolls
+ * down to read and comes back when they scroll up or reach the end.
  */
 export function TopButton() {
   const t = useT();
@@ -42,10 +44,19 @@ export function TopButton() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    let last = window.scrollY;
+    let goingDown = false;
     const update = () => {
       const y = window.scrollY;
       const end = document.documentElement.scrollHeight - window.innerHeight;
-      setVisible(y > window.innerHeight * 0.6);
+      // Small moves, such as the bars sliding in, do not count.
+      if (Math.abs(y - last) > 8) {
+        goingDown = y > last;
+        last = y;
+      }
+      const narrow = window.innerWidth < 1024;
+      const atEnd = y > end - 80;
+      setVisible(y > window.innerHeight * 0.6 && (!narrow || !goingDown || atEnd));
       ring.current?.style.setProperty(
         "stroke-dashoffset",
         String(1 - Math.min(1, end > 0 ? y / end : 0)),

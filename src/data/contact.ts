@@ -44,13 +44,6 @@ export const contactTopics = [
 export const replyBy = ["WhatsApp", "Phone call", "Email"];
 
 /** Details that help us answer the first message. */
-export const helpfulDetails = [
-  { title: "Where you are", text: "Your village, town or district." },
-  { title: "Your land", text: "The length and width, if you know them." },
-  { title: "What you grow", text: "The crop now, or the one you plan." },
-  { title: "Photos", text: "The land, the crop or the part that worries you." },
-];
-
 const pick = (list: { question: string; answer: string }[], question: string) =>
   list.filter((item) => item.question === question);
 

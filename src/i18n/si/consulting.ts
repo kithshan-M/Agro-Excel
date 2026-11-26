@@ -1,6 +1,7 @@
 // Sinhala for the crop consulting page. The left side must match the English text exactly.
 
 export const consulting: Record<string, string> = {
+  "{count} added to your message": "ඔබේ පණිවිඩයට {count}ක් එක් කළා",
   "Choose your crop": "ඔබේ බෝගය තෝරන්න",
   "Describe a problem": "ගැටලුවක් විස්තර කරන්න",
 

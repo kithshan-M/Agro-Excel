@@ -36,7 +36,7 @@ export function Principles() {
                   style={step(index + 4)}
                 />
               </svg>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-xl font-semibold">{t(item.title)}</h3>
                 <p className="mt-1 leading-relaxed text-muted">{t(item.text)}</p>
               </div>
