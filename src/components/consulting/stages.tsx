@@ -68,7 +68,7 @@ export function Stages() {
                   aria-controls="stage-panel"
                   tabIndex={active === index ? 0 : -1}
                   onClick={() => select(index)}
-                  className="group relative flex min-w-0 flex-1 cursor-pointer flex-col items-center gap-2 rounded-md py-2 text-sm font-semibold sm:px-2 sm:text-base"
+                  className="group relative flex min-w-0 flex-1 cursor-pointer flex-col items-center gap-2 rounded-md py-2 text-sm font-semibold max-sm:[&:is(:lang(si),:lang(ta))]:text-xs max-[22.5rem]:[&:lang(ta)]:text-[0.6875rem] sm:px-2 sm:text-base"
                 >
                   {index > 0 && (
                     <span

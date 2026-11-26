@@ -87,7 +87,7 @@ export function ProblemPicker() {
               <legend className="font-display text-2xl font-bold">
                 {t("{part}: what do you see?", { part: t(part.name) })}
               </legend>
-              <div className="mt-4 grid grid-cols-2 gap-2.5 min-[360px]:grid-cols-3 lg:min-h-74 lg:content-start">
+              <div className="mt-4 grid grid-cols-2 gap-2.5 min-[360px]:grid-cols-3 max-[30rem]:[&:lang(ta)]:grid-cols-2 lg:min-h-74 lg:content-start">
                 {part.signs.map((sign) => (
                   <label
                     key={`${part.key}-${sign.name}`}

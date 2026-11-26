@@ -1,6 +1,7 @@
 // Tamil for the crop consulting page. The left side must match the English text exactly.
 
 export const consulting: Record<string, string> = {
+  "{count} added to your message": "செய்தியில் {count} சேர்க்கப்பட்டது",
   "Choose your crop": "உங்கள் பயிரைத் தெரிவு செய்யுங்கள்",
   "Describe a problem": "பிரச்சினையை விவரியுங்கள்",
 
